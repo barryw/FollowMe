@@ -29,13 +29,23 @@ PlaySound:
     lda CurrentWaveform
     sta sid.VCREG1
 
+    lda #sid.SOUND_PLAYING
+    sta SoundPlaying
+
     rts
 
 StopSound:
+    lda SoundPlaying
+    cmp #sid.SOUND_PLAYING
+    bne !+
     dec CurrentWaveform
     lda CurrentWaveform
     sta sid.VCREG1
 
+    lda #$00
+    sta SoundPlaying
+
+!:
     rts
 
 Notes:
@@ -49,4 +59,7 @@ Waveforms:
     .byte sid.WAVE_NOISE, sid.WAVE_TRIANGLE, sid.WAVE_TRIANGLE, sid.WAVE_TRIANGLE, sid.WAVE_TRIANGLE
 
 CurrentWaveform:
+    .byte $00
+
+SoundPlaying:
     .byte $00

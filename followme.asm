@@ -51,6 +51,10 @@ SetupInterrupt:
     cli
     rts
 
+/*
+    Configure the 4 sprites that we use to indicate which key to press for each
+    button. Each sprite is multicolor with a drop shadow.
+*/
 SetupSprites:
     stb #vic.BLACK:vic.SPMC1
     stb #vic.DK_GRAY:vic.SP0COL
@@ -63,7 +67,7 @@ SetupSprites:
     stb #(Sprites/$40)+$02:$0400 + $03f8 + $02
     stb #(Sprites/$40)+$03:$0400 + $03f8 + $03
 
-    stb #$0f:vic.SPENA  // Enable sprites 0 - 3
+    stb #$00:vic.SPENA  // Disable sprites 0 - 3
     stb #$0f:vic.SPMC   // Enable multicolor sprites for 0 - 3
 
     stb #52:vic.SP0X
@@ -72,7 +76,7 @@ SetupSprites:
     stb #132:vic.SP1X
     stb #135:vic.SP1Y
 
-    stb #210:vic.SP2X
+    stb #212:vic.SP2X
     stb #135:vic.SP2Y
 
     stb #$08:vic.MSIGX  // Need to set MSB for sprite 3
@@ -92,10 +96,12 @@ Irq:
     PushStack()
 
     jsr UpdateTimers
+    lda GameMode
+    cmp #GAME_MODE_ATTRACT
+    bne !+
     jsr Keyboard
     bcs !+
     sta LastKeyboardKey
-
 !:
     inc Clock
     bne !+
@@ -130,54 +136,110 @@ GameLoop:
 !:
     lda GameMode
     cmp #GAME_MODE_ATTRACT
-    bne !+
+    bne CheckComputer
+
     jsr Attract
     jmp !-
 
-!:
-    cmp #GAME_MODE_COMPUTER
-    bne !+++
+CheckComputer:
+    cmp #GAME_MODE_COMPUTER                 // Is it the computer's turn?
+    bne CheckHuman
 
     WriteString($0726, MyTurn)
     WriteString($db26, MyTurnColor)
 
-    stb #$40:r7L
+    stb #$40:r7L                            // Wait a second
     jsr PauseJiffies
 
     ldx #$00
-
+    stx r8H
 !:
-    stx r10L
-    lda GamePattern, x
-    cmp #$00
+    ldx r8H
+    lda GamePattern, x                      // Get the current note
+    cmp #$00                                // Have we reached the end of the pattern?
     beq !+
-    ldx #$30
-    ldy #$05
+    sta r2H
+    stb #$30:r7L
+    stb #$05:r7H
     jsr ButtonWithSound
-    ldx r10L
-    inx
+    jsr ButtonHold
+    inc r8H
+
     jmp !-
 
 !:
-    jsr GenerateRandom
+    jsr GenerateRandom                      // Generate a new note and tack it onto the end of the pattern
     sta GamePattern, x
-    ldx #$30
-    ldy #$05
+    sta r2H
+    stb #$30:r7L
+    stb #$05:r7H
     jsr ButtonWithSound
+    jsr ButtonHold
 
-    //stb #GAME_MODE_HUMAN:GameMode
+    stb #GAME_MODE_HUMAN:GameMode           // Pass over to the human to recreate
 
     jmp GameLoop
 
-!:
-    cmp #GAME_MODE_HUMAN
-    bne !+
+CheckHuman:
+    cmp #GAME_MODE_HUMAN                    // Is it the human's turn?
+    bne CheckFail
 
     WriteString($0722, YourTurn)
     WriteString($db22, YourTurnColor)
 
+    ldx #$00
+    stx r8H
+!:
+    ldx r8H
+    lda GamePattern, x                      // Grab the move in the pattern so that we can make sure the human plays the same note
+    sta r12L
+    cmp #$00                                // End of the pattern?
+    bne !+
+    stb #GAME_MODE_COMPUTER:GameMode        // Yup. Computer's turn again
+    jmp GameLoop
+
+!:
+    jsr Keyboard
+    bcs !-
+
+    sec
+    sbc #$31
+    cmp #$04
+    bcs !++
+    clc
+    adc #$01
+
+    cmp r12L                                // Is this the right note?
+
+    beq !+
+    stb #GAME_MODE_FAIL:GameMode           // Wrong note. FAILED!
+    jmp GameLoop
+!:
+    sta r2H
+    jsr ButtonWithSound
+
+!:
+    jsr Keyboard                            // Wait for button to be released
+    cmp #$ff
+    beq !-
+
+    jsr AllOff
+    jsr StopSound
+    inc r8H
+
+    jmp !----
+
+CheckFail:
     cmp #GAME_MODE_FAIL
     bne !+
+
+    lda #$00
+    jsr PlaySound
+    stb #$40:r7L
+    jsr PauseJiffies
+    jsr StopSound
+
+    stb #GAME_MODE_COMPUTER:GameMode
 
 !:
     jmp GameLoop
@@ -185,7 +247,8 @@ GameLoop:
 Attract:
     lda LastKeyboardKey
     beq !++
-    stb #GAME_MODE_COMPUTER:GameMode
+    stb #GAME_MODE_COMPUTER:GameMode        // Key was pressed. Make it the computer's turn
+    stb #$0f:vic.SPENA  // Enable sprites 0 - 3
     jsr AllOff
     stb #$03:r2H
     stb #DISABLE:r3L
@@ -199,7 +262,7 @@ Attract:
     bne !-
     jmp !++
 !:
-    jsr GenerateRandom
+    jsr GenerateRandom                      // Randomly flash buttons in attract mode
     sta r2H
     jsr TurnButtonOn
     stb #$20:r7L
@@ -373,6 +436,10 @@ CurrentStartMessageColor:
 CurrentTitleColor:
     .byte $00
 
+// Storage for the moves. Each byte is a single note in the pattern.
+// 100 bytes should be enough. I don't think many people will be able
+// to follow a 100 note pattern. Maybe make a "You've won!" screen for
+// those that can?
 GamePattern:
     .fill $64, $00
 

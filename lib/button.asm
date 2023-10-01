@@ -4,42 +4,58 @@
     off by a period determimed by y. The period is in jiffies (1/60sec)
 
     Requires:
-    a: A number from 1-4 for the button to light
-    x: Number of jiffies to keep the button lit for
-    y: Number of jiffies to wait before returning after the button is turned off
+    r2H: A number from 1-4 for the button to light
 */
 ButtonWithSound:
-    sta r2H
-    stx r8L
-    sty r8H
+    lda ButtonLit
+    cmp #$00
+    bne !+
+
+    lda r2H
+    sta ButtonLit
+
     jsr PlaySound
     ldx r2H
-    txa
-    pha
     lda #vic.WHITE
     sta vic.SPMC1, x
     jsr TurnButtonOn
-    ldx r8L
-    stx r7L
+!:
+    rts
+
+/*
+    This is used when the computer is taking its turn. The button will already be on at this point.
+    This routine is used to hold the note for a set period of time, turn the button and sound off
+    and then wait another set period of time.
+
+    This is different from how we play the note during the human's turn. When a human is taking their
+    turn, we want to keep the button and sound on as long as they're holding down the key.
+
+    Requires:
+    r7L: Number of jiffies to keep the button and sound on.
+    r7H: Number of jiffies to pause once the button and sound have been turned off.
+*/
+ButtonHold:
     jsr PauseJiffies
     jsr StopSound
-    pla
-    tax
-    lda #vic.DK_GRAY
-    sta vic.SPMC1, x
     jsr AllOff
-    ldy r8H
-    sty r7L
+    stb r7H:r7L
     jsr PauseJiffies
 
     rts
 
 /*
-    Turn all buttons off
+    Turn all buttons off. Also set the sprites to be dark gray
 */
 AllOff:
     WriteString($0518, Buttons)
     WriteString($d918, ButtonColors)
+    ldx #$04
+    lda #vic.DK_GRAY
+!:
+    sta vic.SPMC1, x
+    dex
+    bne !-
+    stb #$00:ButtonLit
 
     rts
 
@@ -54,29 +70,29 @@ TurnButtonOn:
 
     cmp #$01
     bne !+
-    stb #<RED_ADDRESS:r0L
-    stb #>RED_ADDRESS:r0H
+    stb #<RED_ADDRESS:r10L
+    stb #>RED_ADDRESS:r10H
     stb #vic.LT_RED:r2L
     jmp !++++
 !:
     cmp #$02
     bne !+
-    stb #<YELLOW_ADDRESS:r0L
-    stb #>YELLOW_ADDRESS:r0H
+    stb #<YELLOW_ADDRESS:r10L
+    stb #>YELLOW_ADDRESS:r10H
     stb #vic.YELLOW:r2L
     jmp !+++
 !:
     cmp #$03
     bne !+
-    stb #<GREEN_ADDRESS:r0L
-    stb #>GREEN_ADDRESS:r0H
+    stb #<GREEN_ADDRESS:r10L
+    stb #>GREEN_ADDRESS:r10H
     stb #vic.LT_GREEN:r2L
     jmp !++
 !:
     cmp #$04
     bne !+
-    stb #<BLUE_ADDRESS:r0L
-    stb #>BLUE_ADDRESS:r0H
+    stb #<BLUE_ADDRESS:r10L
+    stb #>BLUE_ADDRESS:r10H
     stb #vic.LT_BLUE:r2L
 
 !:
@@ -87,7 +103,7 @@ TurnButtonOn:
     Draw the button and color it. Each button is 8x8 characters.
 
     Requires:
-    r0: Start screen address of the button to light up
+    r10: Start screen address of the button to light up
     r2L: The color to light the button
 */
 LightButton:
@@ -95,12 +111,12 @@ LightButton:
     ldy #$00
 !:
     lda #$a0
-    sta (r0), y
+    sta (r10), y
 
     // Write to color ram
-    lda r0L
+    lda r10L
     sta r1L
-    lda r0H
+    lda r10H
     clc
     adc #$d4
     sta r1H
@@ -112,14 +128,17 @@ LightButton:
     bne !-
     ldy #$00
     clc
-    lda r0L
+    lda r10L
     adc #$28
-    sta r0L
+    sta r10L
     bcc !+
-    inc r0H
+    inc r10H
 !:
     inx
     cpx #$08
     bne !--
 
     rts
+
+ButtonLit:
+    .byte $00

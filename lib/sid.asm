@@ -29,4 +29,6 @@
 
     .label WAVE_TRIANGLE = $11
     .label WAVE_NOISE = $81
+
+    .label SOUND_PLAYING = $01
 }
