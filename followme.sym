@@ -12,7 +12,7 @@
 .label r9=$16
 .label r0H=$fc
 .label CheckFail=$a8a
-.label Clock=$10a7
+.label Clock=$102c
 .label r0L=$fb
 .label r10=$18
 .label JOY_DOWN=$2
@@ -94,7 +94,7 @@
 .label r11=$20
 .label r14=$26
 .label r13=$24
-.label Sprites=$f40
+.label Sprites=$b40
 .label r15=$28
 .label TIMER_FOUR_SECONDS=$f0
 .label ButtonHold=$241e
@@ -110,12 +110,12 @@
 .label SetupScreen=$92e
 .label WriteString=$ae2
 .label r1H=$fe
-.label CurrentStartMessageColor=$1040
+.label CurrentStartMessageColor=$1029
 .label r1L=$fd
 .label SPR_HIRES=$0
 .label TIMER_HALF_SECOND=$1e
 .label EnDisTimer=$20be
-.label YourTurn=$b92
+.label YourTurn=$c9c
 .label r11H=$21
 .label GAME_MODE_FAIL=$3
 .label SoundPlaying=$21e3
@@ -126,11 +126,11 @@
 .label r2L=$2
 .label r11L=$20
 .label CurrentWaveform=$21e2
-.label GamePattern=$1042
+.label GamePattern=$102f
 .label PauseJiffies=$20ca
 .label ClearTimers=$2000 {
 }
-.label MyTurn=$b5a
+.label MyTurn=$c64
 .label r10H=$19
 .label r3H=$5
 .label AnimateTitle=$af5
@@ -146,17 +146,17 @@
 .label GAME_MODE_HUMAN=$2
 .label r13H=$25
 .label r4H=$7
-.label MyTurnColor=$b76
+.label MyTurnColor=$c80
 .label r4L=$6
 .label TIMER_ONE_SECOND=$3c
 .label r13L=$24
 .label CheckHuman=$a17
 .label SPR_NORMAL=$0
 .label SPR_MULTICOLOR=$80
-.label TitleScreen=$b4d
+.label TitleScreen=$c57
 .label SPR_HIDE=$0
 .label CopyMemory=$20fd
-.label YourTurnColor=$bb7
+.label YourTurnColor=$cc1
 .label SPR_VISIBLE=$15
 .namespace kernal {
   .label VEC_SAVE=$ffd8
@@ -248,10 +248,10 @@
 .label GAME_MODE_COMPUTER=$1
 .label SetupInterrupt=$82b
 .label r12L=$22
-.label ButtonColors=$d8e
-.label GameMode=$10a6
+.label ButtonColors=$e98
+.label GameMode=$102b
 .label GameLoop=$999
-.label LastKeyboardKey=$10a9
+.label LastKeyboardKey=$102e
 .label TIMER_THREE_SECONDS=$b4
 .label UpdateTimers=$2047
 .label r15L=$28
@@ -261,7 +261,7 @@
 .label r15H=$29
 .label ButtonLit=$24e3
 .label r6L=$10
-.label StartMessageColors=$bf5
+.label StartMessageColors=$cff
 .label JOY_UP=$1
 .namespace sid {
   .label ATDCY1=$d405
@@ -300,7 +300,7 @@
 .label TIMER_CONTINUOUS=$1
 .label TurnButtonOn=$2465
 .label CreateTimer=$2018
-.label StartMessage=$b36
+.label StartMessage=$c40
 .label SPR_Y_EXPAND=$17
 .label Notes=$21d3
 .label c64lib_timers=$33c
@@ -327,11 +327,11 @@
 }
 .label FillMemory=$20da
 .label SPR_HMC=$1c
-.label CurrentTitleColor=$1041
+.label CurrentTitleColor=$102a
 .label CheckComputer=$9a6
 .label SPR_EXPAND=$80
-.label Buttons=$bfd
-.label TitleScreenColor=$bdc
+.label Buttons=$d07
+.label TitleScreenColor=$ce6
 .label StopSound=$21bd
 .label Main=$80e
 .label r0=$fb

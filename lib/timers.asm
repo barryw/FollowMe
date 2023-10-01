@@ -1,5 +1,4 @@
 #importonce
-#import "macros.asm"
 
 // 8 timers of 8 bytes each
 // struct is as follows:

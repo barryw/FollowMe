@@ -12,7 +12,7 @@ al C:16 .r9
 al C:e1c7 .CLOSE
 al C:d02a .SP3COL
 al C:fc .r0H
-al C:10a7 .Clock
+al C:102c .Clock
 al C:fffe .VEC_IRQ
 al C:fb .r0L
 al C:18 .r10
@@ -20,7 +20,7 @@ al C:22 .r12
 al C:20 .r11
 al C:26 .r14
 al C:24 .r13
-al C:f40 .Sprites
+al C:b40 .Sprites
 al C:28 .r15
 al C:f0 .TIMER_FOUR_SECONDS
 al C:0 .BLACK
@@ -43,7 +43,7 @@ al C:ffae .VEC_UNLSN
 al C:d021 .BGCOL0
 al C:d022 .BGCOL1
 al C:d023 .BGCOL2
-al C:b92 .YourTurn
+al C:c9c .YourTurn
 al C:ffd2 .VEC_CHROUT
 al C:21 .r11H
 al C:3 .GAME_MODE_FAIL
@@ -60,7 +60,7 @@ al C:ea31 .IRQNOR
 al C:20ca .PauseJiffies
 al C:2000 .ClearTimers
 al C:ffa5 .VEC_ACPTR
-al C:b5a .MyTurn
+al C:c64 .MyTurn
 al C:ffed .VEC_SCREEN
 al C:19 .r10H
 al C:5 .r3H
@@ -86,7 +86,7 @@ al C:0 .SPR_HIDE
 al C:d01c .SPMC
 al C:4 .VIOLET
 al C:d014 .LPENY
-al C:bb7 .YourTurnColor
+al C:cc1 .YourTurnColor
 al C:10 .JOY_BUTTON
 al C:8c3 .SetupTimers
 al C:d013 .LPENX
@@ -105,7 +105,7 @@ al C:e12a .SYS
 al C:22 .r12L
 al C:314 .CINV
 al C:ffbd .VEC_SETNAM
-al C:10a6 .GameMode
+al C:102b .GameMode
 al C:23e2 .BufferOld
 al C:d019 .VICIRQ
 al C:b4 .TIMER_THREE_SECONDS
@@ -120,7 +120,7 @@ al C:10 .r6L
 al C:e165 .VERIFY
 al C:d02c .SP5COL
 al C:d01b .SPBGPR
-al C:bf5 .StartMessageColors
+al C:cff .StartMessageColors
 al C:326 .IBSOUT
 al C:ffab .VEC_UNTLK
 al C:0 .GAME_MODE_ATTRACT
@@ -149,7 +149,7 @@ al C:4 .PURPLE
 al C:5 .GREEN
 al C:e544 .CLRSCR
 al C:ffc9 .VEC_CHKOUT
-al C:bfd .Buttons
+al C:d07 .Buttons
 al C:d412 .VCREG3
 al C:d417 .RESON
 al C:d40b .VCREG2
@@ -184,7 +184,7 @@ al C:d01a .IRQMSK
 al C:92e .SetupScreen
 al C:ae2 .WriteString
 al C:23ea .SimultaneousAlphanumericKeysFlag
-al C:1040 .CurrentStartMessageColor
+al C:1029 .CurrentStartMessageColor
 al C:ffcc .VEC_CLRCHN
 al C:d027 .SP0COL
 al C:ff99 .VEC_MEMBOT
@@ -211,7 +211,7 @@ al C:31c .ICLOSE
 al C:d028 .SP1COL
 al C:21e2 .CurrentWaveform
 al C:ffc0 .VEC_OPEN
-al C:1042 .GamePattern
+al C:102f .GamePattern
 al C:d01e .SPSPCL
 al C:ff9c .VEC_MEMTOP
 al C:e156 .SAVE
@@ -248,13 +248,13 @@ al C:d006 .SP3X
 al C:d007 .SP3Y
 al C:d02e .SP7COL
 al C:dc0d .CIAICR
-al C:b76 .MyTurnColor
+al C:c80 .MyTurnColor
 al C:e097 .RND
 al C:3c .TIMER_ONE_SECOND
 al C:d015 .SPENA
 al C:a17 .CheckHuman
 al C:80 .SPR_MULTICOLOR
-al C:b4d .TitleScreen
+al C:c57 .TitleScreen
 al C:20fd .CopyMemory
 al C:ff93 .VEC_SECOND
 al C:e092 .RADDC
@@ -272,7 +272,7 @@ al C:d418 .SIGVOL
 al C:fff0 .VEC_PLOT
 al C:82b .SetupInterrupt
 al C:ffc3 .VEC_CLOSE
-al C:d8e .ButtonColors
+al C:e98 .ButtonColors
 al C:d40f .FREHI3
 al C:d408 .FREHI2
 al C:999 .GameLoop
@@ -280,7 +280,7 @@ al C:f .LT_GRAY
 al C:ffd5 .VEC_LOAD
 al C:7 .YELLOW
 al C:e .LT_BLUE
-al C:10a9 .LastKeyboardKey
+al C:102e .LastKeyboardKey
 al C:ff8a .VEC_RESTOR
 al C:d405 .ATDCY1
 al C:d40c .ATDCY2
@@ -295,7 +295,7 @@ al C:ff87 .VEC_RAMTAS
 al C:ffde .VEC_RDTIM
 al C:78 .TIMER_TWO_SECONDS
 al C:1 .TIMER_CONTINUOUS
-al C:b36 .StartMessage
+al C:c40 .StartMessage
 al C:d00c .SP6X
 al C:d017 .YXPAND
 al C:23a2 .KeyTable
@@ -312,12 +312,12 @@ al C:ff84 .VEC_IOINIT
 al C:1c .SPR_HMC
 al C:fffa .VEC_NMI
 al C:ff81 .VEC_CINT
-al C:1041 .CurrentTitleColor
+al C:102a .CurrentTitleColor
 al C:ffb7 .VEC_READST
 al C:9a6 .CheckComputer
 al C:d010 .MSIGX
 al C:80 .SPR_EXPAND
-al C:bdc .TitleScreenColor
+al C:ce6 .TitleScreenColor
 al C:21bd .StopSound
 al C:224d .Main__0
 al C:80e .Main__1
