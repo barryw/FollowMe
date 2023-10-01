@@ -67,7 +67,7 @@ SetupSprites:
     stb #(Sprites/$40)+$02:$0400 + $03f8 + $02
     stb #(Sprites/$40)+$03:$0400 + $03f8 + $03
 
-    stb #$0f:vic.SPENA  // Disable sprites 0 - 3
+    stb #$00:vic.SPENA  // Disable sprites 0 - 3
     stb #$0f:vic.SPMC   // Enable multicolor sprites for 0 - 3
 
     stb #52:vic.SP0X
@@ -145,6 +145,7 @@ CheckComputer:
     cmp #GAME_MODE_COMPUTER                 // Is it the computer's turn?
     bne CheckHuman
 
+    jsr ClearLine
     WriteString($0726, MyTurn)
     WriteString($db26, MyTurnColor)
 
@@ -184,6 +185,7 @@ CheckHuman:
     cmp #GAME_MODE_HUMAN                    // Is it the human's turn?
     bne CheckFail
 
+    jsr ClearLine
     WriteString($0722, YourTurn)
     WriteString($db22, YourTurnColor)
 
@@ -233,11 +235,15 @@ CheckFail:
     cmp #GAME_MODE_FAIL
     bne !+
 
+    lda r12L
+    sta r2H
+    jsr TurnButtonOn
     lda #$00
     jsr PlaySound
     stb #$40:r7L
     jsr PauseJiffies
     jsr StopSound
+    jsr AllOff
 
     stb #GAME_MODE_COMPUTER:GameMode
 
@@ -271,6 +277,13 @@ Attract:
 !:
     rts
 
+/*
+    Write bytes to a location in memory. This can be used for characters as well as colors
+
+    Requires:
+    r6: Address of null terminated data to write
+    r5: Start address to write data
+*/
 WriteString:
     ldy #$00
 !:
@@ -284,6 +297,19 @@ WriteString:
 !:
     jmp !--
 !:
+    rts
+
+/*
+    Clear a line on the screen
+*/
+ClearLine:
+    ldy #$00
+    lda #$20
+!:
+    sta $0720, y
+    iny
+    cpy #$28
+    bne !-
     rts
 
 AnimateTitle:
