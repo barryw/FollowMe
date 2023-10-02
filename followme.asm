@@ -61,32 +61,57 @@ SetupInterrupt:
 */
 SetupSprites:
     stb #vic.BLACK:vic.SPMC1
-    stb #vic.DK_GRAY:vic.SP0COL
-    stb #vic.DK_GRAY:vic.SP1COL
-    stb #vic.DK_GRAY:vic.SP2COL
-    stb #vic.DK_GRAY:vic.SP3COL
+    lda #vic.DK_GRAY
+    sta vic.SP0COL
+    sta vic.SP1COL
+    sta vic.SP2COL
+    sta vic.SP3COL
 
-    stb #SPRITES:SPRITE_POINTERS
-    stb #SPRITES+$01:SPRITE_POINTERS + $01
-    stb #SPRITES+$02:SPRITE_POINTERS + $02
-    stb #SPRITES+$03:SPRITE_POINTERS + $03
+    lda #vic.WHITE
+    sta vic.SP4COL
+    sta vic.SP5COL
+    sta vic.SP6COL
+    sta vic.SP7COL
 
-    stb #%00000000:vic.SPENA  // Disable sprites 0 - 3
-    stb #%00001111:vic.SPMC   // Enable multicolor sprites for 0 - 3
+    // These are the sprites on the buttons
+    stb #SPRITES+$01:SPRITE_POINTERS
+    stb #SPRITES+$02:SPRITE_POINTERS + $01
+    stb #SPRITES+$03:SPRITE_POINTERS + $02
+    stb #SPRITES+$04:SPRITE_POINTERS + $03
+
+    // These are the sprites for the score
+    lda #SPRITES+$00
+    sta SPRITE_POINTERS + $04
+    sta SPRITE_POINTERS + $05
+    sta SPRITE_POINTERS + $06
+    sta SPRITE_POINTERS + $07
+
+    stb #%11110000:vic.SPENA  // Disable sprites 0 - 3, but enable the score sprites
+    stb #%11111111:vic.SPMC   // Enable multicolor sprites for 0 - 7
+
+    lda #135
+    sta vic.SP0Y
+    sta vic.SP1Y
+    sta vic.SP2Y
+    sta vic.SP3Y
+
+    lda #80
+    sta vic.SP4Y
+    sta vic.SP5Y
+    sta vic.SP6Y
+    sta vic.SP7Y
+
+    stb #132:vic.SP4X
+    stb #158:vic.SP5X
+    stb #184:vic.SP6X
+    stb #210:vic.SP7X
 
     stb #52:vic.SP0X
-    stb #135:vic.SP0Y
-
     stb #132:vic.SP1X
-    stb #135:vic.SP1Y
-
     stb #212:vic.SP2X
-    stb #135:vic.SP2Y
 
     stb #%00001000:vic.MSIGX  // Need to set MSB for sprite 3
-
     stb #35:vic.SP3X
-    stb #135:vic.SP3Y
 
     rts
 
@@ -137,6 +162,7 @@ SetupScreen:
     rts
 
 GameLoop:
+    jsr UpdateScore
 !:
     lda GameMode
     cmp #GAME_MODE_ATTRACT
@@ -187,8 +213,10 @@ CheckComputer:
 
 CheckHuman:
     cmp #GAME_MODE_HUMAN                    // Is it the human's turn?
-    bne CheckFail
+    beq !+
+    jmp CheckFail
 
+!:
     jsr ClearLine
     WriteString(MESSAGE_LOCATION + $02, YourTurn)
     WriteString(MESSAGE_LOCATION + $d400 + $02, YourTurnColor)
@@ -224,7 +252,19 @@ CheckHuman:
     sta r2H
     jsr ButtonWithSound
 
+    sed
+    lda Score + $01
+    clc
+    adc #$10                                // Add 10 points
+    sta Score + $01
+    bcc !+
+    lda Score
+    clc
+    adc #$01
+    sta Score
+
 !:
+    cld
     jsr Keyboard                            // Wait for button to be released
     cmp #$ff
     beq !-
@@ -238,6 +278,10 @@ CheckHuman:
 CheckFail:
     cmp #GAME_MODE_FAIL
     bne !+
+
+    lda #$00
+    sta Score
+    sta Score + $01
 
     lda r12L
     sta r2H
@@ -258,7 +302,7 @@ Attract:
     lda LastKeyboardKey
     beq !++
     stb #GAME_MODE_COMPUTER:GameMode        // Key was pressed. Make it the computer's turn
-    stb #%00001111:vic.SPENA  // Enable sprites 0 - 3
+    stb #%11111111:vic.SPENA  // Enable sprites 0 - 3
     jsr AllOff
     stb #$03:r2H
     stb #DISABLE:r3L
@@ -279,6 +323,48 @@ Attract:
     jsr PauseJiffies
     jsr AllOff
 !:
+    rts
+
+/*
+    Update the score sprites
+*/
+UpdateScore:
+    // Ones
+    lda Score + $01
+    and #$0f
+    clc
+    adc #SPRITES
+    sta SPRITE_POINTERS + $07
+
+    // Tens
+    lda Score + $01
+    and #$f0
+    ror
+    ror
+    ror
+    ror
+    clc
+    adc #SPRITES
+    sta SPRITE_POINTERS + $06
+
+    // Hundreds
+    lda Score
+    and #$0f
+    clc
+    adc #SPRITES
+    sta SPRITE_POINTERS + $05
+
+    // Thousands
+    lda Score
+    and #$f0
+    ror
+    ror
+    ror
+    ror
+    clc
+    adc #SPRITES
+    sta SPRITE_POINTERS + $04
+
     rts
 
 /*
@@ -304,7 +390,7 @@ WriteString:
     rts
 
 /*
-    Clear a line on the screen
+    Clear the message line on the screen
 */
 ClearLine:
     ldy #$00
@@ -355,6 +441,16 @@ AnimateStartMessage:
 
     .align $40
 Sprites:
+    // 0
+    .byte $00,$00,$00,$00,$00,$00,$00,$00
+    .byte $00,$00,$00,$00,$00,$00,$00,$00
+    .byte $29,$00,$00,$aa,$40,$02,$82,$90
+    .byte $02,$82,$90,$02,$82,$90,$02,$8a
+    .byte $90,$02,$a2,$90,$02,$82,$90,$02
+    .byte $82,$90,$02,$82,$90,$00,$aa,$40
+    .byte $00,$29,$00,$00,$00,$00,$00,$00
+    .byte $00,$00,$00,$00,$00,$00,$00,$81
+
     // 1
     .byte $00,$00,$00,$00,$00,$00,$00,$00
     .byte $00,$00,$00,$00,$00,$00,$00,$00
@@ -393,6 +489,56 @@ Sprites:
     .byte $90,$02,$aa,$90,$00,$02,$90,$00
     .byte $02,$90,$00,$02,$90,$00,$02,$90
     .byte $00,$02,$90,$00,$00,$00,$00,$00
+    .byte $00,$00,$00,$00,$00,$00,$00,$81
+
+    // 5
+    .byte $00,$00,$00,$00,$00,$00,$00,$00
+    .byte $00,$00,$00,$00,$00,$00,$00,$02
+    .byte $aa,$90,$02,$92,$90,$02,$90,$00
+    .byte $02,$90,$00,$02,$90,$00,$02,$aa
+    .byte $40,$00,$aa,$90,$00,$02,$90,$00
+    .byte $02,$90,$02,$92,$90,$02,$9a,$40
+    .byte $00,$a9,$00,$00,$00,$00,$00,$00
+    .byte $00,$00,$00,$00,$00,$00,$00,$81
+
+    // 6
+    .byte $00,$00,$00,$00,$00,$00,$00,$00
+    .byte $00,$00,$00,$00,$00,$00,$00,$00
+    .byte $0a,$90,$00,$2a,$90,$00,$a4,$00
+    .byte $02,$90,$00,$02,$99,$00,$02,$aa
+    .byte $90,$02,$a6,$90,$02,$92,$90,$02
+    .byte $92,$90,$02,$92,$90,$02,$92,$90
+    .byte $00,$aa,$40,$00,$00,$00,$00,$00
+    .byte $00,$00,$00,$00,$00,$00,$00,$81
+
+    // 7
+    .byte $00,$00,$00,$00,$00,$00,$00,$00
+    .byte $00,$00,$00,$00,$00,$00,$00,$00
+    .byte $aa,$a4,$00,$00,$a4,$00,$00,$a4
+    .byte $00,$02,$90,$00,$02,$90,$00,$0a
+    .byte $40,$00,$0a,$40,$00,$29,$00,$00
+    .byte $29,$00,$00,$29,$00,$00,$29,$00
+    .byte $00,$29,$00,$00,$00,$00,$00,$00
+    .byte $00,$00,$00,$00,$00,$00,$00,$81
+
+    // 8
+    .byte $00,$00,$00,$00,$00,$00,$00,$00
+    .byte $00,$00,$00,$00,$00,$00,$00,$00
+    .byte $29,$00,$00,$aa,$40,$02,$92,$90
+    .byte $02,$92,$90,$02,$92,$90,$00,$aa
+    .byte $40,$02,$92,$90,$02,$92,$90,$02
+    .byte $92,$90,$02,$92,$90,$00,$aa,$40
+    .byte $00,$29,$00,$00,$00,$00,$00,$00
+    .byte $00,$00,$00,$00,$00,$00,$00,$81
+
+    // 9
+    .byte $00,$00,$00,$00,$00,$00,$00,$00
+    .byte $00,$00,$00,$00,$00,$00,$00,$00
+    .byte $aa,$40,$02,$92,$90,$02,$92,$90
+    .byte $02,$92,$90,$02,$92,$90,$02,$9a
+    .byte $90,$02,$aa,$90,$00,$26,$90,$00
+    .byte $02,$90,$00,$0a,$40,$02,$a9,$00
+    .byte $02,$a4,$00,$00,$00,$00,$00,$00
     .byte $00,$00,$00,$00,$00,$00,$00,$81
 
 StartMessage:
@@ -470,10 +616,13 @@ GameMode:
     .byte $00
 
 Clock:
-    .word $00
+    .word $0000
 
 LastKeyboardKey:
     .byte $00
+
+Score:
+    .word $0000
 
 // Storage for the moves. Each byte is a single note in the pattern.
 // 100 bytes should be enough. I don't think many people will be able

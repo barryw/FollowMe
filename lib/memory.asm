@@ -1,7 +1,5 @@
 #importonce
 
-*=* "MemoryLib"
-
 //
 // These are generic memory copy and fill routines.
 //
