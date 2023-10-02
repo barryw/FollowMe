@@ -44,6 +44,9 @@
 // The start of physical RAM the VIC-II will see
 .label VIC_START = (BANK * $4000)
 
+.label SCREEN_START = VIC_START + $0400
+.label SPRITE_POINTERS = SCREEN_START + $03f8
+
 // Offsets for start of VIC memory for each sprite attribute
 .label SPR_VISIBLE  = vic.SPENA   - vic.SP0X
 .label SPR_X_EXPAND = vic.XXPAND  - vic.SP0X

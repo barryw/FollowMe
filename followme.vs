@@ -23,6 +23,7 @@ al C:24 .r13
 al C:b80 .Sprites
 al C:28 .r15
 al C:f0 .TIMER_FOUR_SECONDS
+al C:720 .MESSAGE_LOCATION
 al C:0 .BLACK
 al C:11 .WAVE_TRIANGLE
 al C:dd0d .CI2ICR
@@ -96,6 +97,7 @@ al C:23 .r12H
 al C:81 .WAVE_NOISE
 al C:ffa8 .VEC_CIOUT
 al C:9 .r5H
+al C:436 .TITLE_LOCATION
 al C:23e9 .BufferQuantity
 al C:32a .IGETIN
 al C:8 .r5L
@@ -272,6 +274,7 @@ al C:32c .ICLALL
 al C:d418 .SIGVOL
 al C:fff0 .VEC_PLOT
 al C:82b .SetupInterrupt
+al C:7f8 .SPRITE_POINTERS
 al C:ffc3 .VEC_CLOSE
 al C:ed8 .ButtonColors
 al C:d40f .FREHI3
@@ -279,6 +282,7 @@ al C:d408 .FREHI2
 al C:999 .GameLoop
 al C:f .LT_GRAY
 al C:ffd5 .VEC_LOAD
+al C:400 .SCREEN_START
 al C:7 .YELLOW
 al C:e .LT_BLUE
 al C:106e .LastKeyboardKey
@@ -302,6 +306,7 @@ al C:d017 .YXPAND
 al C:23a2 .KeyTable
 al C:318 .NMINV
 al C:328 .ISTOP
+al C:2e .SPRITES
 al C:31e .ICHKIN
 al C:d .LT_GREEN
 al C:d009 .SP4Y

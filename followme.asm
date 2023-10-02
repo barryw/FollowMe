@@ -10,6 +10,10 @@ Inspired by this series: https://www.youtube.com/watch?v=A7vYSsLS00Y&ab_channel=
 
 #import "lib/all.asm"
 
+.label SPRITES = (Sprites / $40)
+.label TITLE_LOCATION = SCREEN_START + $36
+.label MESSAGE_LOCATION = SCREEN_START + ($28 * $14)
+
 BasicUpstart2(Main)
 
 Main:
@@ -62,13 +66,13 @@ SetupSprites:
     stb #vic.DK_GRAY:vic.SP2COL
     stb #vic.DK_GRAY:vic.SP3COL
 
-    stb #Sprites/$40:$0400 + $03f8
-    stb #(Sprites/$40)+$01:$0400 + $03f8 + $01
-    stb #(Sprites/$40)+$02:$0400 + $03f8 + $02
-    stb #(Sprites/$40)+$03:$0400 + $03f8 + $03
+    stb #SPRITES:SPRITE_POINTERS
+    stb #SPRITES+$01:SPRITE_POINTERS + $01
+    stb #SPRITES+$02:SPRITE_POINTERS + $02
+    stb #SPRITES+$03:SPRITE_POINTERS + $03
 
-    stb #$00:vic.SPENA  // Disable sprites 0 - 3
-    stb #$0f:vic.SPMC   // Enable multicolor sprites for 0 - 3
+    stb #%00000000:vic.SPENA  // Disable sprites 0 - 3
+    stb #%00001111:vic.SPMC   // Enable multicolor sprites for 0 - 3
 
     stb #52:vic.SP0X
     stb #135:vic.SP0Y
@@ -79,7 +83,7 @@ SetupSprites:
     stb #212:vic.SP2X
     stb #135:vic.SP2Y
 
-    stb #$08:vic.MSIGX  // Need to set MSB for sprite 3
+    stb #%00001000:vic.MSIGX  // Need to set MSB for sprite 3
 
     stb #35:vic.SP3X
     stb #135:vic.SP3Y
@@ -120,13 +124,13 @@ SetupScreen:
     sta vic.EXTCOL
     sta vic.BGCOL0
 
-    ClearScreen($0400, $20)
+    ClearScreen(SCREEN_START, $20)
     ClearColorRam(vic.WHITE)
 
-    WriteString($0436, TitleScreen)
-    WriteString($d836, TitleScreenColor)
+    WriteString(TITLE_LOCATION, TitleScreen)
+    WriteString(TITLE_LOCATION + $d400, TitleScreenColor)
 
-    WriteString($072a, StartMessage)
+    WriteString(MESSAGE_LOCATION + $0a, StartMessage)
 
     jsr AllOff
 
@@ -146,8 +150,8 @@ CheckComputer:
     bne CheckHuman
 
     jsr ClearLine
-    WriteString($0726, MyTurn)
-    WriteString($db26, MyTurnColor)
+    WriteString(MESSAGE_LOCATION + $06, MyTurn)
+    WriteString(MESSAGE_LOCATION + $d400 + $06, MyTurnColor)
 
     stb #$40:r7L                            // Wait a second
     jsr PauseJiffies
@@ -186,8 +190,8 @@ CheckHuman:
     bne CheckFail
 
     jsr ClearLine
-    WriteString($0722, YourTurn)
-    WriteString($db22, YourTurnColor)
+    WriteString(MESSAGE_LOCATION + $02, YourTurn)
+    WriteString(MESSAGE_LOCATION + $d400 + $02, YourTurnColor)
 
     ldx #$00
     stx r8H
@@ -254,7 +258,7 @@ Attract:
     lda LastKeyboardKey
     beq !++
     stb #GAME_MODE_COMPUTER:GameMode        // Key was pressed. Make it the computer's turn
-    stb #$0f:vic.SPENA  // Enable sprites 0 - 3
+    stb #%00001111:vic.SPENA  // Enable sprites 0 - 3
     jsr AllOff
     stb #$03:r2H
     stb #DISABLE:r3L
@@ -263,7 +267,7 @@ Attract:
     lda #$20
 
 !:
-    sta $0729, x
+    sta MESSAGE_LOCATION, x
     dex
     bne !-
     jmp !++
@@ -306,7 +310,7 @@ ClearLine:
     ldy #$00
     lda #$20
 !:
-    sta $0720, y
+    sta MESSAGE_LOCATION, y
     iny
     cpy #$28
     bne !-
@@ -317,7 +321,7 @@ AnimateTitle:
     ldy CurrentTitleColor
 !:
     lda TitleScreenColor, y
-    sta $d836, x
+    sta TITLE_LOCATION + $d400, x
     inx
     iny
     cpx #$0c

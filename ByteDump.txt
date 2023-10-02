@@ -324,7 +324,7 @@
 0acf: 20 be 20  -         jsr EnDisTimer
 0ad2: a2 17     -         ldx #TitleScreen - StartMessage
 0ad4: a9 20     -         lda #$20
-0ad6: 9d 29 07  -         sta $0729, x
+0ad6: 9d 20 07  -         sta MESSAGE_LOCATION, x
 0ad9: ca        -         dex
 0ada: d0 fa     -         bne !-
 0adc: 4c f1 0a  -         jmp !++
@@ -348,7 +348,7 @@
 0b04: 60        -         rts
 0b05: a0 00     - ClearLine:ldy #$00
 0b07: a9 20     -         lda #$20
-0b09: 99 20 07  -         sta $0720, y
+0b09: 99 20 07  -         sta MESSAGE_LOCATION, y
 0b0c: c8        -         iny
 0b0d: c0 28     -         cpy #$28
 0b0f: d0 f8     -         bne !-
@@ -356,7 +356,7 @@
 0b12: a2 00     - AnimateTitle:ldx #$00
 0b14: ac 6a 10  -         ldy CurrentTitleColor
 0b17: b9 26 0d  -         lda TitleScreenColor, y
-0b1a: 9d 36 d8  -         sta $d836, x
+0b1a: 9d 36 d8  -         sta TITLE_LOCATION + $d400, x
 0b1d: e8        -         inx
 0b1e: c8        -         iny
 0b1f: e0 0c     -         cpx #$0c

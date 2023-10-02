@@ -97,6 +97,8 @@
 .label Sprites=$b80
 .label r15=$28
 .label TIMER_FOUR_SECONDS=$f0
+.label MESSAGE_LOCATION=$720 {
+}
 .label ButtonHold=$241e
 .label Attract=$ab5
 .label SPR_BG=$80
@@ -245,13 +247,16 @@
 .label JOY_RIGHT=$8
 .label r12H=$23
 .label r5H=$9
+.label TITLE_LOCATION=$436
 .label r5L=$8
 .label GAME_MODE_COMPUTER=$1
 .label SetupInterrupt=$82b
+.label SPRITE_POINTERS=$7f8
 .label r12L=$22
 .label ButtonColors=$ed8
 .label GameMode=$106b
 .label GameLoop=$999
+.label SCREEN_START=$400
 .label LastKeyboardKey=$106e
 .label TIMER_THREE_SECONDS=$b4
 .label UpdateTimers=$2047
@@ -305,6 +310,7 @@
 .label SPR_Y_EXPAND=$17
 .label Notes=$21d3
 .label c64lib_timers=$33c
+.label SPRITES=$2e
 .label r7H=$13
 .label r14L=$26
 .label r7L=$12
