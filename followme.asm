@@ -14,6 +14,11 @@ Inspired by this series: https://www.youtube.com/watch?v=A7vYSsLS00Y&ab_channel=
 .label TITLE_LOCATION = SCREEN_START + $36
 .label MESSAGE_LOCATION = SCREEN_START + ($28 * $14)
 
+.label SCORE_ONES = SPRITE_POINTERS + $07
+.label SCORE_TENS = SPRITE_POINTERS + $06
+.label SCORE_HUNDREDS = SPRITE_POINTERS + $05
+.label SCORE_THOUSANDS = SPRITE_POINTERS + $04
+
 BasicUpstart2(Main)
 
 Main:
@@ -190,7 +195,7 @@ CheckComputer:
     cmp #$00                                // Have we reached the end of the pattern?
     beq !+
     sta r2H
-    stb #$10:r7L
+    stb #$20:r7L
     stb #$05:r7H
     jsr ButtonWithSound
     jsr ButtonHold
@@ -202,7 +207,7 @@ CheckComputer:
     jsr GenerateRandom                      // Generate a new note and tack it onto the end of the pattern
     sta GamePattern, x
     sta r2H
-    stb #$10:r7L
+    stb #$20:r7L
     stb #$05:r7H
     jsr ButtonWithSound
     jsr ButtonHold
@@ -310,6 +315,11 @@ CheckGameOver:
 
     cmp #$19
     beq !+
+
+    jsr ClearLine
+    WriteString(MESSAGE_LOCATION + $06, SeeYa)
+    WriteString(MESSAGE_LOCATION + $d400 + $06, SeeYaColor)
+
     stb #$37:$01
     jsr $fce2
 
@@ -353,7 +363,8 @@ Attract:
     rts
 
 /*
-    Update the score sprites
+    Update the score sprites. Score is stored as 2 BCD bytes.
+    One for thousands and hundreds and one for tens and ones
 */
 UpdateScore:
     // Ones
@@ -361,36 +372,30 @@ UpdateScore:
     and #$0f
     clc
     adc #SPRITES
-    sta SPRITE_POINTERS + $07
+    sta SCORE_ONES
 
     // Tens
     lda Score + $01
     and #$f0
-    ror
-    ror
-    ror
-    ror
+    div16
     clc
     adc #SPRITES
-    sta SPRITE_POINTERS + $06
+    sta SCORE_TENS
 
     // Hundreds
     lda Score
     and #$0f
     clc
     adc #SPRITES
-    sta SPRITE_POINTERS + $05
+    sta SCORE_HUNDREDS
 
     // Thousands
     lda Score
     and #$f0
-    ror
-    ror
-    ror
-    ror
+    div16
     clc
     adc #SPRITES
-    sta SPRITE_POINTERS + $04
+    sta SCORE_THOUSANDS
 
     rts
 
@@ -609,6 +614,18 @@ GameOverColor:
     .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
     .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
     .byte $00
+
+SeeYa:
+    .encoding "screencode_mixed"
+    .text "thanks for playing! see ya!"
+    .byte $00
+
+SeeYaColor:
+    .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
+    .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
+    .byte vic.WHITE, vic.WHITE, vic.WHITE
+    .byte $00
+
 
 TitleScreenColor:
     .byte $0a, $07, $0d, $0e, $0a, $07, $0d, $0e, $0a, $07, $0d, $0e, $0a, $07, $0d, $0e, $0a, $07, $0d, $0e, $0a, $07, $0d, $0e

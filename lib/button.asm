@@ -72,28 +72,28 @@ TurnButtonOn:
     bne !+
     stb #<RED_ADDRESS:r10L
     stb #>RED_ADDRESS:r10H
-    stb #vic.LT_RED:r2L
+    stb #vic.LT_RED:r8L
     jmp !++++
 !:
     cmp #$02
     bne !+
     stb #<YELLOW_ADDRESS:r10L
     stb #>YELLOW_ADDRESS:r10H
-    stb #vic.YELLOW:r2L
+    stb #vic.YELLOW:r8L
     jmp !+++
 !:
     cmp #$03
     bne !+
     stb #<GREEN_ADDRESS:r10L
     stb #>GREEN_ADDRESS:r10H
-    stb #vic.LT_GREEN:r2L
+    stb #vic.LT_GREEN:r8L
     jmp !++
 !:
     cmp #$04
     bne !+
     stb #<BLUE_ADDRESS:r10L
     stb #>BLUE_ADDRESS:r10H
-    stb #vic.LT_BLUE:r2L
+    stb #vic.LT_BLUE:r8L
 
 !:
     jsr LightButton
@@ -104,7 +104,7 @@ TurnButtonOn:
 
     Requires:
     r10: Start screen address of the button to light up
-    r2L: The color to light the button
+    r8L: The color to light the button
 */
 LightButton:
     ldx #$00
@@ -115,13 +115,13 @@ LightButton:
 
     // Write to color ram
     lda r10L
-    sta r1L
+    sta r9L
     lda r10H
     clc
     adc #$d4
-    sta r1H
-    lda r2L
-    sta (r1), y
+    sta r9H
+    lda r8L
+    sta (r9), y
 
     iny
     cpy #$08

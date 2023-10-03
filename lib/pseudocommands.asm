@@ -95,27 +95,38 @@ syntax very much resembles standard 6502 instructions.
 
 /* MULT4: multiply the accumulator by 4 */
 .pseudocommand mult4 {
-  mult2
-  mult2
+  asl
+  asl
 }
 
 /* DIV4: divide the accumulator by 4 */
 .pseudocommand div4 {
-  div2
-  div2
+  lsr
+  lsr
+}
+
+/* DIV8: divide the accumulator by 8 */
+.pseudocommand div8 {
+  div4
+  lsr
+}
+
+/* DIV16: divide the accumulator by 16 */
+.pseudocommand div16 {
+  div4
+  div4
 }
 
 /* MULT8: multiply the accumulator by 8 */
 .pseudocommand mult8 {
-  asl
-  asl
+  mult4
   asl
 }
 
 /* MULT16: multiply the accumulator by 16 */
 .pseudocommand mult16 {
-  mult8
-  mult8
+  mult4
+  mult4
 }
 
 /* BRA: branch always */

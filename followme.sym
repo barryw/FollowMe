@@ -10,9 +10,10 @@
 .label r8=$14
 .label r8L=$14
 .label r9=$16
+.label SCORE_HUNDREDS=$7fd
 .label r0H=$fc
 .label CheckFail=$ade
-.label Clock=$12da
+.label Clock=$1352
 .label r0L=$fb
 .label r10=$18
 .label JOY_DOWN=$2
@@ -94,13 +95,12 @@
 .label r11=$20
 .label r14=$26
 .label r13=$24
-.label Sprites=$c40
+.label Sprites=$c80
 .label r15=$28
 .label TIMER_FOUR_SECONDS=$f0
-.label MESSAGE_LOCATION=$720 {
-}
+.label MESSAGE_LOCATION=$720
 .label ButtonHold=$241e
-.label Attract=$b5a
+.label Attract=$b83
 .label SPR_BG=$80
 .label r9H=$17
 .label AllOff=$242f {
@@ -110,14 +110,14 @@
 .label SPR_PRIORITY=$1b
 .label SPR_SHOW=$80
 .label SetupScreen=$960
-.label WriteString=$bcc
+.label WriteString=$bf5
 .label r1H=$fe
-.label CurrentStartMessageColor=$12d7
+.label CurrentStartMessageColor=$134f
 .label r1L=$fd
 .label SPR_HIRES=$0
 .label TIMER_HALF_SECOND=$1e
 .label EnDisTimer=$20be
-.label YourTurn=$f1c
+.label YourTurn=$f5c
 .label r11H=$21
 .label GAME_MODE_FAIL=$3
 .label SoundPlaying=$21e3
@@ -128,29 +128,33 @@
 .label r2L=$2
 .label r11L=$20
 .label CurrentWaveform=$21e2
-.label GamePattern=$12df
+.label GamePattern=$1357
+.label SCORE_THOUSANDS=$7fc {
+}
 .label PauseJiffies=$20ca
+.label SeeYa=$fd4
 .label ClearTimers=$2000 {
 }
-.label MyTurn=$ee4
+.label MyTurn=$f24
 .label r10H=$19
-.label GameOver=$f66
+.label GameOver=$fa6
 .label r3H=$5
-.label AnimateTitle=$bec
-.label AnimateStartMessage=$c0d
+.label AnimateTitle=$c15
+.label AnimateStartMessage=$c36
 .label Waveforms=$21dd
+.label SCORE_ONES=$7ff
 .label LightButton=$24b4
 .label r3L=$4
 .label InitRandom=$23f4 {
 }
 .label r10L=$18
-.label ClearLine=$bdf
+.label ClearLine=$c08
 .label VIC_START=$0
 .label TIMER_STRUCT_BYTES=$40
 .label GAME_MODE_HUMAN=$2
 .label r13H=$25
 .label r4H=$7
-.label MyTurnColor=$f00
+.label MyTurnColor=$f40
 .label r4L=$6
 .label TIMER_ONE_SECOND=$3c
 .label r13L=$24
@@ -158,10 +162,11 @@
 .label GAME_MODE_GAME_OVER=$4
 .label SPR_NORMAL=$0
 .label SPR_MULTICOLOR=$80
-.label TitleScreen=$ed7
+.label TitleScreen=$f17
 .label SPR_HIDE=$0
+.label SeeYaColor=$ff0
 .label CopyMemory=$20fd
-.label YourTurnColor=$f41
+.label YourTurnColor=$f81
 .label SPR_VISIBLE=$15
 .namespace kernal {
   .label VEC_SAVE=$ffd8
@@ -248,7 +253,7 @@
 }
 .label JOY_RIGHT=$8
 .label r12H=$23
-.label UpdateScore=$b97
+.label UpdateScore=$bc0
 .label r5H=$9
 .label TITLE_LOCATION=$436
 .label r5L=$8
@@ -256,12 +261,13 @@
 .label SetupInterrupt=$82b
 .label SPRITE_POINTERS=$7f8
 .label r12L=$22
-.label ButtonColors=$1146
-.label GameMode=$12d9
-.label Score=$12dd
+.label ButtonColors=$11be
+.label GameMode=$1351
+.label Score=$1355
 .label GameLoop=$9cb
+.label SCORE_TENS=$7fe
 .label SCREEN_START=$400
-.label LastKeyboardKey=$12dc
+.label LastKeyboardKey=$1354
 .label TIMER_THREE_SECONDS=$b4
 .label UpdateTimers=$2047
 .label r15L=$28
@@ -271,7 +277,7 @@
 .label r15H=$29
 .label ButtonLit=$24e3
 .label r6L=$10
-.label StartMessageColors=$fad
+.label StartMessageColors=$1025
 .label JOY_UP=$1
 .namespace sid {
   .label ATDCY1=$d405
@@ -309,13 +315,13 @@
 .label InitSound=$2180
 .label TIMER_CONTINUOUS=$1
 .label TurnButtonOn=$2465
-.label GameOverColor=$f7d
+.label GameOverColor=$fbd
 .label CreateTimer=$2018
-.label StartMessage=$ec0
+.label StartMessage=$f00
 .label SPR_Y_EXPAND=$17
 .label Notes=$21d3
 .label c64lib_timers=$33c
-.label SPRITES=$31
+.label SPRITES=$32
 .label r7H=$13
 .label r14L=$26
 .label r7L=$12
@@ -339,12 +345,12 @@
 }
 .label FillMemory=$20da
 .label SPR_HMC=$1c
-.label CurrentTitleColor=$12d8
+.label CurrentTitleColor=$1350
 .label CheckComputer=$9db
 .label CheckGameOver=$b0b
 .label SPR_EXPAND=$80
-.label Buttons=$fb5
-.label TitleScreenColor=$f94
+.label Buttons=$102d
+.label TitleScreenColor=$100c
 .label StopSound=$21bd
 .label Main=$80e
 .label r0=$fb
