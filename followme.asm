@@ -190,7 +190,7 @@ CheckComputer:
     cmp #$00                                // Have we reached the end of the pattern?
     beq !+
     sta r2H
-    stb #$30:r7L
+    stb #$10:r7L
     stb #$05:r7H
     jsr ButtonWithSound
     jsr ButtonHold
@@ -202,7 +202,7 @@ CheckComputer:
     jsr GenerateRandom                      // Generate a new note and tack it onto the end of the pattern
     sta GamePattern, x
     sta r2H
-    stb #$30:r7L
+    stb #$10:r7L
     stb #$05:r7H
     jsr ButtonWithSound
     jsr ButtonHold
@@ -277,7 +277,7 @@ CheckHuman:
 
 CheckFail:
     cmp #GAME_MODE_FAIL
-    bne !+
+    bne CheckGameOver
 
     lda #$00
     sta Score
@@ -293,7 +293,34 @@ CheckFail:
     jsr StopSound
     jsr AllOff
 
+    stb #GAME_MODE_GAME_OVER:GameMode
+    jmp GameLoop
+
+CheckGameOver:
+    cmp #GAME_MODE_GAME_OVER
+    bne !++++
+
+    jsr ClearLine
+    WriteString(MESSAGE_LOCATION + $09, GameOver)
+    WriteString(MESSAGE_LOCATION + $d400 + $09, GameOverColor)
+
+!:
+    jsr Keyboard
+    bcs !-
+
+    cmp #$19
+    beq !+
+    stb #$37:$01
+    jsr $fce2
+
+!:
     stb #GAME_MODE_COMPUTER:GameMode
+    ldx #$64
+    lda #$00
+!:
+    sta GamePattern, x
+    dex
+    bpl !-
 
 !:
     jmp GameLoop
@@ -571,6 +598,16 @@ YourTurnColor:
     .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
     .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
     .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
+    .byte $00
+
+GameOver:
+    .encoding "screencode_mixed"
+    .text "game over. play again?"
+    .byte $00
+
+GameOverColor:
+    .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
+    .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
     .byte $00
 
 TitleScreenColor:

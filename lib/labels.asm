@@ -27,6 +27,7 @@
 .label GAME_MODE_COMPUTER   = $01
 .label GAME_MODE_HUMAN      = $02
 .label GAME_MODE_FAIL       = $03
+.label GAME_MODE_GAME_OVER  = $04
 
 // Timer constants
 .label TIMER_SINGLE         = $00
