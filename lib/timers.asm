@@ -9,6 +9,9 @@
 // 6,7 - call location on fire
 .label c64lib_timers      = kernal.TBUFFER
 
+ReturnAddress:
+  .word $0000
+
 //
 // These routines can be used to create and fire single-shot and continuous timers. The UpdateTimers
 // routine should be called 60 times a second.

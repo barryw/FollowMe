@@ -8,15 +8,15 @@
 080b: 00 00     - upstartEnd:
 
 [Basic End]
-080e: 20 80 21  - Main:   jsr InitSound
-0811: 20 f4 23  -         jsr InitRandom
-0814: 20 00 20  -         jsr ClearTimers
+080e: 20 82 21  - Main:   jsr InitSound
+0811: 20 f6 23  -         jsr InitRandom
+0814: 20 02 20  -         jsr ClearTimers
 0817: 20 f5 08  -         jsr SetupTimers
 081a: 20 60 09  -         jsr SetupScreen
 081d: 20 5e 08  -         jsr SetupSprites
 0820: 20 2b 08  -         jsr SetupInterrupt
 0823: a9 00     -         lda value
-0825: 8d 51 13  -         sta address
+0825: 8d 5c 13  -         sta address
 0828: 4c cb 09  -         jmp GameLoop
 082b: 78        - SetupInterrupt:sei
 082c: a9 7f     -         lda #LOWER7
@@ -103,7 +103,7 @@
 08f7: 85 fb     -         sta address
 08f9: a9 00     -         lda value
 08fb: 85 fc     -         sta address
-08fd: a9 15     -         lda value
+08fd: a9 27     -         lda value
 08ff: 85 fd     -         sta address
 0901: a9 0c     -         lda value
 0903: 85 fe     -         sta address
@@ -113,14 +113,14 @@
 090b: 85 03     -         sta address
 090d: a9 80     -         lda value
 090f: 85 04     -         sta address
-0911: 20 18 20  -         jsr CreateTimer
-0914: a9 05     -         lda value
+0911: 20 1a 20  -         jsr CreateTimer
+0914: a9 1e     -         lda value
 0916: 85 fb     -         sta address
 0918: a9 00     -         lda value
 091a: 85 fc     -         sta address
-091c: a9 36     -         lda value
+091c: a9 bf     -         lda value
 091e: 85 fd     -         sta address
-0920: a9 0c     -         lda value
+0920: a9 0b     -         lda value
 0922: 85 fe     -         sta address
 0924: a9 01     -         lda value
 0926: 85 02     -         sta address
@@ -128,7 +128,7 @@
 092a: 85 03     -         sta address
 092c: a9 80     -         lda value
 092e: 85 04     -         sta address
-0930: 20 18 20  -         jsr CreateTimer
+0930: 20 1a 20  -         jsr CreateTimer
 0933: 60        -         rts
 0934: 08        - Irq:    php
 0935: 48        -         pha
@@ -136,16 +136,16 @@
 0937: 48        -         pha
 0938: 98        -         tya
 0939: 48        -         pha
-093a: 20 47 20  -         jsr UpdateTimers
-093d: ad 51 13  -         lda GameMode
+093a: 20 49 20  -         jsr UpdateTimers
+093d: ad 5c 13  -         lda GameMode
 0940: c9 00     -         cmp #GAME_MODE_ATTRACT
 0942: d0 08     -         bne !+
-0944: 20 e4 21  -         jsr Keyboard
+0944: 20 e6 21  -         jsr Keyboard
 0947: b0 03     -         bcs !+
-0949: 8d 54 13  -         sta LastKeyboardKey
-094c: ee 52 13  -         inc Clock
+0949: 8d 5f 13  -         sta LastKeyboardKey
+094c: ee 5d 13  -         inc Clock
 094f: d0 03     -         bne !+
-0951: ee 53 13  -         inc Clock + $01
+0951: ee 5e 13  -         inc Clock + $01
 0954: a9 ff     -         lda #$ff
 0956: 8d 19 d0  -         sta vic.VICIRQ
 0959: 68        -         pla
@@ -178,21 +178,21 @@
 0990: 85 08     -         sta address
 0992: a9 04     -         lda value
 0994: 85 09     -         sta address
-0996: a9 17     -         lda value
+0996: a9 22     -         lda value
 0998: 85 10     -         sta address
 099a: a9 0f     -         lda value
 099c: 85 11     -         sta address
-099e: 20 f5 0b  -         jsr WriteString
+099e: 20 07 0c  -         jsr WriteString
 09a1: a9 36     -         lda value
 09a3: 85 08     -         sta address
 09a5: a9 d8     -         lda value
 09a7: 85 09     -         sta address
-09a9: a9 0c     -         lda value
+09a9: a9 17     -         lda value
 09ab: 85 10     -         sta address
 09ad: a9 10     -         lda value
 09af: 85 11     -         sta address
-09b1: 20 f5 0b  -         jsr WriteString
-09b4: a9 2a     -         lda value
+09b1: 20 07 0c  -         jsr WriteString
+09b4: a9 23     -         lda value
 09b6: 85 08     -         sta address
 09b8: a9 07     -         lda value
 09ba: 85 09     -         sta address
@@ -200,308 +200,305 @@
 09be: 85 10     -         sta address
 09c0: a9 0f     -         lda value
 09c2: 85 11     -         sta address
-09c4: 20 f5 0b  -         jsr WriteString
-09c7: 20 2f 24  -         jsr AllOff
+09c4: 20 07 0c  -         jsr WriteString
+09c7: 20 2a 24  -         jsr AllOff
 09ca: 60        -         rts
-09cb: 20 c0 0b  - GameLoop:jsr UpdateScore
-09ce: ad 51 13  -         lda GameMode
+09cb: 20 d2 0b  - GameLoop:jsr UpdateScore
+09ce: ad 5c 13  -         lda GameMode
 09d1: c9 00     -         cmp #GAME_MODE_ATTRACT
 09d3: d0 06     -         bne CheckComputer
-09d5: 20 83 0b  -         jsr Attract
+09d5: 20 85 0b  -         jsr Attract
 09d8: 4c ce 09  -         jmp !-
 09db: c9 01     - CheckComputer:cmp #GAME_MODE_COMPUTER                 // Is it the computer's turn?
-09dd: d0 70     -         bne CheckHuman
-09df: 20 08 0c  -         jsr ClearLine
+09dd: d0 72     -         bne CheckHuman
+09df: 20 1a 0c  -         jsr ClearLine
 09e2: a9 26     -         lda value
 09e4: 85 08     -         sta address
 09e6: a9 07     -         lda value
 09e8: 85 09     -         sta address
-09ea: a9 24     -         lda value
+09ea: a9 2f     -         lda value
 09ec: 85 10     -         sta address
 09ee: a9 0f     -         lda value
 09f0: 85 11     -         sta address
-09f2: 20 f5 0b  -         jsr WriteString
+09f2: 20 07 0c  -         jsr WriteString
 09f5: a9 26     -         lda value
 09f7: 85 08     -         sta address
 09f9: a9 db     -         lda value
 09fb: 85 09     -         sta address
-09fd: a9 40     -         lda value
+09fd: a9 4b     -         lda value
 09ff: 85 10     -         sta address
 0a01: a9 0f     -         lda value
 0a03: 85 11     -         sta address
-0a05: 20 f5 0b  -         jsr WriteString
+0a05: 20 07 0c  -         jsr WriteString
 0a08: a9 40     -         lda value
 0a0a: 85 12     -         sta address
-0a0c: 20 ca 20  -         jsr PauseJiffies
+0a0c: 20 cc 20  -         jsr PauseJiffies
 0a0f: a2 00     -         ldx #$00
 0a11: 86 15     -         stx r8H
 0a13: a6 15     -         ldx r8H
-0a15: bd 57 13  -         lda GamePattern, x                      // Get the current note
+0a15: bd 63 13  -         lda GamePattern, x                      // Get the current note
 0a18: c9 00     -         cmp #$00                                // Have we reached the end of the pattern?
-0a1a: f0 15     -         beq !+
+0a1a: f0 16     -         beq !+
 0a1c: 85 03     -         sta r2H
-0a1e: a9 20     -         lda value
-0a20: 85 12     -         sta address
-0a22: a9 05     -         lda value
-0a24: 85 13     -         sta address
-0a26: 20 04 24  -         jsr ButtonWithSound
-0a29: 20 1e 24  -         jsr ButtonHold
-0a2c: e6 15     -         inc r8H
-0a2e: 4c 13 0a  -         jmp !-
-0a31: 20 eb 23  -         jsr GenerateRandom                      // Generate a new note and tack it onto the end of the pattern
-0a34: 9d 57 13  -         sta GamePattern, x
-0a37: 85 03     -         sta r2H
-0a39: a9 20     -         lda value
-0a3b: 85 12     -         sta address
-0a3d: a9 05     -         lda value
-0a3f: 85 13     -         sta address
-0a41: 20 04 24  -         jsr ButtonWithSound
-0a44: 20 1e 24  -         jsr ButtonHold
-0a47: a9 02     -         lda value
-0a49: 8d 51 13  -         sta address
-0a4c: 4c cb 09  -         jmp GameLoop
-0a4f: c9 02     - CheckHuman:cmp #GAME_MODE_HUMAN                    // Is it the human's turn?
-0a51: f0 03     -         beq !+
-0a53: 4c de 0a  -         jmp CheckFail
-0a56: 20 08 0c  -         jsr ClearLine
-0a59: a9 22     -         lda value
-0a5b: 85 08     -         sta address
-0a5d: a9 07     -         lda value
-0a5f: 85 09     -         sta address
-0a61: a9 5c     -         lda value
-0a63: 85 10     -         sta address
-0a65: a9 0f     -         lda value
-0a67: 85 11     -         sta address
-0a69: 20 f5 0b  -         jsr WriteString
-0a6c: a9 22     -         lda value
-0a6e: 85 08     -         sta address
-0a70: a9 db     -         lda value
-0a72: 85 09     -         sta address
-0a74: a9 81     -         lda value
-0a76: 85 10     -         sta address
-0a78: a9 0f     -         lda value
-0a7a: 85 11     -         sta address
-0a7c: 20 f5 0b  -         jsr WriteString
-0a7f: a2 00     -         ldx #$00
-0a81: 86 15     -         stx r8H
-0a83: a6 15     -         ldx r8H
-0a85: bd 57 13  -         lda GamePattern, x                      // Grab the move in the pattern so that we can make sure the human plays the same note
-0a88: 85 22     -         sta r12L
-0a8a: c9 00     -         cmp #$00                                // End of the pattern?
-0a8c: d0 08     -         bne !+
-0a8e: a9 01     -         lda value
-0a90: 8d 51 13  -         sta address
-0a93: 4c cb 09  -         jmp GameLoop
-0a96: 20 e4 21  -         jsr Keyboard
-0a99: b0 fb     -         bcs !-
-0a9b: 38        -         sec
-0a9c: e9 31     -         sbc #$31
-0a9e: c9 04     -         cmp #$04
-0aa0: b0 29     -         bcs !++
-0aa2: 18        -         clc
-0aa3: 69 01     -         adc #$01
-0aa5: c5 22     -         cmp r12L                                // Is this the right note?
-0aa7: f0 08     -         beq !+
-0aa9: a9 03     -         lda value
-0aab: 8d 51 13  -         sta address
-0aae: 4c cb 09  -         jmp GameLoop
-0ab1: 85 03     -         sta r2H
-0ab3: 20 04 24  -         jsr ButtonWithSound
-0ab6: f8        -         sed
-0ab7: ad 56 13  -         lda Score + $01
-0aba: 18        -         clc
-0abb: 69 10     -         adc #$10                                // Add 10 points
-0abd: 8d 56 13  -         sta Score + $01
-0ac0: 90 09     -         bcc !+
-0ac2: ad 55 13  -         lda Score
-0ac5: 18        -         clc
-0ac6: 69 01     -         adc #$01
-0ac8: 8d 55 13  -         sta Score
-0acb: d8        -         cld
-0acc: 20 e4 21  -         jsr Keyboard                            // Wait for button to be released
-0acf: c9 ff     -         cmp #$ff
-0ad1: f0 f8     -         beq !-
-0ad3: 20 2f 24  -         jsr AllOff
-0ad6: 20 bd 21  -         jsr StopSound
-0ad9: e6 15     -         inc r8H
-0adb: 4c 83 0a  -         jmp !----
-0ade: c9 03     - CheckFail:cmp #GAME_MODE_FAIL
-0ae0: d0 29     -         bne CheckGameOver
-0ae2: a9 00     -         lda #$00
-0ae4: 8d 55 13  -         sta Score
-0ae7: 8d 56 13  -         sta Score + $01
-0aea: a5 22     -         lda r12L
-0aec: 85 03     -         sta r2H
-0aee: 20 65 24  -         jsr TurnButtonOn
-0af1: a9 00     -         lda #$00
-0af3: 20 9a 21  -         jsr PlaySound
-0af6: a9 40     -         lda value
-0af8: 85 12     -         sta address
-0afa: 20 ca 20  -         jsr PauseJiffies
-0afd: 20 bd 21  -         jsr StopSound
-0b00: 20 2f 24  -         jsr AllOff
-0b03: a9 04     -         lda value
-0b05: 8d 51 13  -         sta address
-0b08: 4c cb 09  -         jmp GameLoop
-0b0b: c9 04     - CheckGameOver:cmp #GAME_MODE_GAME_OVER
-0b0d: d0 71     -         bne !++++
-0b0f: 20 08 0c  -         jsr ClearLine
-0b12: a9 29     -         lda value
-0b14: 85 08     -         sta address
-0b16: a9 07     -         lda value
-0b18: 85 09     -         sta address
-0b1a: a9 a6     -         lda value
-0b1c: 85 10     -         sta address
-0b1e: a9 0f     -         lda value
-0b20: 85 11     -         sta address
-0b22: 20 f5 0b  -         jsr WriteString
-0b25: a9 29     -         lda value
-0b27: 85 08     -         sta address
-0b29: a9 db     -         lda value
-0b2b: 85 09     -         sta address
-0b2d: a9 bd     -         lda value
-0b2f: 85 10     -         sta address
-0b31: a9 0f     -         lda value
-0b33: 85 11     -         sta address
-0b35: 20 f5 0b  -         jsr WriteString
-0b38: 20 e4 21  -         jsr Keyboard
-0b3b: b0 fb     -         bcs !-
-0b3d: c9 19     -         cmp #$19
-0b3f: f0 30     -         beq !+
-0b41: 20 08 0c  -         jsr ClearLine
-0b44: a9 26     -         lda value
-0b46: 85 08     -         sta address
-0b48: a9 07     -         lda value
-0b4a: 85 09     -         sta address
-0b4c: a9 d4     -         lda value
-0b4e: 85 10     -         sta address
-0b50: a9 0f     -         lda value
-0b52: 85 11     -         sta address
-0b54: 20 f5 0b  -         jsr WriteString
-0b57: a9 26     -         lda value
-0b59: 85 08     -         sta address
-0b5b: a9 db     -         lda value
-0b5d: 85 09     -         sta address
-0b5f: a9 f0     -         lda value
-0b61: 85 10     -         sta address
-0b63: a9 0f     -         lda value
-0b65: 85 11     -         sta address
-0b67: 20 f5 0b  -         jsr WriteString
-0b6a: a9 37     -         lda value
-0b6c: 85 01     -         sta address
-0b6e: 20 e2 fc  -         jsr $fce2
-0b71: a9 01     -         lda value
-0b73: 8d 51 13  -         sta address
-0b76: a2 64     -         ldx #$64
-0b78: a9 00     -         lda #$00
-0b7a: 9d 57 13  -         sta GamePattern, x
-0b7d: ca        -         dex
-0b7e: 10 fa     -         bpl !-
-0b80: 4c cb 09  -         jmp GameLoop
-0b83: ad 54 13  - Attract:lda LastKeyboardKey
-0b86: f0 25     -         beq !++
-0b88: a9 01     -         lda value
-0b8a: 8d 51 13  -         sta address
-0b8d: a9 ff     -         lda value
-0b8f: 8d 15 d0  -         sta address
-0b92: 20 2f 24  -         jsr AllOff
-0b95: a9 03     -         lda value
-0b97: 85 03     -         sta address
-0b99: a9 00     -         lda value
-0b9b: 85 04     -         sta address
-0b9d: 20 be 20  -         jsr EnDisTimer
-0ba0: a2 17     -         ldx #TitleScreen - StartMessage
-0ba2: a9 20     -         lda #$20
-0ba4: 9d 20 07  -         sta MESSAGE_LOCATION, x
-0ba7: ca        -         dex
-0ba8: d0 fa     -         bne !-
-0baa: 4c bf 0b  -         jmp !++
-0bad: 20 eb 23  -         jsr GenerateRandom                      // Randomly flash buttons in attract mode
-0bb0: 85 03     -         sta r2H
-0bb2: 20 65 24  -         jsr TurnButtonOn
-0bb5: a9 20     -         lda value
-0bb7: 85 12     -         sta address
-0bb9: 20 ca 20  -         jsr PauseJiffies
-0bbc: 20 2f 24  -         jsr AllOff
-0bbf: 60        -         rts
-0bc0: ad 56 13  - UpdateScore:lda Score + $01
-0bc3: 29 0f     -         and #$0f
-0bc5: 18        -         clc
-0bc6: 69 32     -         adc #SPRITES
-0bc8: 8d ff 07  -         sta SCORE_ONES
-0bcb: ad 56 13  -         lda Score + $01
-0bce: 29 f0     -         and #$f0
-0bd0: 4a        -         lsr
-0bd1: 4a        -         lsr
-0bd2: 4a        -         lsr
-0bd3: 4a        -         lsr
-0bd4: 18        -         clc
-0bd5: 69 32     -         adc #SPRITES
-0bd7: 8d fe 07  -         sta SCORE_TENS
-0bda: ad 55 13  -         lda Score
-0bdd: 29 0f     -         and #$0f
-0bdf: 18        -         clc
-0be0: 69 32     -         adc #SPRITES
-0be2: 8d fd 07  -         sta SCORE_HUNDREDS
-0be5: ad 55 13  -         lda Score
-0be8: 29 f0     -         and #$f0
-0bea: 4a        -         lsr
-0beb: 4a        -         lsr
-0bec: 4a        -         lsr
-0bed: 4a        -         lsr
-0bee: 18        -         clc
-0bef: 69 32     -         adc #SPRITES
-0bf1: 8d fc 07  -         sta SCORE_THOUSANDS
-0bf4: 60        -         rts
-0bf5: a0 00     - WriteString:ldy #$00
-0bf7: b1 10     -         lda (r6), y
-0bf9: f0 0c     -         beq !++
-0bfb: 91 08     -         sta (r5), y
-0bfd: c8        -         iny
-0bfe: d0 04     -         bne !+
-0c00: e6 11     -         inc r6H
-0c02: e6 09     -         inc r5H
-0c04: 4c f7 0b  -         jmp !--
-0c07: 60        -         rts
-0c08: a0 00     - ClearLine:ldy #$00
-0c0a: a9 20     -         lda #$20
-0c0c: 99 20 07  -         sta MESSAGE_LOCATION, y
+0a1e: ad 62 13  -         lda value
+0a21: 85 12     -         sta address
+0a23: a9 05     -         lda value
+0a25: 85 13     -         sta address
+0a27: 20 06 24  -         jsr ButtonWithSound
+0a2a: 20 19 24  -         jsr ButtonHold
+0a2d: e6 15     -         inc r8H
+0a2f: 4c 13 0a  -         jmp !-
+0a32: 20 ed 23  -         jsr GenerateRandom                      // Generate a new note and tack it onto the end of the pattern
+0a35: 9d 63 13  -         sta GamePattern, x
+0a38: 85 03     -         sta r2H
+0a3a: ad 62 13  -         lda value
+0a3d: 85 12     -         sta address
+0a3f: a9 05     -         lda value
+0a41: 85 13     -         sta address
+0a43: 20 06 24  -         jsr ButtonWithSound
+0a46: 20 19 24  -         jsr ButtonHold
+0a49: a9 02     -         lda value
+0a4b: 8d 5c 13  -         sta address
+0a4e: 4c cb 09  -         jmp GameLoop
+0a51: c9 02     - CheckHuman:cmp #GAME_MODE_HUMAN                    // Is it the human's turn?
+0a53: f0 03     -         beq !+
+0a55: 4c e0 0a  -         jmp CheckFail
+0a58: 20 1a 0c  -         jsr ClearLine
+0a5b: a9 22     -         lda value
+0a5d: 85 08     -         sta address
+0a5f: a9 07     -         lda value
+0a61: 85 09     -         sta address
+0a63: a9 67     -         lda value
+0a65: 85 10     -         sta address
+0a67: a9 0f     -         lda value
+0a69: 85 11     -         sta address
+0a6b: 20 07 0c  -         jsr WriteString
+0a6e: a9 22     -         lda value
+0a70: 85 08     -         sta address
+0a72: a9 db     -         lda value
+0a74: 85 09     -         sta address
+0a76: a9 8c     -         lda value
+0a78: 85 10     -         sta address
+0a7a: a9 0f     -         lda value
+0a7c: 85 11     -         sta address
+0a7e: 20 07 0c  -         jsr WriteString
+0a81: a2 00     -         ldx #$00
+0a83: 86 15     -         stx r8H
+0a85: a6 15     -         ldx r8H
+0a87: bd 63 13  -         lda GamePattern, x                      // Grab the move in the pattern so that we can make sure the human plays the same note
+0a8a: 85 22     -         sta r12L
+0a8c: c9 00     -         cmp #$00                                // End of the pattern?
+0a8e: d0 08     -         bne !+
+0a90: a9 01     -         lda value
+0a92: 8d 5c 13  -         sta address
+0a95: 4c cb 09  -         jmp GameLoop
+0a98: 20 e6 21  -         jsr Keyboard
+0a9b: b0 fb     -         bcs !-
+0a9d: 38        -         sec
+0a9e: e9 31     -         sbc #$31
+0aa0: c9 04     -         cmp #$04
+0aa2: b0 29     -         bcs !++
+0aa4: 18        -         clc
+0aa5: 69 01     -         adc #$01
+0aa7: c5 22     -         cmp r12L                                // Is this the right note?
+0aa9: f0 08     -         beq !+
+0aab: a9 03     -         lda value
+0aad: 8d 5c 13  -         sta address
+0ab0: 4c cb 09  -         jmp GameLoop
+0ab3: 85 03     -         sta r2H
+0ab5: 20 06 24  -         jsr ButtonWithSound
+0ab8: f8        -         sed
+0ab9: ad 61 13  -         lda Score + $01
+0abc: 18        -         clc
+0abd: 69 10     -         adc #$10                                // Add 10 points
+0abf: 8d 61 13  -         sta Score + $01
+0ac2: 90 09     -         bcc !+
+0ac4: ad 60 13  -         lda Score
+0ac7: 18        -         clc
+0ac8: 69 01     -         adc #$01
+0aca: 8d 60 13  -         sta Score
+0acd: d8        -         cld
+0ace: 20 e6 21  -         jsr Keyboard                            // Wait for button to be released
+0ad1: c9 ff     -         cmp #$ff
+0ad3: f0 f8     -         beq !-
+0ad5: 20 2a 24  -         jsr AllOff
+0ad8: 20 bf 21  -         jsr StopSound
+0adb: e6 15     -         inc r8H
+0add: 4c 85 0a  -         jmp !----
+0ae0: c9 03     - CheckFail:cmp #GAME_MODE_FAIL
+0ae2: d0 29     -         bne CheckGameOver
+0ae4: a9 00     -         lda #$00
+0ae6: 8d 60 13  -         sta Score
+0ae9: 8d 61 13  -         sta Score + $01
+0aec: a5 22     -         lda r12L
+0aee: 85 03     -         sta r2H
+0af0: 20 60 24  -         jsr TurnButtonOn
+0af3: a9 00     -         lda #$00
+0af5: 20 9c 21  -         jsr PlaySound
+0af8: a9 40     -         lda value
+0afa: 85 12     -         sta address
+0afc: 20 cc 20  -         jsr PauseJiffies
+0aff: 20 bf 21  -         jsr StopSound
+0b02: 20 2a 24  -         jsr AllOff
+0b05: a9 04     -         lda value
+0b07: 8d 5c 13  -         sta address
+0b0a: 4c cb 09  -         jmp GameLoop
+0b0d: c9 04     - CheckGameOver:cmp #GAME_MODE_GAME_OVER
+0b0f: d0 71     -         bne !++++
+0b11: 20 1a 0c  -         jsr ClearLine
+0b14: a9 29     -         lda value
+0b16: 85 08     -         sta address
+0b18: a9 07     -         lda value
+0b1a: 85 09     -         sta address
+0b1c: a9 b1     -         lda value
+0b1e: 85 10     -         sta address
+0b20: a9 0f     -         lda value
+0b22: 85 11     -         sta address
+0b24: 20 07 0c  -         jsr WriteString
+0b27: a9 29     -         lda value
+0b29: 85 08     -         sta address
+0b2b: a9 db     -         lda value
+0b2d: 85 09     -         sta address
+0b2f: a9 c8     -         lda value
+0b31: 85 10     -         sta address
+0b33: a9 0f     -         lda value
+0b35: 85 11     -         sta address
+0b37: 20 07 0c  -         jsr WriteString
+0b3a: 20 e6 21  -         jsr Keyboard
+0b3d: b0 fb     -         bcs !-
+0b3f: c9 19     -         cmp #$19
+0b41: f0 30     -         beq !+
+0b43: 20 1a 0c  -         jsr ClearLine
+0b46: a9 26     -         lda value
+0b48: 85 08     -         sta address
+0b4a: a9 07     -         lda value
+0b4c: 85 09     -         sta address
+0b4e: a9 df     -         lda value
+0b50: 85 10     -         sta address
+0b52: a9 0f     -         lda value
+0b54: 85 11     -         sta address
+0b56: 20 07 0c  -         jsr WriteString
+0b59: a9 26     -         lda value
+0b5b: 85 08     -         sta address
+0b5d: a9 db     -         lda value
+0b5f: 85 09     -         sta address
+0b61: a9 fb     -         lda value
+0b63: 85 10     -         sta address
+0b65: a9 0f     -         lda value
+0b67: 85 11     -         sta address
+0b69: 20 07 0c  -         jsr WriteString
+0b6c: a9 37     -         lda value
+0b6e: 85 01     -         sta address
+0b70: 20 e2 fc  -         jsr $fce2
+0b73: a9 01     -         lda value
+0b75: 8d 5c 13  -         sta address
+0b78: a2 64     -         ldx #$64
+0b7a: a9 00     -         lda #$00
+0b7c: 9d 63 13  -         sta GamePattern, x
+0b7f: ca        -         dex
+0b80: 10 fa     -         bpl !-
+0b82: 4c cb 09  -         jmp GameLoop
+0b85: 20 e6 21  - Attract:jsr Keyboard
+0b88: b0 34     -         bcs !++
+0b8a: 38        -         sec
+0b8b: e9 31     -         sbc #$31
+0b8d: c9 05     -         cmp #$05
+0b8f: b0 2d     -         bcs !++
+0b91: 18        -         clc
+0b92: 69 01     -         adc #$01
+0b94: 0a        -         asl
+0b95: 0a        -         asl
+0b96: 8d 62 13  -         sta GameSpeed
+0b99: a9 01     -         lda value
+0b9b: 8d 5c 13  -         sta address
+0b9e: a9 ff     -         lda value
+0ba0: 8d 15 d0  -         sta address
+0ba3: 20 2a 24  -         jsr AllOff
+0ba6: a9 03     -         lda value
+0ba8: 85 03     -         sta address
+0baa: a9 00     -         lda value
+0bac: 85 04     -         sta address
+0bae: 20 c0 20  -         jsr EnDisTimer
+0bb1: a2 22     -         ldx #TitleScreen - StartMessage
+0bb3: a9 20     -         lda #$20
+0bb5: 9d 20 07  -         sta MESSAGE_LOCATION, x
+0bb8: ca        -         dex
+0bb9: d0 fa     -         bne !-
+0bbb: 4c d1 0b  -         jmp !++
+0bbe: 60        -         rts
+0bbf: ad 5c 13  - FlashButtons:lda GameMode
+0bc2: c9 00     -         cmp #GAME_MODE_ATTRACT
+0bc4: d0 0b     -         bne !+
+0bc6: 20 2a 24  -         jsr AllOff
+0bc9: 20 ed 23  -         jsr GenerateRandom
+0bcc: 85 03     -         sta r2H
+0bce: 20 60 24  -         jsr TurnButtonOn
+0bd1: 60        -         rts
+0bd2: ad 61 13  - UpdateScore:lda Score + $01
+0bd5: 29 0f     -         and #$0f
+0bd7: 18        -         clc
+0bd8: 69 32     -         adc #SPRITES
+0bda: 8d ff 07  -         sta SCORE_ONES
+0bdd: ad 61 13  -         lda Score + $01
+0be0: 29 f0     -         and #$f0
+0be2: 4a        -         lsr
+0be3: 4a        -         lsr
+0be4: 4a        -         lsr
+0be5: 4a        -         lsr
+0be6: 18        -         clc
+0be7: 69 32     -         adc #SPRITES
+0be9: 8d fe 07  -         sta SCORE_TENS
+0bec: ad 60 13  -         lda Score
+0bef: 29 0f     -         and #$0f
+0bf1: 18        -         clc
+0bf2: 69 32     -         adc #SPRITES
+0bf4: 8d fd 07  -         sta SCORE_HUNDREDS
+0bf7: ad 60 13  -         lda Score
+0bfa: 29 f0     -         and #$f0
+0bfc: 4a        -         lsr
+0bfd: 4a        -         lsr
+0bfe: 4a        -         lsr
+0bff: 4a        -         lsr
+0c00: 18        -         clc
+0c01: 69 32     -         adc #SPRITES
+0c03: 8d fc 07  -         sta SCORE_THOUSANDS
+0c06: 60        -         rts
+0c07: a0 00     - WriteString:ldy #$00
+0c09: b1 10     -         lda (r6), y
+0c0b: f0 0c     -         beq !++
+0c0d: 91 08     -         sta (r5), y
 0c0f: c8        -         iny
-0c10: c0 28     -         cpy #$28
-0c12: d0 f8     -         bne !-
-0c14: 60        -         rts
-0c15: a2 00     - AnimateTitle:ldx #$00
-0c17: ac 50 13  -         ldy CurrentTitleColor
-0c1a: b9 0c 10  -         lda TitleScreenColor, y
-0c1d: 9d 36 d8  -         sta TITLE_LOCATION + $d400, x
-0c20: e8        -         inx
+0c10: d0 04     -         bne !+
+0c12: e6 11     -         inc r6H
+0c14: e6 09     -         inc r5H
+0c16: 4c 09 0c  -         jmp !--
+0c19: 60        -         rts
+0c1a: a0 00     - ClearLine:ldy #$00
+0c1c: a9 20     -         lda #$20
+0c1e: 99 20 07  -         sta MESSAGE_LOCATION, y
 0c21: c8        -         iny
-0c22: e0 0c     -         cpx #$0c
-0c24: d0 f4     -         bne !-
-0c26: ee 50 13  -         inc CurrentTitleColor
-0c29: ad 50 13  -         lda CurrentTitleColor
-0c2c: c9 0c     -         cmp #$0c
-0c2e: d0 05     -         bne !+
-0c30: a9 00     -         lda #$00
-0c32: 8d 50 13  -         sta CurrentTitleColor
-0c35: 60        -         rts
-0c36: a2 00     - AnimateStartMessage:ldx #$00
-0c38: ac 4f 13  -         ldy CurrentStartMessageColor
-0c3b: b9 25 10  -         lda StartMessageColors, y
-0c3e: 9d 2a db  -         sta $db2a, x
-0c41: e8        -         inx
-0c42: e0 17     -         cpx #TitleScreen - StartMessage
-0c44: d0 f8     -         bne !-
-0c46: ee 4f 13  -         inc CurrentStartMessageColor
-0c49: ad 4f 13  -         lda CurrentStartMessageColor
-0c4c: c9 08     -         cmp #$08
-0c4e: d0 05     -         bne !+
-0c50: a9 00     -         lda #$00
-0c52: 8d 4f 13  -         sta CurrentStartMessageColor
-0c55: 60        -         rts
-0c56: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  -         .align $40
-0c66: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-0c76: 00 00 00 00 00 00 00 00 00 00                   
+0c22: c0 28     -         cpy #$28
+0c24: d0 f8     -         bne !-
+0c26: 60        -         rts
+0c27: a2 00     - AnimateTitle:ldx #$00
+0c29: ac 5b 13  -         ldy CurrentTitleColor
+0c2c: b9 17 10  -         lda TitleScreenColor, y
+0c2f: 9d 36 d8  -         sta TITLE_LOCATION + $d400, x
+0c32: e8        -         inx
+0c33: c8        -         iny
+0c34: e0 0c     -         cpx #$0c
+0c36: d0 f4     -         bne !-
+0c38: ee 5b 13  -         inc CurrentTitleColor
+0c3b: ad 5b 13  -         lda CurrentTitleColor
+0c3e: c9 0c     -         cmp #$0c
+0c40: d0 05     -         bne !+
+0c42: a9 00     -         lda #$00
+0c44: 8d 5b 13  -         sta CurrentTitleColor
+0c47: 60        -         rts
+0c48: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  -         .align $40
+0c58: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+0c68: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+0c78: 00 00 00 00 00 00 00 00                         
 0c80: 00 00 00 00 00 00 00 00                          - Sprites:.byte $00,$00,$00,$00,$00,$00,$00,$00
 0c88: 00 00 00 00 00 00 00 00                          -         .byte $00,$00,$00,$00,$00,$00,$00,$00
 0c90: 29 00 00 aa 40 02 82 90                          -         .byte $29,$00,$00,$aa,$40,$02,$82,$90
@@ -582,712 +579,715 @@
 0ee8: 02 90 00 0a 40 02 a9 00                          -         .byte $02,$90,$00,$0a,$40,$02,$a9,$00
 0ef0: 02 a4 00 00 00 00 00 00                          -         .byte $02,$a4,$00,$00,$00,$00,$00,$00
 0ef8: 00 00 00 00 00 00 00 81                          -         .byte $00,$00,$00,$00,$00,$00,$00,$81
-0f00: 10 12 05 13 13 20 01 0e 19 20 0b 05 19 20 14 0f  - StartMessage:.text "press any key to start"
-0f10: 20 13 14 01 12 14                               
-0f16: 00        -         .byte $00
-0f17: 06 0f 0c 0c 0f 17 20 0d 05 20 16 31              - TitleScreen:.text "follow me v1"
-0f23: 00        -         .byte $00
-0f24: 17 01 14 03 08 20 01 0e 04 20 0c 09 13 14 05 0e  - MyTurn: .text "watch and listen carefully!"
-0f34: 20 03 01 12 05 06 15 0c 0c 19 21                
-0f3f: 00        -         .byte $00
-0f40: 01 01 01 01 01 01 01 01 01 01 01 01              - MyTurnColor:.byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
-0f4c: 01 01 01 01 01 01 01 01 01 01 01 01              -         .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
-0f58: 01 01 01  -         .byte vic.WHITE, vic.WHITE, vic.WHITE
-0f5b: 00        -         .byte $00
-0f5c: 19 0f 15 12 20 14 15 12 0e 21 20 13 08 0f 17 20  - YourTurn:.text "your turn! show me what ya got, kid!"
-0f6c: 0d 05 20 17 08 01 14 20 19 01 20 07 0f 14 2c 20 
-0f7c: 0b 09 04 21                                     
-0f80: 00        -         .byte $00
-0f81: 01 01 01 01 01 01 01 01 01 01 01 01              - YourTurnColor:.byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
-0f8d: 01 01 01 01 01 01 01 01 01 01 01 01              -         .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
-0f99: 01 01 01 01 01 01 01 01 01 01 01 01              -         .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
-0fa5: 00        -         .byte $00
-0fa6: 07 01 0d 05 20 0f 16 05 12 2e 20 10 0c 01 19 20  - GameOver:.text "game over. play again?"
-0fb6: 01 07 01 09 0e 3f                               
-0fbc: 00        -         .byte $00
-0fbd: 01 01 01 01 01 01 01 01 01 01 01 01              - GameOverColor:.byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
-0fc9: 01 01 01 01 01 01 01 01 01 01                    -         .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
-0fd3: 00        -         .byte $00
-0fd4: 14 08 01 0e 0b 13 20 06 0f 12 20 10 0c 01 19 09  - SeeYa:  .text "thanks for playing! see ya!"
-0fe4: 0e 07 21 20 13 05 05 20 19 01 21                
-0fef: 00        -         .byte $00
-0ff0: 01 01 01 01 01 01 01 01 01 01 01 01              - SeeYaColor:.byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
-0ffc: 01 01 01 01 01 01 01 01 01 01 01 01              -         .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
-1008: 01 01 01  -         .byte vic.WHITE, vic.WHITE, vic.WHITE
-100b: 00        -         .byte $00
-100c: 0a 07 0d 0e 0a 07 0d 0e 0a 07 0d 0e 0a 07 0d 0e  - TitleScreenColor:.byte $0a, $07, $0d, $0e, $0a, $07, $0d, $0e, $0a, $07, $0d, $0e, $0a, $07, $0d, $0e, $0a, $07, $0d, $0e, $0a, $07, $0d, $0e
-101c: 0a 07 0d 0e 0a 07 0d 0e                         
-1024: 00        -         .byte $00
-1025: 00 0b 0c 0f 01 0f 0c 0b                          - StartMessageColors:.byte $00, $0b, $0c, $0f, $01, $0f, $0c, $0b
-102d: 55 43 43 43 43 43 43 43 43 49 55 43 43 43 43 43  - Buttons:.byte $55, $43, $43, $43, $43, $43, $43, $43, $43, $49, $55, $43, $43, $43, $43, $43, $43, $43, $43, $49, $55, $43, $43, $43, $43, $43, $43, $43, $43, $49, $55, $43, $43, $43, $43, $43, $43, $43, $43, $49
-103d: 43 43 43 49 55 43 43 43 43 43 43 43 43 49 55 43 
-104d: 43 43 43 43 43 43 43 49                         
-1055: 5d 66 66 66 66 66 66 66 66 5d 5d 66 66 66 66 66  -         .byte $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d
-1065: 66 66 66 5d 5d 66 66 66 66 66 66 66 66 5d 5d 66 
-1075: 66 66 66 66 66 66 66 5d                         
-107d: 5d 66 66 66 66 66 66 66 66 5d 5d 66 66 66 66 66  -         .byte $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d
-108d: 66 66 66 5d 5d 66 66 66 66 66 66 66 66 5d 5d 66 
-109d: 66 66 66 66 66 66 66 5d                         
-10a5: 5d 66 66 66 66 66 66 66 66 5d 5d 66 66 66 66 66  -         .byte $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d
-10b5: 66 66 66 5d 5d 66 66 66 66 66 66 66 66 5d 5d 66 
-10c5: 66 66 66 66 66 66 66 5d                         
-10cd: 5d 66 66 66 66 66 66 66 66 5d 5d 66 66 66 66 66  -         .byte $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d
-10dd: 66 66 66 5d 5d 66 66 66 66 66 66 66 66 5d 5d 66 
-10ed: 66 66 66 66 66 66 66 5d                         
-10f5: 5d 66 66 66 66 66 66 66 66 5d 5d 66 66 66 66 66  -         .byte $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d
-1105: 66 66 66 5d 5d 66 66 66 66 66 66 66 66 5d 5d 66 
-1115: 66 66 66 66 66 66 66 5d                         
-111d: 5d 66 66 66 66 66 66 66 66 5d 5d 66 66 66 66 66  -         .byte $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d
-112d: 66 66 66 5d 5d 66 66 66 66 66 66 66 66 5d 5d 66 
-113d: 66 66 66 66 66 66 66 5d                         
-1145: 5d 66 66 66 66 66 66 66 66 5d 5d 66 66 66 66 66  -         .byte $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d
-1155: 66 66 66 5d 5d 66 66 66 66 66 66 66 66 5d 5d 66 
-1165: 66 66 66 66 66 66 66 5d                         
-116d: 5d 66 66 66 66 66 66 66 66 5d 5d 66 66 66 66 66  -         .byte $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d
-117d: 66 66 66 5d 5d 66 66 66 66 66 66 66 66 5d 5d 66 
-118d: 66 66 66 66 66 66 66 5d                         
-1195: 4a 43 43 43 43 43 43 43 43 4b 4a 43 43 43 43 43  -         .byte $4a, $43, $43, $43, $43, $43, $43, $43, $43, $4b, $4a, $43, $43, $43, $43, $43, $43, $43, $43, $4b, $4a, $43, $43, $43, $43, $43, $43, $43, $43, $4b, $4a, $43, $43, $43, $43, $43, $43, $43, $43, $4b
-11a5: 43 43 43 4b 4a 43 43 43 43 43 43 43 43 4b 4a 43 
-11b5: 43 43 43 43 43 43 43 4b                         
-11bd: 00        -         .byte $00
-11be: 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01  - ButtonColors:.byte $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01
-11ce: 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 
-11de: 01 01 01 01 01 01 01 01                         
-11e6: 01 02 02 02 02 02 02 02 02 01 01 08 08 08 08 08  -         .byte $01, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01, $08, $08, $08, $08, $08, $08, $08, $08, $01, $01, $05, $05, $05, $05, $05, $05, $05, $05, $01, $01, $06, $06, $06, $06, $06, $06, $06, $06, $01
-11f6: 08 08 08 01 01 05 05 05 05 05 05 05 05 01 01 06 
-1206: 06 06 06 06 06 06 06 01                         
-120e: 01 02 02 02 02 02 02 02 02 01 01 08 08 08 08 08  -         .byte $01, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01, $08, $08, $08, $08, $08, $08, $08, $08, $01, $01, $05, $05, $05, $05, $05, $05, $05, $05, $01, $01, $06, $06, $06, $06, $06, $06, $06, $06, $01
-121e: 08 08 08 01 01 05 05 05 05 05 05 05 05 01 01 06 
-122e: 06 06 06 06 06 06 06 01                         
-1236: 01 02 02 02 02 02 02 02 02 01 01 08 08 08 08 08  -         .byte $01, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01, $08, $08, $08, $08, $08, $08, $08, $08, $01, $01, $05, $05, $05, $05, $05, $05, $05, $05, $01, $01, $06, $06, $06, $06, $06, $06, $06, $06, $01
-1246: 08 08 08 01 01 05 05 05 05 05 05 05 05 01 01 06 
-1256: 06 06 06 06 06 06 06 01                         
-125e: 01 02 02 02 02 02 02 02 02 01 01 08 08 08 08 08  -         .byte $01, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01, $08, $08, $08, $08, $08, $08, $08, $08, $01, $01, $05, $05, $05, $05, $05, $05, $05, $05, $01, $01, $06, $06, $06, $06, $06, $06, $06, $06, $01
-126e: 08 08 08 01 01 05 05 05 05 05 05 05 05 01 01 06 
-127e: 06 06 06 06 06 06 06 01                         
-1286: 01 02 02 02 02 02 02 02 02 01 01 08 08 08 08 08  -         .byte $01, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01, $08, $08, $08, $08, $08, $08, $08, $08, $01, $01, $05, $05, $05, $05, $05, $05, $05, $05, $01, $01, $06, $06, $06, $06, $06, $06, $06, $06, $01
-1296: 08 08 08 01 01 05 05 05 05 05 05 05 05 01 01 06 
-12a6: 06 06 06 06 06 06 06 01                         
-12ae: 01 02 02 02 02 02 02 02 02 01 01 08 08 08 08 08  -         .byte $01, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01, $08, $08, $08, $08, $08, $08, $08, $08, $01, $01, $05, $05, $05, $05, $05, $05, $05, $05, $01, $01, $06, $06, $06, $06, $06, $06, $06, $06, $01
-12be: 08 08 08 01 01 05 05 05 05 05 05 05 05 01 01 06 
-12ce: 06 06 06 06 06 06 06 01                         
-12d6: 01 02 02 02 02 02 02 02 02 01 01 08 08 08 08 08  -         .byte $01, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01, $08, $08, $08, $08, $08, $08, $08, $08, $01, $01, $05, $05, $05, $05, $05, $05, $05, $05, $01, $01, $06, $06, $06, $06, $06, $06, $06, $06, $01
-12e6: 08 08 08 01 01 05 05 05 05 05 05 05 05 01 01 06 
-12f6: 06 06 06 06 06 06 06 01                         
-12fe: 01 02 02 02 02 02 02 02 02 01 01 08 08 08 08 08  -         .byte $01, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01, $08, $08, $08, $08, $08, $08, $08, $08, $01, $01, $05, $05, $05, $05, $05, $05, $05, $05, $01, $01, $06, $06, $06, $06, $06, $06, $06, $06, $01
-130e: 08 08 08 01 01 05 05 05 05 05 05 05 05 01 01 06 
-131e: 06 06 06 06 06 06 06 01                         
-1326: 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01  -         .byte $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01
-1336: 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 
-1346: 01 01 01 01 01 01 01 01                         
-134e: 00        -         .byte $00
-134f: 00        - CurrentStartMessageColor:.byte $00
-1350: 00        - CurrentTitleColor:.byte $00
-1351: 00        - GameMode:.byte $00
-1352: 00 00     - Clock:  .word $0000
-1354: 00        - LastKeyboardKey:.byte $00
-1355: 00 00     - Score:  .word $0000
-1357: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  - GamePattern:.fill $64, $00
-1377: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-1397: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-13b7: 00 00 00 00                                                                                     
+0f00: 13 05 0c 05 03 14 20 0c 05 16 05 0c 3a 20 31 20  - StartMessage:.text "select level: 1 (fast) - 5 (slow)"
+0f10: 28 06 01 13 14 29 20 2d 20 35 20 28 13 0c 0f 17 
+0f20: 29                                              
+0f21: 00        -         .byte $00
+0f22: 06 0f 0c 0c 0f 17 20 0d 05 20 16 31              - TitleScreen:.text "follow me v1"
+0f2e: 00        -         .byte $00
+0f2f: 17 01 14 03 08 20 01 0e 04 20 0c 09 13 14 05 0e  - MyTurn: .text "watch and listen carefully!"
+0f3f: 20 03 01 12 05 06 15 0c 0c 19 21                
+0f4a: 00        -         .byte $00
+0f4b: 01 01 01 01 01 01 01 01 01 01 01 01              - MyTurnColor:.byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
+0f57: 01 01 01 01 01 01 01 01 01 01 01 01              -         .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
+0f63: 01 01 01  -         .byte vic.WHITE, vic.WHITE, vic.WHITE
+0f66: 00        -         .byte $00
+0f67: 19 0f 15 12 20 14 15 12 0e 21 20 13 08 0f 17 20  - YourTurn:.text "your turn! show me what ya got, kid!"
+0f77: 0d 05 20 17 08 01 14 20 19 01 20 07 0f 14 2c 20 
+0f87: 0b 09 04 21                                     
+0f8b: 00        -         .byte $00
+0f8c: 01 01 01 01 01 01 01 01 01 01 01 01              - YourTurnColor:.byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
+0f98: 01 01 01 01 01 01 01 01 01 01 01 01              -         .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
+0fa4: 01 01 01 01 01 01 01 01 01 01 01 01              -         .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
+0fb0: 00        -         .byte $00
+0fb1: 07 01 0d 05 20 0f 16 05 12 2e 20 10 0c 01 19 20  - GameOver:.text "game over. play again?"
+0fc1: 01 07 01 09 0e 3f                               
+0fc7: 00        -         .byte $00
+0fc8: 01 01 01 01 01 01 01 01 01 01 01 01              - GameOverColor:.byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
+0fd4: 01 01 01 01 01 01 01 01 01 01                    -         .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
+0fde: 00        -         .byte $00
+0fdf: 14 08 01 0e 0b 13 20 06 0f 12 20 10 0c 01 19 09  - SeeYa:  .text "thanks for playing! see ya!"
+0fef: 0e 07 21 20 13 05 05 20 19 01 21                
+0ffa: 00        -         .byte $00
+0ffb: 01 01 01 01 01 01 01 01 01 01 01 01              - SeeYaColor:.byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
+1007: 01 01 01 01 01 01 01 01 01 01 01 01              -         .byte vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE, vic.WHITE
+1013: 01 01 01  -         .byte vic.WHITE, vic.WHITE, vic.WHITE
+1016: 00        -         .byte $00
+1017: 0a 07 0d 0e 0a 07 0d 0e 0a 07 0d 0e 0a 07 0d 0e  - TitleScreenColor:.byte $0a, $07, $0d, $0e, $0a, $07, $0d, $0e, $0a, $07, $0d, $0e, $0a, $07, $0d, $0e, $0a, $07, $0d, $0e, $0a, $07, $0d, $0e
+1027: 0a 07 0d 0e 0a 07 0d 0e                         
+102f: 00        -         .byte $00
+1030: 00 0b 0c 0f 01 0f 0c 0b                          - StartMessageColors:.byte $00, $0b, $0c, $0f, $01, $0f, $0c, $0b
+1038: 55 43 43 43 43 43 43 43 43 49 55 43 43 43 43 43  - Buttons:.byte $55, $43, $43, $43, $43, $43, $43, $43, $43, $49, $55, $43, $43, $43, $43, $43, $43, $43, $43, $49, $55, $43, $43, $43, $43, $43, $43, $43, $43, $49, $55, $43, $43, $43, $43, $43, $43, $43, $43, $49
+1048: 43 43 43 49 55 43 43 43 43 43 43 43 43 49 55 43 
+1058: 43 43 43 43 43 43 43 49                         
+1060: 5d 66 66 66 66 66 66 66 66 5d 5d 66 66 66 66 66  -         .byte $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d
+1070: 66 66 66 5d 5d 66 66 66 66 66 66 66 66 5d 5d 66 
+1080: 66 66 66 66 66 66 66 5d                         
+1088: 5d 66 66 66 66 66 66 66 66 5d 5d 66 66 66 66 66  -         .byte $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d
+1098: 66 66 66 5d 5d 66 66 66 66 66 66 66 66 5d 5d 66 
+10a8: 66 66 66 66 66 66 66 5d                         
+10b0: 5d 66 66 66 66 66 66 66 66 5d 5d 66 66 66 66 66  -         .byte $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d
+10c0: 66 66 66 5d 5d 66 66 66 66 66 66 66 66 5d 5d 66 
+10d0: 66 66 66 66 66 66 66 5d                         
+10d8: 5d 66 66 66 66 66 66 66 66 5d 5d 66 66 66 66 66  -         .byte $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d
+10e8: 66 66 66 5d 5d 66 66 66 66 66 66 66 66 5d 5d 66 
+10f8: 66 66 66 66 66 66 66 5d                         
+1100: 5d 66 66 66 66 66 66 66 66 5d 5d 66 66 66 66 66  -         .byte $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d
+1110: 66 66 66 5d 5d 66 66 66 66 66 66 66 66 5d 5d 66 
+1120: 66 66 66 66 66 66 66 5d                         
+1128: 5d 66 66 66 66 66 66 66 66 5d 5d 66 66 66 66 66  -         .byte $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d
+1138: 66 66 66 5d 5d 66 66 66 66 66 66 66 66 5d 5d 66 
+1148: 66 66 66 66 66 66 66 5d                         
+1150: 5d 66 66 66 66 66 66 66 66 5d 5d 66 66 66 66 66  -         .byte $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d
+1160: 66 66 66 5d 5d 66 66 66 66 66 66 66 66 5d 5d 66 
+1170: 66 66 66 66 66 66 66 5d                         
+1178: 5d 66 66 66 66 66 66 66 66 5d 5d 66 66 66 66 66  -         .byte $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d, $5d, $66, $66, $66, $66, $66, $66, $66, $66, $5d
+1188: 66 66 66 5d 5d 66 66 66 66 66 66 66 66 5d 5d 66 
+1198: 66 66 66 66 66 66 66 5d                         
+11a0: 4a 43 43 43 43 43 43 43 43 4b 4a 43 43 43 43 43  -         .byte $4a, $43, $43, $43, $43, $43, $43, $43, $43, $4b, $4a, $43, $43, $43, $43, $43, $43, $43, $43, $4b, $4a, $43, $43, $43, $43, $43, $43, $43, $43, $4b, $4a, $43, $43, $43, $43, $43, $43, $43, $43, $4b
+11b0: 43 43 43 4b 4a 43 43 43 43 43 43 43 43 4b 4a 43 
+11c0: 43 43 43 43 43 43 43 4b                         
+11c8: 00        -         .byte $00
+11c9: 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01  - ButtonColors:.byte $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01
+11d9: 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 
+11e9: 01 01 01 01 01 01 01 01                         
+11f1: 01 02 02 02 02 02 02 02 02 01 01 08 08 08 08 08  -         .byte $01, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01, $08, $08, $08, $08, $08, $08, $08, $08, $01, $01, $05, $05, $05, $05, $05, $05, $05, $05, $01, $01, $06, $06, $06, $06, $06, $06, $06, $06, $01
+1201: 08 08 08 01 01 05 05 05 05 05 05 05 05 01 01 06 
+1211: 06 06 06 06 06 06 06 01                         
+1219: 01 02 02 02 02 02 02 02 02 01 01 08 08 08 08 08  -         .byte $01, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01, $08, $08, $08, $08, $08, $08, $08, $08, $01, $01, $05, $05, $05, $05, $05, $05, $05, $05, $01, $01, $06, $06, $06, $06, $06, $06, $06, $06, $01
+1229: 08 08 08 01 01 05 05 05 05 05 05 05 05 01 01 06 
+1239: 06 06 06 06 06 06 06 01                         
+1241: 01 02 02 02 02 02 02 02 02 01 01 08 08 08 08 08  -         .byte $01, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01, $08, $08, $08, $08, $08, $08, $08, $08, $01, $01, $05, $05, $05, $05, $05, $05, $05, $05, $01, $01, $06, $06, $06, $06, $06, $06, $06, $06, $01
+1251: 08 08 08 01 01 05 05 05 05 05 05 05 05 01 01 06 
+1261: 06 06 06 06 06 06 06 01                         
+1269: 01 02 02 02 02 02 02 02 02 01 01 08 08 08 08 08  -         .byte $01, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01, $08, $08, $08, $08, $08, $08, $08, $08, $01, $01, $05, $05, $05, $05, $05, $05, $05, $05, $01, $01, $06, $06, $06, $06, $06, $06, $06, $06, $01
+1279: 08 08 08 01 01 05 05 05 05 05 05 05 05 01 01 06 
+1289: 06 06 06 06 06 06 06 01                         
+1291: 01 02 02 02 02 02 02 02 02 01 01 08 08 08 08 08  -         .byte $01, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01, $08, $08, $08, $08, $08, $08, $08, $08, $01, $01, $05, $05, $05, $05, $05, $05, $05, $05, $01, $01, $06, $06, $06, $06, $06, $06, $06, $06, $01
+12a1: 08 08 08 01 01 05 05 05 05 05 05 05 05 01 01 06 
+12b1: 06 06 06 06 06 06 06 01                         
+12b9: 01 02 02 02 02 02 02 02 02 01 01 08 08 08 08 08  -         .byte $01, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01, $08, $08, $08, $08, $08, $08, $08, $08, $01, $01, $05, $05, $05, $05, $05, $05, $05, $05, $01, $01, $06, $06, $06, $06, $06, $06, $06, $06, $01
+12c9: 08 08 08 01 01 05 05 05 05 05 05 05 05 01 01 06 
+12d9: 06 06 06 06 06 06 06 01                         
+12e1: 01 02 02 02 02 02 02 02 02 01 01 08 08 08 08 08  -         .byte $01, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01, $08, $08, $08, $08, $08, $08, $08, $08, $01, $01, $05, $05, $05, $05, $05, $05, $05, $05, $01, $01, $06, $06, $06, $06, $06, $06, $06, $06, $01
+12f1: 08 08 08 01 01 05 05 05 05 05 05 05 05 01 01 06 
+1301: 06 06 06 06 06 06 06 01                         
+1309: 01 02 02 02 02 02 02 02 02 01 01 08 08 08 08 08  -         .byte $01, $02, $02, $02, $02, $02, $02, $02, $02, $01, $01, $08, $08, $08, $08, $08, $08, $08, $08, $01, $01, $05, $05, $05, $05, $05, $05, $05, $05, $01, $01, $06, $06, $06, $06, $06, $06, $06, $06, $01
+1319: 08 08 08 01 01 05 05 05 05 05 05 05 05 01 01 06 
+1329: 06 06 06 06 06 06 06 01                         
+1331: 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01  -         .byte $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01
+1341: 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 
+1351: 01 01 01 01 01 01 01 01                         
+1359: 00        -         .byte $00
+135a: 00        - CurrentStartMessageColor:.byte $00
+135b: 00        - CurrentTitleColor:.byte $00
+135c: 00        - GameMode:.byte $00
+135d: 00 00     - Clock:  .word $0000
+135f: 00        - LastKeyboardKey:.byte $00
+1360: 00 00     - Score:  .word $0000
+1362: 00        - GameSpeed:.byte $00
+1363: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  - GamePattern:.fill $64, $00
+1383: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+13a3: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+13c3: 00 00 00 00                                                                                     
 
 [Default]
-2000: a9 00     - ClearTimers:lda value
-2002: 85 fb     -         sta address
-2004: a9 3c     -         lda value
-2006: 85 fd     -         sta address
-2008: a9 03     -         lda value
-200a: 85 fe     -         sta address
-200c: a9 40     -         lda value
-200e: 85 02     -         sta address
-2010: a9 00     -         lda value
-2012: 85 03     -         sta address
-2014: 20 da 20  -         jsr FillMemory
-2017: 60        -         rts
-2018: a5 03     - CreateTimer:lda r2H
-201a: 0a        -         asl
-201b: 0a        -         asl
+2000: 00 00     - ReturnAddress:.word $0000
+2002: a9 00     - ClearTimers:lda value
+2004: 85 fb     -         sta address
+2006: a9 3c     -         lda value
+2008: 85 fd     -         sta address
+200a: a9 03     -         lda value
+200c: 85 fe     -         sta address
+200e: a9 40     -         lda value
+2010: 85 02     -         sta address
+2012: a9 00     -         lda value
+2014: 85 03     -         sta address
+2016: 20 dc 20  -         jsr FillMemory
+2019: 60        -         rts
+201a: a5 03     - CreateTimer:lda r2H
 201c: 0a        -         asl
-201d: aa        -         tax
-201e: a5 04     -         lda value
-2020: 9d 3c 03  -         sta address
-2023: a5 02     -         lda value
-2025: 9d 3d 03  -         sta address
-2028: a5 fb     -         lda value
-202a: 9d 3e 03  -         sta address
-202d: a5 fc     -         lda value
-202f: 9d 3f 03  -         sta address
-2032: a5 fb     -         lda value
-2034: 9d 40 03  -         sta address
-2037: a5 fc     -         lda value
-2039: 9d 41 03  -         sta address
-203c: a5 fd     -         lda value
-203e: 9d 42 03  -         sta address
-2041: a5 fe     -         lda value
-2043: 9d 43 03  -         sta address
-2046: 60        -         rts
-2047: a0 00     - UpdateTimers:ldy #$00
-2049: 98        -         tya
-204a: 0a        -         asl
-204b: 0a        -         asl
+201d: 0a        -         asl
+201e: 0a        -         asl
+201f: aa        -         tax
+2020: a5 04     -         lda value
+2022: 9d 3c 03  -         sta address
+2025: a5 02     -         lda value
+2027: 9d 3d 03  -         sta address
+202a: a5 fb     -         lda value
+202c: 9d 3e 03  -         sta address
+202f: a5 fc     -         lda value
+2031: 9d 3f 03  -         sta address
+2034: a5 fb     -         lda value
+2036: 9d 40 03  -         sta address
+2039: a5 fc     -         lda value
+203b: 9d 41 03  -         sta address
+203e: a5 fd     -         lda value
+2040: 9d 42 03  -         sta address
+2043: a5 fe     -         lda value
+2045: 9d 43 03  -         sta address
+2048: 60        -         rts
+2049: a0 00     - UpdateTimers:ldy #$00
+204b: 98        -         tya
 204c: 0a        -         asl
-204d: 85 fb     -         sta r0L
-204f: aa        -         tax
-2050: bd 3c 03  -         lda address
-2053: c9 80     -         cmp value
-2055: d0 61     -         bne location
-2057: e8        -         inx
-2058: bd 3c 03  -         lda value
-205b: 85 05     -         sta address
-205d: e8        -         inx
-205e: 86 fe     -         stx r1H
-2060: bd 3c 03  -         lda c64lib_timers, x // current value
-2063: d0 03     -         bne !return+
-2065: de 3d 03  -         dec c64lib_timers + $01, x
-2068: de 3c 03  -         dec c64lib_timers, x
-206b: bd 3c 03  -         lda c64lib_timers, x
-206e: d0 48     -         bne !continue+
-2070: bd 3d 03  -         lda c64lib_timers + $01, x
-2073: d0 43     -         bne !continue+
-2075: e8        -         inx
-2076: e8        -         inx
-2077: bd 3c 03  -         lda value
-207a: 85 02     -         sta address
-207c: e8        -         inx
-207d: bd 3c 03  -         lda value
-2080: 85 03     -         sta address
-2082: a5 fe     -         lda r1H
-2084: aa        -         tax
-2085: a5 02     -         lda value
-2087: 9d 3c 03  -         sta address
-208a: e8        -         inx
-208b: a5 03     -         lda value
-208d: 9d 3c 03  -         sta address
-2090: e8        -         inx
-2091: e8        -         inx
+204d: 0a        -         asl
+204e: 0a        -         asl
+204f: 85 fb     -         sta r0L
+2051: aa        -         tax
+2052: bd 3c 03  -         lda address
+2055: c9 80     -         cmp value
+2057: d0 61     -         bne location
+2059: e8        -         inx
+205a: bd 3c 03  -         lda value
+205d: 85 05     -         sta address
+205f: e8        -         inx
+2060: 86 fe     -         stx r1H
+2062: bd 3c 03  -         lda c64lib_timers, x // current value
+2065: d0 03     -         bne !return+
+2067: de 3d 03  -         dec c64lib_timers + $01, x
+206a: de 3c 03  -         dec c64lib_timers, x
+206d: bd 3c 03  -         lda c64lib_timers, x
+2070: d0 48     -         bne !continue+
+2072: bd 3d 03  -         lda c64lib_timers + $01, x
+2075: d0 43     -         bne !continue+
+2077: e8        -         inx
+2078: e8        -         inx
+2079: bd 3c 03  -         lda value
+207c: 85 02     -         sta address
+207e: e8        -         inx
+207f: bd 3c 03  -         lda value
+2082: 85 03     -         sta address
+2084: a5 fe     -         lda r1H
+2086: aa        -         tax
+2087: a5 02     -         lda value
+2089: 9d 3c 03  -         sta address
+208c: e8        -         inx
+208d: a5 03     -         lda value
+208f: 9d 3c 03  -         sta address
 2092: e8        -         inx
-2093: 98        -         tya
-2094: 48        -         pha
-2095: bd 3c 03  -         lda value
-2098: 85 02     -         sta address
-209a: e8        -         inx
-209b: bd 3c 03  -         lda value
-209e: 85 03     -         sta address
-20a0: 20 a6 20  -         jsr !dispatch+
-20a3: 4c a9 20  -         jmp !done_dispatch+
-20a6: 6c 02 00  -         jmp (r2)
-20a9: 68        -         pla
-20aa: a8        -         tay
-20ab: a5 05     -         lda address
-20ad: c9 01     -         cmp value
-20af: f0 07     -         beq location
-20b1: a6 fb     -         ldx r0L
-20b3: a9 00     -         lda value
-20b5: 9d 3c 03  -         sta address
-20b8: c8        -         iny
-20b9: c0 07     -         cpy #$07
-20bb: d0 8c     -         bne !loop-
-20bd: 60        -         rts
-20be: a5 03     - EnDisTimer:lda r2H
-20c0: 0a        -         asl
-20c1: 0a        -         asl
+2093: e8        -         inx
+2094: e8        -         inx
+2095: 98        -         tya
+2096: 48        -         pha
+2097: bd 3c 03  -         lda value
+209a: 85 02     -         sta address
+209c: e8        -         inx
+209d: bd 3c 03  -         lda value
+20a0: 85 03     -         sta address
+20a2: 20 a8 20  -         jsr !dispatch+
+20a5: 4c ab 20  -         jmp !done_dispatch+
+20a8: 6c 02 00  -         jmp (r2)
+20ab: 68        -         pla
+20ac: a8        -         tay
+20ad: a5 05     -         lda address
+20af: c9 01     -         cmp value
+20b1: f0 07     -         beq location
+20b3: a6 fb     -         ldx r0L
+20b5: a9 00     -         lda value
+20b7: 9d 3c 03  -         sta address
+20ba: c8        -         iny
+20bb: c0 07     -         cpy #$07
+20bd: d0 8c     -         bne !loop-
+20bf: 60        -         rts
+20c0: a5 03     - EnDisTimer:lda r2H
 20c2: 0a        -         asl
-20c3: aa        -         tax
-20c4: a5 04     -         lda value
-20c6: 9d 3c 03  -         sta address
-20c9: 60        -         rts
-20ca: a5 12     - PauseJiffies:lda r7L
-20cc: 18        -         clc
-20cd: 6d 52 13  -         adc Clock
-20d0: 85 12     -         sta r7L
-20d2: ad 52 13  -         lda Clock
-20d5: c5 12     -         cmp r7L
-20d7: d0 f9     -         bne !-
-20d9: 60        -         rts
-20da: a0 00     - FillMemory:ldy #$00
-20dc: a5 fb     -         lda r0L
-20de: 91 fd     -         sta (r1), y
-20e0: a5 02     -         lda word
-20e2: d0 02     -         bne !+
-20e4: c6 03     -         dec word + $01
-20e6: c6 02     -         dec word
-20e8: a5 03     -         lda byte1
-20ea: c9 00     -         cmp #byte2
-20ec: d0 04     -         bne !+
-20ee: a5 02     -         lda byte1
-20f0: c9 00     -         cmp #byte2
-20f2: f0 08     -         beq !end+
-20f4: c8        -         iny
-20f5: d0 e5     -         bne !l1-
-20f7: e6 fe     -         inc r1H
-20f9: 4c dc 20  -         jmp !l1-
-20fc: 60        -         rts
-20fd: a5 02     - CopyMemory:lda r2L
-20ff: 05 03     -         ora r2H
-2101: f0 4d     -         beq !l7+
-2103: a5 fc     -         lda address
-2105: 48        -         pha
-2106: a5 fb     -         lda address
-2108: 48        -         pha
-2109: a5 fe     -         lda address
-210b: 48        -         pha
-210c: a5 03     -         lda address
-210e: 48        -         pha
-210f: a5 04     -         lda address
-2111: 48        -         pha
-2112: a5 fc     -         lda byte1
-2114: c5 fe     -         cmp byte2
-2116: d0 04     -         bne !+
-2118: a5 fb     -         lda byte1
-211a: c5 fd     -         cmp byte2
-211c: b0 02     -         bcs !l3+
-211e: 90 31     -         bcc !l8+
-2120: a0 00     -         ldy #0
-2122: a5 03     -         lda r2H
-2124: f0 0f     -         beq !l5+
-2126: b1 fb     -         lda (r0), y
-2128: 91 fd     -         sta (r1), y
-212a: c8        -         iny
-212b: d0 f9     -         bne !l4-
-212d: e6 fc     -         inc r0H
-212f: e6 fe     -         inc r1H
-2131: c6 03     -         dec r2H
-2133: d0 f1     -         bne !l4-
-2135: c4 02     -         cpy r2L
-2137: f0 08     -         beq !l6+
-2139: b1 fb     -         lda (r0), y
-213b: 91 fd     -         sta (r1), y
-213d: c8        -         iny
-213e: b8        -         clv
-213f: 50 f4     -         bvc address
-2141: 68        -         pla
-2142: 85 04     -         sta address
-2144: 68        -         pla
-2145: 85 03     -         sta address
-2147: 68        -         pla
-2148: 85 fe     -         sta address
-214a: 68        -         pla
-214b: 85 fb     -         sta address
-214d: 68        -         pla
-214e: 85 fc     -         sta address
-2150: 60        -         rts
-2151: 18        -         clc
-2152: a5 03     -         lda r2H
-2154: 65 fc     -         adc r0H
-2156: 85 fc     -         sta r0H
-2158: 18        -         clc
-2159: a5 03     -         lda r2H
-215b: 65 fe     -         adc r1H
-215d: 85 fe     -         sta r1H
-215f: a4 02     -         ldy r2L
-2161: f0 08     -         beq !lA+
-2163: 88        -         dey
-2164: b1 fb     -         lda (r0), y
-2166: 91 fd     -         sta (r1), y
-2168: 98        -         tya
-2169: d0 f8     -         bne !l9-
-216b: c6 fc     -         dec r0H
-216d: c6 fe     -         dec r1H
-216f: a5 03     -         lda r2H
-2171: f0 ce     -         beq !l6-
-2173: 88        -         dey
-2174: b1 fb     -         lda (r0), y
-2176: 91 fd     -         sta (r1), y
-2178: 98        -         tya
-2179: d0 f8     -         bne !lB-
-217b: c6 03     -         dec r2H
-217d: b8        -         clv
-217e: 50 eb     -         bvc address
-2180: a2 18     - InitSound:ldx #$18
-2182: a9 00     -         lda #$00
-2184: 9d 00 d4  -         sta sid.FRELO1, x
-2187: ca        -         dex
-2188: 10 fa     -         bpl !-
-218a: a9 0f     -         lda value
-218c: 8d 18 d4  -         sta address
-218f: a9 22     -         lda value
-2191: 8d 05 d4  -         sta address
-2194: a9 80     -         lda value
-2196: 8d 06 d4  -         sta address
-2199: 60        -         rts
-219a: 48        - PlaySound:pha
-219b: aa        -         tax
-219c: bd dd 21  -         lda Waveforms, x
-219f: 8d e2 21  -         sta CurrentWaveform
-21a2: 68        -         pla
-21a3: 0a        -         asl
-21a4: aa        -         tax
-21a5: bd d3 21  -         lda Notes, x
-21a8: 8d 01 d4  -         sta sid.FREHI1
-21ab: bd d4 21  -         lda Notes + 1, x
-21ae: 8d 00 d4  -         sta sid.FRELO1
-21b1: ad e2 21  -         lda CurrentWaveform
-21b4: 8d 04 d4  -         sta sid.VCREG1
-21b7: a9 01     -         lda #sid.SOUND_PLAYING
-21b9: 8d e3 21  -         sta SoundPlaying
-21bc: 60        -         rts
-21bd: ad e3 21  - StopSound:lda SoundPlaying
-21c0: c9 01     -         cmp #sid.SOUND_PLAYING
-21c2: d0 0e     -         bne !+
-21c4: ce e2 21  -         dec CurrentWaveform
-21c7: ad e2 21  -         lda CurrentWaveform
-21ca: 8d 04 d4  -         sta sid.VCREG1
-21cd: a9 00     -         lda #$00
-21cf: 8d e3 21  -         sta SoundPlaying
-21d2: 60        -         rts
-21d3: 08 61     - Notes:  .byte 8,97      // Fail
-21d5: 0c 8f     -         .byte 12,143    // G blue
-21d7: 10 c3     -         .byte 16,195    // C yellow
-21d9: 15 1f     -         .byte 21,31     // E red
-21db: 19 1e     -         .byte 25,30     // G green
-21dd: 81 11 11 11 11                                   - Waveforms:.byte sid.WAVE_NOISE, sid.WAVE_TRIANGLE, sid.WAVE_TRIANGLE, sid.WAVE_TRIANGLE, sid.WAVE_TRIANGLE
-21e2: 00        - CurrentWaveform:.byte $00
-21e3: 00        - SoundPlaying:.byte $00
+20c3: 0a        -         asl
+20c4: 0a        -         asl
+20c5: aa        -         tax
+20c6: a5 04     -         lda value
+20c8: 9d 3c 03  -         sta address
+20cb: 60        -         rts
+20cc: a5 12     - PauseJiffies:lda r7L
+20ce: 18        -         clc
+20cf: 6d 5d 13  -         adc Clock
+20d2: 85 12     -         sta r7L
+20d4: ad 5d 13  -         lda Clock
+20d7: c5 12     -         cmp r7L
+20d9: d0 f9     -         bne !-
+20db: 60        -         rts
+20dc: a0 00     - FillMemory:ldy #$00
+20de: a5 fb     -         lda r0L
+20e0: 91 fd     -         sta (r1), y
+20e2: a5 02     -         lda word
+20e4: d0 02     -         bne !+
+20e6: c6 03     -         dec word + $01
+20e8: c6 02     -         dec word
+20ea: a5 03     -         lda byte1
+20ec: c9 00     -         cmp #byte2
+20ee: d0 04     -         bne !+
+20f0: a5 02     -         lda byte1
+20f2: c9 00     -         cmp #byte2
+20f4: f0 08     -         beq !end+
+20f6: c8        -         iny
+20f7: d0 e5     -         bne !l1-
+20f9: e6 fe     -         inc r1H
+20fb: 4c de 20  -         jmp !l1-
+20fe: 60        -         rts
+20ff: a5 02     - CopyMemory:lda r2L
+2101: 05 03     -         ora r2H
+2103: f0 4d     -         beq !l7+
+2105: a5 fc     -         lda address
+2107: 48        -         pha
+2108: a5 fb     -         lda address
+210a: 48        -         pha
+210b: a5 fe     -         lda address
+210d: 48        -         pha
+210e: a5 03     -         lda address
+2110: 48        -         pha
+2111: a5 04     -         lda address
+2113: 48        -         pha
+2114: a5 fc     -         lda byte1
+2116: c5 fe     -         cmp byte2
+2118: d0 04     -         bne !+
+211a: a5 fb     -         lda byte1
+211c: c5 fd     -         cmp byte2
+211e: b0 02     -         bcs !l3+
+2120: 90 31     -         bcc !l8+
+2122: a0 00     -         ldy #0
+2124: a5 03     -         lda r2H
+2126: f0 0f     -         beq !l5+
+2128: b1 fb     -         lda (r0), y
+212a: 91 fd     -         sta (r1), y
+212c: c8        -         iny
+212d: d0 f9     -         bne !l4-
+212f: e6 fc     -         inc r0H
+2131: e6 fe     -         inc r1H
+2133: c6 03     -         dec r2H
+2135: d0 f1     -         bne !l4-
+2137: c4 02     -         cpy r2L
+2139: f0 08     -         beq !l6+
+213b: b1 fb     -         lda (r0), y
+213d: 91 fd     -         sta (r1), y
+213f: c8        -         iny
+2140: b8        -         clv
+2141: 50 f4     -         bvc address
+2143: 68        -         pla
+2144: 85 04     -         sta address
+2146: 68        -         pla
+2147: 85 03     -         sta address
+2149: 68        -         pla
+214a: 85 fe     -         sta address
+214c: 68        -         pla
+214d: 85 fb     -         sta address
+214f: 68        -         pla
+2150: 85 fc     -         sta address
+2152: 60        -         rts
+2153: 18        -         clc
+2154: a5 03     -         lda r2H
+2156: 65 fc     -         adc r0H
+2158: 85 fc     -         sta r0H
+215a: 18        -         clc
+215b: a5 03     -         lda r2H
+215d: 65 fe     -         adc r1H
+215f: 85 fe     -         sta r1H
+2161: a4 02     -         ldy r2L
+2163: f0 08     -         beq !lA+
+2165: 88        -         dey
+2166: b1 fb     -         lda (r0), y
+2168: 91 fd     -         sta (r1), y
+216a: 98        -         tya
+216b: d0 f8     -         bne !l9-
+216d: c6 fc     -         dec r0H
+216f: c6 fe     -         dec r1H
+2171: a5 03     -         lda r2H
+2173: f0 ce     -         beq !l6-
+2175: 88        -         dey
+2176: b1 fb     -         lda (r0), y
+2178: 91 fd     -         sta (r1), y
+217a: 98        -         tya
+217b: d0 f8     -         bne !lB-
+217d: c6 03     -         dec r2H
+217f: b8        -         clv
+2180: 50 eb     -         bvc address
+2182: a2 18     - InitSound:ldx #$18
+2184: a9 00     -         lda #$00
+2186: 9d 00 d4  -         sta sid.FRELO1, x
+2189: ca        -         dex
+218a: 10 fa     -         bpl !-
+218c: a9 0f     -         lda value
+218e: 8d 18 d4  -         sta address
+2191: a9 22     -         lda value
+2193: 8d 05 d4  -         sta address
+2196: a9 80     -         lda value
+2198: 8d 06 d4  -         sta address
+219b: 60        -         rts
+219c: 48        - PlaySound:pha
+219d: aa        -         tax
+219e: bd df 21  -         lda Waveforms, x
+21a1: 8d e4 21  -         sta CurrentWaveform
+21a4: 68        -         pla
+21a5: 0a        -         asl
+21a6: aa        -         tax
+21a7: bd d5 21  -         lda Notes, x
+21aa: 8d 01 d4  -         sta sid.FREHI1
+21ad: bd d6 21  -         lda Notes + 1, x
+21b0: 8d 00 d4  -         sta sid.FRELO1
+21b3: ad e4 21  -         lda CurrentWaveform
+21b6: 8d 04 d4  -         sta sid.VCREG1
+21b9: a9 01     -         lda #sid.SOUND_PLAYING
+21bb: 8d e5 21  -         sta SoundPlaying
+21be: 60        -         rts
+21bf: ad e5 21  - StopSound:lda SoundPlaying
+21c2: c9 01     -         cmp #sid.SOUND_PLAYING
+21c4: d0 0e     -         bne !+
+21c6: ce e4 21  -         dec CurrentWaveform
+21c9: ad e4 21  -         lda CurrentWaveform
+21cc: 8d 04 d4  -         sta sid.VCREG1
+21cf: a9 00     -         lda #$00
+21d1: 8d e5 21  -         sta SoundPlaying
+21d4: 60        -         rts
+21d5: 08 61     - Notes:  .byte 8,97      // Fail
+21d7: 0c 8f     -         .byte 12,143    // G blue
+21d9: 10 c3     -         .byte 16,195    // C yellow
+21db: 15 1f     -         .byte 21,31     // E red
+21dd: 19 1e     -         .byte 25,30     // G green
+21df: 81 11 11 11 11                                   - Waveforms:.byte sid.WAVE_NOISE, sid.WAVE_TRIANGLE, sid.WAVE_TRIANGLE, sid.WAVE_TRIANGLE, sid.WAVE_TRIANGLE
+21e4: 00        - CurrentWaveform:.byte $00
+21e5: 00        - SoundPlaying:.byte $00
 
 [Keyboard Scan Routine]
-21e4: 4c 4d 22  - Keyboard:jmp Main
-21e7: 0a        - KeyInRow:asl
-21e8: b0 03     -         bcs *+5
-21ea: 20 1f 22  -         jsr KeyFound
-21ed: e8        -         inx
-21ee: 0a        -         asl
-21ef: b0 03     -         bcs *+5
-21f1: 20 1f 22  -         jsr KeyFound
-21f4: e8        -         inx
-21f5: 0a        -         asl
-21f6: b0 03     -         bcs *+5
-21f8: 20 1f 22  -         jsr KeyFound
-21fb: e8        -         inx
-21fc: 0a        -         asl
-21fd: b0 03     -         bcs *+5
-21ff: 20 1f 22  -         jsr KeyFound
-2202: e8        -         inx
-2203: 0a        -         asl
-2204: b0 03     -         bcs *+5
-2206: 20 1f 22  -         jsr KeyFound
-2209: e8        -         inx
-220a: 0a        -         asl
-220b: b0 03     -         bcs *+5
-220d: 20 1f 22  -         jsr KeyFound
-2210: e8        -         inx
-2211: 0a        -         asl
-2212: b0 03     -         bcs *+5
-2214: 20 1f 22  -         jsr KeyFound
-2217: e8        -         inx
-2218: 0a        -         asl
-2219: b0 03     -         bcs *+5
-221b: 20 1f 22  -         jsr KeyFound
-221e: 60        -         rts
-221f: 86 5e     - KeyFound:stx TempZP
-2221: c6 5b     -         dec KeyQuantity
-2223: 30 0a     -         bmi OverFlow
-2225: bc a2 23  -         ldy KeyTable,x
-2228: a6 5b     -         ldx KeyQuantity
-222a: 94 58     -         sty BufferNew,x
-222c: a6 5e     -         ldx TempZP
-222e: 60        -         rts
-222f: 68        - OverFlow:pla  // Dirty hack to handle 2 layers of JSR
-2230: 68        -         pla
-2231: 68        -         pla
+21e6: 4c 4f 22  - Keyboard:jmp Main
+21e9: 0a        - KeyInRow:asl
+21ea: b0 03     -         bcs *+5
+21ec: 20 21 22  -         jsr KeyFound
+21ef: e8        -         inx
+21f0: 0a        -         asl
+21f1: b0 03     -         bcs *+5
+21f3: 20 21 22  -         jsr KeyFound
+21f6: e8        -         inx
+21f7: 0a        -         asl
+21f8: b0 03     -         bcs *+5
+21fa: 20 21 22  -         jsr KeyFound
+21fd: e8        -         inx
+21fe: 0a        -         asl
+21ff: b0 03     -         bcs *+5
+2201: 20 21 22  -         jsr KeyFound
+2204: e8        -         inx
+2205: 0a        -         asl
+2206: b0 03     -         bcs *+5
+2208: 20 21 22  -         jsr KeyFound
+220b: e8        -         inx
+220c: 0a        -         asl
+220d: b0 03     -         bcs *+5
+220f: 20 21 22  -         jsr KeyFound
+2212: e8        -         inx
+2213: 0a        -         asl
+2214: b0 03     -         bcs *+5
+2216: 20 21 22  -         jsr KeyFound
+2219: e8        -         inx
+221a: 0a        -         asl
+221b: b0 03     -         bcs *+5
+221d: 20 21 22  -         jsr KeyFound
+2220: 60        -         rts
+2221: 86 5e     - KeyFound:stx TempZP
+2223: c6 5b     -         dec KeyQuantity
+2225: 30 0a     -         bmi OverFlow
+2227: bc a4 23  -         ldy KeyTable,x
+222a: a6 5b     -         ldx KeyQuantity
+222c: 94 58     -         sty BufferNew,x
+222e: a6 5e     -         ldx TempZP
+2230: 60        -         rts
+2231: 68        - OverFlow:pla  // Dirty hack to handle 2 layers of JSR
 2232: 68        -         pla
-2233: a9 03     -         lda #$03
-2235: 38        -         sec
-2236: 60        -         rts
-2237: a9 00     - NoActivityDetected:lda #$00
-2239: 8d ea 23  -         sta SimultaneousAlphanumericKeysFlag  // Clear the too many keys flag once a "no activity" state is detected.
-223c: 8e e2 23  -         stx BufferOld
-223f: 8e e3 23  -         stx BufferOld+1
-2242: 8e e4 23  -         stx BufferOld+2
-2245: 38        -         sec
-2246: a9 01     -         lda #$01
-2248: 60        -         rts
-2249: 38        - ControlPort:sec
-224a: a9 02     -         lda #$02
-224c: 60        -         rts
-224d: a2 ff     - Main:   ldx #$ff
-224f: 8e 02 dc  -         stx $dc02       // Port A - Output
-2252: a0 00     -         ldy #$00
-2254: 8c 03 dc  -         sty $dc03       // Port B - Input
-2257: 8c 00 dc  -         sty $dc00       // Connect all Keyboard Rows
-225a: ec 01 dc  -         cpx $dc01
-225d: f0 d8     -         beq NoActivityDetected
-225f: ad ea 23  -         lda SimultaneousAlphanumericKeysFlag
-2262: f0 04     -         beq !+
-2264: a9 05     -         lda #$05
-2266: 38        -         sec
-2267: 60        -         rts
-2268: 8e 00 dc  -         stx $dc00       // Disconnect all Keyboard Rows
-226b: ec 01 dc  -         cpx $dc01       // Only Control Port activity will be detected
-226e: d0 d9     -         bne ControlPort
-2270: a9 fe     -         lda #%11111110
-2272: 8d 00 dc  -         sta $dc00
-2275: ac 01 dc  -         ldy $dc01
-2278: 84 57     -         sty ScanResult+7
-227a: 38        -         sec
-227b: 2a        -         rol
-227c: 8d 00 dc  -         sta $dc00
-227f: ac 01 dc  -         ldy $dc01
-2282: 84 56     -         sty ScanResult+i
-2284: 2a        -         rol
-2285: 8d 00 dc  -         sta $dc00
-2288: ac 01 dc  -         ldy $dc01
-228b: 84 55     -         sty ScanResult+i
-228d: 2a        -         rol
-228e: 8d 00 dc  -         sta $dc00
-2291: ac 01 dc  -         ldy $dc01
-2294: 84 54     -         sty ScanResult+i
-2296: 2a        -         rol
-2297: 8d 00 dc  -         sta $dc00
-229a: ac 01 dc  -         ldy $dc01
-229d: 84 53     -         sty ScanResult+i
-229f: 2a        -         rol
-22a0: 8d 00 dc  -         sta $dc00
-22a3: ac 01 dc  -         ldy $dc01
-22a6: 84 52     -         sty ScanResult+i
-22a8: 2a        -         rol
-22a9: 8d 00 dc  -         sta $dc00
-22ac: ac 01 dc  -         ldy $dc01
-22af: 84 51     -         sty ScanResult+i
-22b1: 2a        -         rol
-22b2: 8d 00 dc  -         sta $dc00
-22b5: ac 01 dc  -         ldy $dc01
-22b8: 84 50     -         sty ScanResult+i
-22ba: 8e 00 dc  -         stx $dc00       // Disconnect all Keyboard Rows
-22bd: ec 01 dc  -         cpx $dc01       // Only Control Port activity will be detected
-22c0: d0 87     -         bne ControlPort
-22c2: 86 58     -         stx BufferNew
-22c4: 86 59     -         stx BufferNew+1
-22c6: 86 5a     -         stx BufferNew+2
-22c8: e8        -         inx
-22c9: 86 5d     -         stx NonAlphaFlagY
-22cb: a9 03     -         lda #MaxKeyRollover
-22cd: 85 5b     -         sta KeyQuantity
-22cf: a9 fe     -         lda #$fe
-22d1: 85 5f     -         sta SimultaneousKeys
-22d3: a5 56     -         lda ScanResult+6
-22d5: 49 ff     -         eor #$ff
-22d7: 29 80     -         and #%10000000     // Left Shift
-22d9: 4a        -         lsr
-22da: 85 5d     -         sta NonAlphaFlagY
-22dc: a5 50     -         lda ScanResult+0
-22de: 49 ff     -         eor #$ff
-22e0: 29 a4     -         and #%10100100     // RUN STOP - C= - CTRL
-22e2: 05 5d     -         ora NonAlphaFlagY
-22e4: 85 5d     -         sta NonAlphaFlagY
-22e6: a5 51     -         lda ScanResult+1
-22e8: 49 ff     -         eor #$ff
-22ea: 29 18     -         and #%00011000     // Right SHIFT - CLR HOME
-22ec: 05 5d     -         ora NonAlphaFlagY
-22ee: 85 5d     -         sta NonAlphaFlagY
-22f0: a5 57     -         lda ScanResult+7  // The rest
-22f2: 49 ff     -         eor #$ff
-22f4: 85 5c     -         sta NonAlphaFlagX
-22f6: a5 57     -         lda ScanResult+7
-22f8: c9 ff     -         cmp #$ff
-22fa: f0 03     -         beq *+5
-22fc: 20 e7 21  -         jsr KeyInRow
-22ff: a2 08     -         ldx #[7-i]*8
-2301: a5 56     -         lda ScanResult+i
-2303: f0 03     -         beq *+5
-2305: 20 e7 21  -         jsr KeyInRow
-2308: a2 10     -         ldx #[7-i]*8
-230a: a5 55     -         lda ScanResult+i
-230c: f0 03     -         beq *+5
-230e: 20 e7 21  -         jsr KeyInRow
-2311: a2 18     -         ldx #[7-i]*8
-2313: a5 54     -         lda ScanResult+i
-2315: f0 03     -         beq *+5
-2317: 20 e7 21  -         jsr KeyInRow
-231a: a2 20     -         ldx #[7-i]*8
-231c: a5 53     -         lda ScanResult+i
-231e: f0 03     -         beq *+5
-2320: 20 e7 21  -         jsr KeyInRow
-2323: a2 28     -         ldx #[7-i]*8
-2325: a5 52     -         lda ScanResult+i
-2327: f0 03     -         beq *+5
-2329: 20 e7 21  -         jsr KeyInRow
-232c: a2 30     -         ldx #[7-i]*8
-232e: a5 51     -         lda ScanResult+i
-2330: f0 03     -         beq *+5
-2332: 20 e7 21  -         jsr KeyInRow
-2335: a2 38     -         ldx #[7-i]*8
-2337: a5 50     -         lda ScanResult+i
-2339: f0 03     -         beq *+5
-233b: 20 e7 21  -         jsr KeyInRow
-233e: a2 02     -         ldx #MaxKeyRollover-1
-2340: b5 58     -         lda BufferNew,x
-2342: c9 ff     -         cmp #$ff
-2344: f0 1c     -         beq Exist        // Handle 'null' values
-2346: cd e2 23  -         cmp BufferOld
-2349: f0 17     -         beq Exist
-234b: cd e3 23  -         cmp BufferOld+1
-234e: f0 12     -         beq Exist
-2350: cd e4 23  -         cmp BufferOld+2
-2353: f0 0d     -         beq Exist
-2355: ee e9 23  -         inc BufferQuantity
-2358: ac e9 23  -         ldy BufferQuantity
-235b: 99 e5 23  -         sta Buffer,y
-235e: e6 5f     -         inc SimultaneousKeys
-2360: f0 34     -         beq TooManyNewKeys
-2362: ca        - Exist:  dex
-2363: 10 db     -         bpl !-
-2365: ac e9 23  -         ldy BufferQuantity
-2368: 30 15     -         bmi BufferEmpty
-236a: ce e9 23  -         dec BufferQuantity
-236d: ad e5 23  -         lda Buffer
-2370: ae e6 23  -         ldx Buffer+1
-2373: 8e e5 23  -         stx Buffer
-2376: ae e7 23  -         ldx Buffer+2
-2379: 8e e6 23  -         stx Buffer+1
-237c: 4c 81 23  -         jmp Return
-237f: a9 ff     - BufferEmpty:lda #$ff
-2381: 18        - Return: clc
-2382: a6 58     -         ldx BufferNew
-2384: 8e e2 23  -         stx BufferOld
-2387: a6 59     -         ldx BufferNew+1
-2389: 8e e3 23  -         stx BufferOld+1
-238c: a6 5a     -         ldx BufferNew+2
-238e: 8e e4 23  -         stx BufferOld+2
-2391: a6 5c     -         ldx NonAlphaFlagX
-2393: a4 5d     -         ldy NonAlphaFlagY
-2395: 60        -         rts
-2396: 38        - TooManyNewKeys:sec
-2397: a9 ff     -         lda #$ff
-2399: 8d e9 23  -         sta BufferQuantity
-239c: 8d ea 23  -         sta SimultaneousAlphanumericKeysFlag
-239f: a9 04     -         lda #$04
-23a1: 60        -         rts
-23a2: ff ff ff ff ff ff ff ff                          - KeyTable:.byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff  // CRSR DOWN, F5, F3, F1, F7, CRSR RIGHT, RETURN, INST DEL
-23aa: ff 05 13 1a 34 01 17 33                          -         .byte $ff, $05, $13, $1a, $34, $01, $17, $33  // LEFT SHIFT, "E", "S", "Z", "4", "A", "W", "3"
-23b2: 18 14 06 03 36 04 12 35                          -         .byte $18, $14, $06, $03, $36, $04, $12, $35  // "X", "T", "F", "C", "6", "D", "R", "5"
-23ba: 16 15 08 02 38 07 19 37                          -         .byte $16, $15, $08, $02, $38, $07, $19, $37  // "V", "U", "H", "B", "8", "G", "Y", "7"
-23c2: 0e 0f 0b 0d 30 0a 09 39                          -         .byte $0e, $0f, $0b, $0d, $30, $0a, $09, $39  // "N", "O" (Oscar), "K", "M", "0" (Zero), "J", "I", "9"
-23ca: 2c 00 3a 2e 2d 0c 10 2b                          -         .byte $2c, $00, $3a, $2e, $2d, $0c, $10, $2b  // ",", "@", ":", ".", "-", "L", "P", "+"
-23d2: 2f 1e 3d ff ff 3b 2a 1c                          -         .byte $2f, $1e, $3d, $ff, $ff, $3b, $2a, $1c  // "/", "^", "=", RIGHT SHIFT, HOME, ";", "*", "£"
-23da: ff 11 ff 20 32 ff 1f 31                          -         .byte $ff, $11, $ff, $20, $32, $ff, $1f, $31  // RUN STOP, "Q", "C=" (CMD), " " (SPC), "2", "CTRL", "<-", "1"
-23e2: ff ff ff  - BufferOld:.byte $ff, $ff, $ff
-23e5: ff ff ff ff                                      - Buffer: .byte $ff, $ff, $ff, $ff
-23e9: ff        - BufferQuantity:.byte $ff
-23ea: 00        - SimultaneousAlphanumericKeysFlag:.byte $00
-23eb: ad 1b d4  - GenerateRandom:lda $d41b
-23ee: 29 03     -         and #$03
-23f0: 18        -         clc
-23f1: 69 01     -         adc #$01
-23f3: 60        -         rts
-23f4: a9 ff     - InitRandom:lda value
-23f6: 8d 0e d4  -         sta address
-23f9: a9 ff     -         lda value
-23fb: 8d 0f d4  -         sta address
-23fe: a9 80     -         lda value
-2400: 8d 12 d4  -         sta address
-2403: 60        -         rts
-2404: ad e3 24  - ButtonWithSound:lda ButtonLit
-2407: c9 00     -         cmp #$00
-2409: d0 12     -         bne !+
-240b: a5 03     -         lda r2H
-240d: 8d e3 24  -         sta ButtonLit
-2410: 20 9a 21  -         jsr PlaySound
-2413: a6 03     -         ldx r2H
-2415: a9 01     -         lda #vic.WHITE
-2417: 9d 26 d0  -         sta vic.SPMC1, x
-241a: 20 65 24  -         jsr TurnButtonOn
-241d: 60        -         rts
-241e: 20 ca 20  - ButtonHold:jsr PauseJiffies
-2421: 20 bd 21  -         jsr StopSound
-2424: 20 2f 24  -         jsr AllOff
-2427: a5 13     -         lda value
-2429: 85 12     -         sta address
-242b: 20 ca 20  -         jsr PauseJiffies
-242e: 60        -         rts
-242f: a9 18     - AllOff: lda value
-2431: 85 08     -         sta address
-2433: a9 05     -         lda value
-2435: 85 09     -         sta address
-2437: a9 2d     -         lda value
-2439: 85 10     -         sta address
-243b: a9 10     -         lda value
-243d: 85 11     -         sta address
-243f: 20 f5 0b  -         jsr WriteString
-2442: a9 18     -         lda value
-2444: 85 08     -         sta address
-2446: a9 d9     -         lda value
-2448: 85 09     -         sta address
-244a: a9 be     -         lda value
-244c: 85 10     -         sta address
-244e: a9 11     -         lda value
-2450: 85 11     -         sta address
-2452: 20 f5 0b  -         jsr WriteString
-2455: a2 04     -         ldx #$04
-2457: a9 0b     -         lda #vic.DK_GRAY
-2459: 9d 26 d0  -         sta vic.SPMC1, x
-245c: ca        -         dex
-245d: d0 fa     -         bne !-
-245f: a9 00     -         lda value
-2461: 8d e3 24  -         sta address
-2464: 60        -         rts
-2465: a5 03     - TurnButtonOn:lda r2H
-2467: c9 01     -         cmp #$01
-2469: d0 0f     -         bne !+
-246b: a9 41     -         lda value
-246d: 85 18     -         sta address
-246f: a9 05     -         lda value
-2471: 85 19     -         sta address
-2473: a9 0a     -         lda value
-2475: 85 14     -         sta address
-2477: 4c b0 24  -         jmp !++++
-247a: c9 02     -         cmp #$02
-247c: d0 0f     -         bne !+
-247e: a9 4b     -         lda value
-2480: 85 18     -         sta address
-2482: a9 05     -         lda value
-2484: 85 19     -         sta address
-2486: a9 07     -         lda value
-2488: 85 14     -         sta address
-248a: 4c b0 24  -         jmp !+++
-248d: c9 03     -         cmp #$03
-248f: d0 0f     -         bne !+
-2491: a9 55     -         lda value
-2493: 85 18     -         sta address
-2495: a9 05     -         lda value
-2497: 85 19     -         sta address
-2499: a9 0d     -         lda value
-249b: 85 14     -         sta address
-249d: 4c b0 24  -         jmp !++
-24a0: c9 04     -         cmp #$04
-24a2: d0 0c     -         bne !+
-24a4: a9 5f     -         lda value
-24a6: 85 18     -         sta address
-24a8: a9 05     -         lda value
-24aa: 85 19     -         sta address
-24ac: a9 0e     -         lda value
-24ae: 85 14     -         sta address
-24b0: 20 b4 24  -         jsr LightButton
-24b3: 60        -         rts
-24b4: a2 00     - LightButton:ldx #$00
-24b6: a0 00     -         ldy #$00
-24b8: a9 a0     -         lda #$a0
-24ba: 91 18     -         sta (r10), y
-24bc: a5 18     -         lda r10L
-24be: 85 16     -         sta r9L
-24c0: a5 19     -         lda r10H
-24c2: 18        -         clc
-24c3: 69 d4     -         adc #$d4
-24c5: 85 17     -         sta r9H
-24c7: a5 14     -         lda r8L
-24c9: 91 16     -         sta (r9), y
-24cb: c8        -         iny
-24cc: c0 08     -         cpy #$08
-24ce: d0 e8     -         bne !-
-24d0: a0 00     -         ldy #$00
-24d2: 18        -         clc
-24d3: a5 18     -         lda r10L
-24d5: 69 28     -         adc #$28
-24d7: 85 18     -         sta r10L
-24d9: 90 02     -         bcc !+
-24db: e6 19     -         inc r10H
-24dd: e8        -         inx
-24de: e0 08     -         cpx #$08
-24e0: d0 d6     -         bne !--
-24e2: 60        -         rts
-24e3: 00        - ButtonLit:.byte $00
+2233: 68        -         pla
+2234: 68        -         pla
+2235: a9 03     -         lda #$03
+2237: 38        -         sec
+2238: 60        -         rts
+2239: a9 00     - NoActivityDetected:lda #$00
+223b: 8d ec 23  -         sta SimultaneousAlphanumericKeysFlag  // Clear the too many keys flag once a "no activity" state is detected.
+223e: 8e e4 23  -         stx BufferOld
+2241: 8e e5 23  -         stx BufferOld+1
+2244: 8e e6 23  -         stx BufferOld+2
+2247: 38        -         sec
+2248: a9 01     -         lda #$01
+224a: 60        -         rts
+224b: 38        - ControlPort:sec
+224c: a9 02     -         lda #$02
+224e: 60        -         rts
+224f: a2 ff     - Main:   ldx #$ff
+2251: 8e 02 dc  -         stx $dc02       // Port A - Output
+2254: a0 00     -         ldy #$00
+2256: 8c 03 dc  -         sty $dc03       // Port B - Input
+2259: 8c 00 dc  -         sty $dc00       // Connect all Keyboard Rows
+225c: ec 01 dc  -         cpx $dc01
+225f: f0 d8     -         beq NoActivityDetected
+2261: ad ec 23  -         lda SimultaneousAlphanumericKeysFlag
+2264: f0 04     -         beq !+
+2266: a9 05     -         lda #$05
+2268: 38        -         sec
+2269: 60        -         rts
+226a: 8e 00 dc  -         stx $dc00       // Disconnect all Keyboard Rows
+226d: ec 01 dc  -         cpx $dc01       // Only Control Port activity will be detected
+2270: d0 d9     -         bne ControlPort
+2272: a9 fe     -         lda #%11111110
+2274: 8d 00 dc  -         sta $dc00
+2277: ac 01 dc  -         ldy $dc01
+227a: 84 57     -         sty ScanResult+7
+227c: 38        -         sec
+227d: 2a        -         rol
+227e: 8d 00 dc  -         sta $dc00
+2281: ac 01 dc  -         ldy $dc01
+2284: 84 56     -         sty ScanResult+i
+2286: 2a        -         rol
+2287: 8d 00 dc  -         sta $dc00
+228a: ac 01 dc  -         ldy $dc01
+228d: 84 55     -         sty ScanResult+i
+228f: 2a        -         rol
+2290: 8d 00 dc  -         sta $dc00
+2293: ac 01 dc  -         ldy $dc01
+2296: 84 54     -         sty ScanResult+i
+2298: 2a        -         rol
+2299: 8d 00 dc  -         sta $dc00
+229c: ac 01 dc  -         ldy $dc01
+229f: 84 53     -         sty ScanResult+i
+22a1: 2a        -         rol
+22a2: 8d 00 dc  -         sta $dc00
+22a5: ac 01 dc  -         ldy $dc01
+22a8: 84 52     -         sty ScanResult+i
+22aa: 2a        -         rol
+22ab: 8d 00 dc  -         sta $dc00
+22ae: ac 01 dc  -         ldy $dc01
+22b1: 84 51     -         sty ScanResult+i
+22b3: 2a        -         rol
+22b4: 8d 00 dc  -         sta $dc00
+22b7: ac 01 dc  -         ldy $dc01
+22ba: 84 50     -         sty ScanResult+i
+22bc: 8e 00 dc  -         stx $dc00       // Disconnect all Keyboard Rows
+22bf: ec 01 dc  -         cpx $dc01       // Only Control Port activity will be detected
+22c2: d0 87     -         bne ControlPort
+22c4: 86 58     -         stx BufferNew
+22c6: 86 59     -         stx BufferNew+1
+22c8: 86 5a     -         stx BufferNew+2
+22ca: e8        -         inx
+22cb: 86 5d     -         stx NonAlphaFlagY
+22cd: a9 03     -         lda #MaxKeyRollover
+22cf: 85 5b     -         sta KeyQuantity
+22d1: a9 fe     -         lda #$fe
+22d3: 85 5f     -         sta SimultaneousKeys
+22d5: a5 56     -         lda ScanResult+6
+22d7: 49 ff     -         eor #$ff
+22d9: 29 80     -         and #%10000000     // Left Shift
+22db: 4a        -         lsr
+22dc: 85 5d     -         sta NonAlphaFlagY
+22de: a5 50     -         lda ScanResult+0
+22e0: 49 ff     -         eor #$ff
+22e2: 29 a4     -         and #%10100100     // RUN STOP - C= - CTRL
+22e4: 05 5d     -         ora NonAlphaFlagY
+22e6: 85 5d     -         sta NonAlphaFlagY
+22e8: a5 51     -         lda ScanResult+1
+22ea: 49 ff     -         eor #$ff
+22ec: 29 18     -         and #%00011000     // Right SHIFT - CLR HOME
+22ee: 05 5d     -         ora NonAlphaFlagY
+22f0: 85 5d     -         sta NonAlphaFlagY
+22f2: a5 57     -         lda ScanResult+7  // The rest
+22f4: 49 ff     -         eor #$ff
+22f6: 85 5c     -         sta NonAlphaFlagX
+22f8: a5 57     -         lda ScanResult+7
+22fa: c9 ff     -         cmp #$ff
+22fc: f0 03     -         beq *+5
+22fe: 20 e9 21  -         jsr KeyInRow
+2301: a2 08     -         ldx #[7-i]*8
+2303: a5 56     -         lda ScanResult+i
+2305: f0 03     -         beq *+5
+2307: 20 e9 21  -         jsr KeyInRow
+230a: a2 10     -         ldx #[7-i]*8
+230c: a5 55     -         lda ScanResult+i
+230e: f0 03     -         beq *+5
+2310: 20 e9 21  -         jsr KeyInRow
+2313: a2 18     -         ldx #[7-i]*8
+2315: a5 54     -         lda ScanResult+i
+2317: f0 03     -         beq *+5
+2319: 20 e9 21  -         jsr KeyInRow
+231c: a2 20     -         ldx #[7-i]*8
+231e: a5 53     -         lda ScanResult+i
+2320: f0 03     -         beq *+5
+2322: 20 e9 21  -         jsr KeyInRow
+2325: a2 28     -         ldx #[7-i]*8
+2327: a5 52     -         lda ScanResult+i
+2329: f0 03     -         beq *+5
+232b: 20 e9 21  -         jsr KeyInRow
+232e: a2 30     -         ldx #[7-i]*8
+2330: a5 51     -         lda ScanResult+i
+2332: f0 03     -         beq *+5
+2334: 20 e9 21  -         jsr KeyInRow
+2337: a2 38     -         ldx #[7-i]*8
+2339: a5 50     -         lda ScanResult+i
+233b: f0 03     -         beq *+5
+233d: 20 e9 21  -         jsr KeyInRow
+2340: a2 02     -         ldx #MaxKeyRollover-1
+2342: b5 58     -         lda BufferNew,x
+2344: c9 ff     -         cmp #$ff
+2346: f0 1c     -         beq Exist        // Handle 'null' values
+2348: cd e4 23  -         cmp BufferOld
+234b: f0 17     -         beq Exist
+234d: cd e5 23  -         cmp BufferOld+1
+2350: f0 12     -         beq Exist
+2352: cd e6 23  -         cmp BufferOld+2
+2355: f0 0d     -         beq Exist
+2357: ee eb 23  -         inc BufferQuantity
+235a: ac eb 23  -         ldy BufferQuantity
+235d: 99 e7 23  -         sta Buffer,y
+2360: e6 5f     -         inc SimultaneousKeys
+2362: f0 34     -         beq TooManyNewKeys
+2364: ca        - Exist:  dex
+2365: 10 db     -         bpl !-
+2367: ac eb 23  -         ldy BufferQuantity
+236a: 30 15     -         bmi BufferEmpty
+236c: ce eb 23  -         dec BufferQuantity
+236f: ad e7 23  -         lda Buffer
+2372: ae e8 23  -         ldx Buffer+1
+2375: 8e e7 23  -         stx Buffer
+2378: ae e9 23  -         ldx Buffer+2
+237b: 8e e8 23  -         stx Buffer+1
+237e: 4c 83 23  -         jmp Return
+2381: a9 ff     - BufferEmpty:lda #$ff
+2383: 18        - Return: clc
+2384: a6 58     -         ldx BufferNew
+2386: 8e e4 23  -         stx BufferOld
+2389: a6 59     -         ldx BufferNew+1
+238b: 8e e5 23  -         stx BufferOld+1
+238e: a6 5a     -         ldx BufferNew+2
+2390: 8e e6 23  -         stx BufferOld+2
+2393: a6 5c     -         ldx NonAlphaFlagX
+2395: a4 5d     -         ldy NonAlphaFlagY
+2397: 60        -         rts
+2398: 38        - TooManyNewKeys:sec
+2399: a9 ff     -         lda #$ff
+239b: 8d eb 23  -         sta BufferQuantity
+239e: 8d ec 23  -         sta SimultaneousAlphanumericKeysFlag
+23a1: a9 04     -         lda #$04
+23a3: 60        -         rts
+23a4: ff ff ff ff ff ff ff ff                          - KeyTable:.byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff  // CRSR DOWN, F5, F3, F1, F7, CRSR RIGHT, RETURN, INST DEL
+23ac: ff 05 13 1a 34 01 17 33                          -         .byte $ff, $05, $13, $1a, $34, $01, $17, $33  // LEFT SHIFT, "E", "S", "Z", "4", "A", "W", "3"
+23b4: 18 14 06 03 36 04 12 35                          -         .byte $18, $14, $06, $03, $36, $04, $12, $35  // "X", "T", "F", "C", "6", "D", "R", "5"
+23bc: 16 15 08 02 38 07 19 37                          -         .byte $16, $15, $08, $02, $38, $07, $19, $37  // "V", "U", "H", "B", "8", "G", "Y", "7"
+23c4: 0e 0f 0b 0d 30 0a 09 39                          -         .byte $0e, $0f, $0b, $0d, $30, $0a, $09, $39  // "N", "O" (Oscar), "K", "M", "0" (Zero), "J", "I", "9"
+23cc: 2c 00 3a 2e 2d 0c 10 2b                          -         .byte $2c, $00, $3a, $2e, $2d, $0c, $10, $2b  // ",", "@", ":", ".", "-", "L", "P", "+"
+23d4: 2f 1e 3d ff ff 3b 2a 1c                          -         .byte $2f, $1e, $3d, $ff, $ff, $3b, $2a, $1c  // "/", "^", "=", RIGHT SHIFT, HOME, ";", "*", "£"
+23dc: ff 11 ff 20 32 ff 1f 31                          -         .byte $ff, $11, $ff, $20, $32, $ff, $1f, $31  // RUN STOP, "Q", "C=" (CMD), " " (SPC), "2", "CTRL", "<-", "1"
+23e4: ff ff ff  - BufferOld:.byte $ff, $ff, $ff
+23e7: ff ff ff ff                                      - Buffer: .byte $ff, $ff, $ff, $ff
+23eb: ff        - BufferQuantity:.byte $ff
+23ec: 00        - SimultaneousAlphanumericKeysFlag:.byte $00
+23ed: ad 1b d4  - GenerateRandom:lda $d41b
+23f0: 29 03     -         and #$03
+23f2: 18        -         clc
+23f3: 69 01     -         adc #$01
+23f5: 60        -         rts
+23f6: a9 ff     - InitRandom:lda value
+23f8: 8d 0e d4  -         sta address
+23fb: a9 ff     -         lda value
+23fd: 8d 0f d4  -         sta address
+2400: a9 80     -         lda value
+2402: 8d 12 d4  -         sta address
+2405: 60        -         rts
+2406: ad e5 24  - ButtonWithSound:lda ButtonLit
+2409: c9 00     -         cmp #$00
+240b: d0 0b     -         bne !+
+240d: a5 03     -         lda r2H
+240f: 8d e5 24  -         sta ButtonLit
+2412: 20 9c 21  -         jsr PlaySound
+2415: 20 60 24  -         jsr TurnButtonOn
+2418: 60        -         rts
+2419: 20 cc 20  - ButtonHold:jsr PauseJiffies
+241c: 20 bf 21  -         jsr StopSound
+241f: 20 2a 24  -         jsr AllOff
+2422: a5 13     -         lda value
+2424: 85 12     -         sta address
+2426: 20 cc 20  -         jsr PauseJiffies
+2429: 60        -         rts
+242a: a9 18     - AllOff: lda value
+242c: 85 08     -         sta address
+242e: a9 05     -         lda value
+2430: 85 09     -         sta address
+2432: a9 38     -         lda value
+2434: 85 10     -         sta address
+2436: a9 10     -         lda value
+2438: 85 11     -         sta address
+243a: 20 07 0c  -         jsr WriteString
+243d: a9 18     -         lda value
+243f: 85 08     -         sta address
+2441: a9 d9     -         lda value
+2443: 85 09     -         sta address
+2445: a9 c9     -         lda value
+2447: 85 10     -         sta address
+2449: a9 11     -         lda value
+244b: 85 11     -         sta address
+244d: 20 07 0c  -         jsr WriteString
+2450: a2 04     -         ldx #$04
+2452: a9 0b     -         lda #vic.DK_GRAY
+2454: 9d 26 d0  -         sta vic.SPMC1, x
+2457: ca        -         dex
+2458: d0 fa     -         bne !-
+245a: a9 00     -         lda value
+245c: 8d e5 24  -         sta address
+245f: 60        -         rts
+2460: a6 03     - TurnButtonOn:ldx r2H
+2462: a9 01     -         lda #vic.WHITE
+2464: 9d 26 d0  -         sta vic.SPMC1, x
+2467: a5 03     -         lda r2H
+2469: c9 01     -         cmp #$01
+246b: d0 0f     -         bne !+
+246d: a9 41     -         lda value
+246f: 85 18     -         sta address
+2471: a9 05     -         lda value
+2473: 85 19     -         sta address
+2475: a9 0a     -         lda value
+2477: 85 14     -         sta address
+2479: 4c b2 24  -         jmp !++++
+247c: c9 02     -         cmp #$02
+247e: d0 0f     -         bne !+
+2480: a9 4b     -         lda value
+2482: 85 18     -         sta address
+2484: a9 05     -         lda value
+2486: 85 19     -         sta address
+2488: a9 07     -         lda value
+248a: 85 14     -         sta address
+248c: 4c b2 24  -         jmp !+++
+248f: c9 03     -         cmp #$03
+2491: d0 0f     -         bne !+
+2493: a9 55     -         lda value
+2495: 85 18     -         sta address
+2497: a9 05     -         lda value
+2499: 85 19     -         sta address
+249b: a9 0d     -         lda value
+249d: 85 14     -         sta address
+249f: 4c b2 24  -         jmp !++
+24a2: c9 04     -         cmp #$04
+24a4: d0 0c     -         bne !+
+24a6: a9 5f     -         lda value
+24a8: 85 18     -         sta address
+24aa: a9 05     -         lda value
+24ac: 85 19     -         sta address
+24ae: a9 0e     -         lda value
+24b0: 85 14     -         sta address
+24b2: 20 b6 24  -         jsr LightButton
+24b5: 60        -         rts
+24b6: a2 00     - LightButton:ldx #$00
+24b8: a0 00     -         ldy #$00
+24ba: a9 a0     -         lda #$a0
+24bc: 91 18     -         sta (r10), y
+24be: a5 18     -         lda r10L
+24c0: 85 16     -         sta r9L
+24c2: a5 19     -         lda r10H
+24c4: 18        -         clc
+24c5: 69 d4     -         adc #$d4
+24c7: 85 17     -         sta r9H
+24c9: a5 14     -         lda r8L
+24cb: 91 16     -         sta (r9), y
+24cd: c8        -         iny
+24ce: c0 08     -         cpy #$08
+24d0: d0 e8     -         bne !-
+24d2: a0 00     -         ldy #$00
+24d4: 18        -         clc
+24d5: a5 18     -         lda r10L
+24d7: 69 28     -         adc #$28
+24d9: 85 18     -         sta r10L
+24db: 90 02     -         bcc !+
+24dd: e6 19     -         inc r10H
+24df: e8        -         inx
+24e0: e0 08     -         cpx #$08
+24e2: d0 d6     -         bne !--
+24e4: 60        -         rts
+24e5: 00        - ButtonLit:.byte $00

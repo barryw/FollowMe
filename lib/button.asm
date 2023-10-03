@@ -15,9 +15,6 @@ ButtonWithSound:
     sta ButtonLit
 
     jsr PlaySound
-    ldx r2H
-    lda #vic.WHITE
-    sta vic.SPMC1, x
     jsr TurnButtonOn
 !:
     rts
@@ -66,6 +63,10 @@ AllOff:
     r2H: A number between 1 and 4 of the button to turn on.
 */
 TurnButtonOn:
+    ldx r2H
+    lda #vic.WHITE
+    sta vic.SPMC1, x
+
     lda r2H
 
     cmp #$01

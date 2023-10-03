@@ -122,7 +122,7 @@ SetupSprites:
 
 SetupTimers:
     CreateTimer(2, ENABLE, TIMER_CONTINUOUS, 10, AnimateTitle)
-    CreateTimer(3, ENABLE, TIMER_CONTINUOUS, 5, AnimateStartMessage)
+    CreateTimer(3, ENABLE, TIMER_CONTINUOUS, 30, FlashButtons)
 
     rts
 
@@ -160,7 +160,7 @@ SetupScreen:
     WriteString(TITLE_LOCATION, TitleScreen)
     WriteString(TITLE_LOCATION + $d400, TitleScreenColor)
 
-    WriteString(MESSAGE_LOCATION + $0a, StartMessage)
+    WriteString(MESSAGE_LOCATION + $03, StartMessage)
 
     jsr AllOff
 
@@ -174,6 +174,7 @@ GameLoop:
     bne CheckComputer
 
     jsr Attract
+
     jmp !-
 
 CheckComputer:
@@ -195,7 +196,7 @@ CheckComputer:
     cmp #$00                                // Have we reached the end of the pattern?
     beq !+
     sta r2H
-    stb #$20:r7L
+    stb GameSpeed:r7L
     stb #$05:r7H
     jsr ButtonWithSound
     jsr ButtonHold
@@ -207,7 +208,7 @@ CheckComputer:
     jsr GenerateRandom                      // Generate a new note and tack it onto the end of the pattern
     sta GamePattern, x
     sta r2H
-    stb #$20:r7L
+    stb GameSpeed:r7L
     stb #$05:r7H
     jsr ButtonWithSound
     jsr ButtonHold
@@ -320,7 +321,7 @@ CheckGameOver:
     WriteString(MESSAGE_LOCATION + $06, SeeYa)
     WriteString(MESSAGE_LOCATION + $d400 + $06, SeeYaColor)
 
-    stb #$37:$01
+    stb #$37:$01                                // Turn the kernal back on and reset the machine
     jsr $fce2
 
 !:
@@ -336,8 +337,22 @@ CheckGameOver:
     jmp GameLoop
 
 Attract:
-    lda LastKeyboardKey
-    beq !++
+    jsr Keyboard
+    bcs !++
+
+    sec
+    sbc #$31
+    cmp #$05
+    bcs !++
+
+    clc
+    adc #$01
+
+    asl
+    asl
+
+    sta GameSpeed
+
     stb #GAME_MODE_COMPUTER:GameMode        // Key was pressed. Make it the computer's turn
     stb #%11111111:vic.SPENA  // Enable sprites 0 - 3
     jsr AllOff
@@ -352,13 +367,18 @@ Attract:
     dex
     bne !-
     jmp !++
+
 !:
-    jsr GenerateRandom                      // Randomly flash buttons in attract mode
+    rts
+
+FlashButtons:
+    lda GameMode
+    cmp #GAME_MODE_ATTRACT
+    bne !+
+    jsr AllOff
+    jsr GenerateRandom
     sta r2H
     jsr TurnButtonOn
-    stb #$20:r7L
-    jsr PauseJiffies
-    jsr AllOff
 !:
     rts
 
@@ -450,24 +470,6 @@ AnimateTitle:
     bne !+
     lda #$00
     sta CurrentTitleColor
-!:
-    rts
-
-AnimateStartMessage:
-    ldx #$00
-    ldy CurrentStartMessageColor
-    lda StartMessageColors, y
-!:
-    sta $db2a, x
-    inx
-    cpx #TitleScreen - StartMessage
-    bne !-
-    inc CurrentStartMessageColor
-    lda CurrentStartMessageColor
-    cmp #$08
-    bne !+
-    lda #$00
-    sta CurrentStartMessageColor
 !:
     rts
 
@@ -575,7 +577,7 @@ Sprites:
 
 StartMessage:
     .encoding "screencode_mixed"
-    .text "press any key to start"
+    .text "select level: 1 (fast) - 5 (slow)"
     .byte $00
 
 TitleScreen:
@@ -677,6 +679,9 @@ LastKeyboardKey:
 
 Score:
     .word $0000
+
+GameSpeed:
+    .byte $00
 
 // Storage for the moves. Each byte is a single note in the pattern.
 // 100 bytes should be enough. I don't think many people will be able
