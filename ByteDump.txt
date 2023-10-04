@@ -17,7 +17,7 @@
 0820: 20 2b 08  -         jsr SetupInterrupt
 0823: a9 00     -         lda value
 0825: 8d 5c 13  -         sta address
-0828: 4c cb 09  -         jmp GameLoop
+0828: 4c b8 09  -         jmp GameLoop
 082b: 78        - SetupInterrupt:sei
 082c: a9 7f     -         lda #LOWER7
 082e: 8d 0d dc  -         sta vic.CIAICR
@@ -103,7 +103,7 @@
 08f7: 85 fb     -         sta address
 08f9: a9 00     -         lda value
 08fb: 85 fc     -         sta address
-08fd: a9 27     -         lda value
+08fd: a9 23     -         lda value
 08ff: 85 fd     -         sta address
 0901: a9 0c     -         lda value
 0903: 85 fe     -         sta address
@@ -118,7 +118,7 @@
 0916: 85 fb     -         sta address
 0918: a9 00     -         lda value
 091a: 85 fc     -         sta address
-091c: a9 bf     -         lda value
+091c: a9 c2     -         lda value
 091e: 85 fd     -         sta address
 0920: a9 0b     -         lda value
 0922: 85 fe     -         sta address
@@ -182,7 +182,7 @@
 0998: 85 10     -         sta address
 099a: a9 0f     -         lda value
 099c: 85 11     -         sta address
-099e: 20 07 0c  -         jsr WriteString
+099e: 20 03 0c  -         jsr WriteString
 09a1: a9 36     -         lda value
 09a3: 85 08     -         sta address
 09a5: a9 d8     -         lda value
@@ -191,314 +191,312 @@
 09ab: 85 10     -         sta address
 09ad: a9 10     -         lda value
 09af: 85 11     -         sta address
-09b1: 20 07 0c  -         jsr WriteString
-09b4: a9 23     -         lda value
-09b6: 85 08     -         sta address
-09b8: a9 07     -         lda value
-09ba: 85 09     -         sta address
-09bc: a9 00     -         lda value
-09be: 85 10     -         sta address
-09c0: a9 0f     -         lda value
-09c2: 85 11     -         sta address
-09c4: 20 07 0c  -         jsr WriteString
-09c7: 20 2a 24  -         jsr AllOff
-09ca: 60        -         rts
-09cb: 20 d2 0b  - GameLoop:jsr UpdateScore
-09ce: ad 5c 13  -         lda GameMode
-09d1: c9 00     -         cmp #GAME_MODE_ATTRACT
-09d3: d0 06     -         bne CheckComputer
-09d5: 20 85 0b  -         jsr Attract
-09d8: 4c ce 09  -         jmp !-
-09db: c9 01     - CheckComputer:cmp #GAME_MODE_COMPUTER                 // Is it the computer's turn?
-09dd: d0 72     -         bne CheckHuman
-09df: 20 1a 0c  -         jsr ClearLine
+09b1: 20 03 0c  -         jsr WriteString
+09b4: 20 2a 24  -         jsr AllOff
+09b7: 60        -         rts
+09b8: 20 ce 0b  - GameLoop:jsr UpdateScore
+09bb: ad 5c 13  -         lda GameMode
+09be: c9 00     -         cmp #GAME_MODE_ATTRACT
+09c0: d0 06     -         bne CheckComputer
+09c2: 20 72 0b  -         jsr Attract
+09c5: 4c bb 09  -         jmp !-
+09c8: c9 01     - CheckComputer:cmp #GAME_MODE_COMPUTER                 // Is it the computer's turn?
+09ca: d0 72     -         bne CheckHuman
+09cc: 20 16 0c  -         jsr ClearLine
+09cf: a9 26     -         lda value
+09d1: 85 08     -         sta address
+09d3: a9 07     -         lda value
+09d5: 85 09     -         sta address
+09d7: a9 2f     -         lda value
+09d9: 85 10     -         sta address
+09db: a9 0f     -         lda value
+09dd: 85 11     -         sta address
+09df: 20 03 0c  -         jsr WriteString
 09e2: a9 26     -         lda value
 09e4: 85 08     -         sta address
-09e6: a9 07     -         lda value
+09e6: a9 db     -         lda value
 09e8: 85 09     -         sta address
-09ea: a9 2f     -         lda value
+09ea: a9 4b     -         lda value
 09ec: 85 10     -         sta address
 09ee: a9 0f     -         lda value
 09f0: 85 11     -         sta address
-09f2: 20 07 0c  -         jsr WriteString
-09f5: a9 26     -         lda value
-09f7: 85 08     -         sta address
-09f9: a9 db     -         lda value
-09fb: 85 09     -         sta address
-09fd: a9 4b     -         lda value
-09ff: 85 10     -         sta address
-0a01: a9 0f     -         lda value
-0a03: 85 11     -         sta address
-0a05: 20 07 0c  -         jsr WriteString
-0a08: a9 40     -         lda value
-0a0a: 85 12     -         sta address
-0a0c: 20 cc 20  -         jsr PauseJiffies
-0a0f: a2 00     -         ldx #$00
-0a11: 86 15     -         stx r8H
-0a13: a6 15     -         ldx r8H
-0a15: bd 63 13  -         lda GamePattern, x                      // Get the current note
-0a18: c9 00     -         cmp #$00                                // Have we reached the end of the pattern?
-0a1a: f0 16     -         beq !+
-0a1c: 85 03     -         sta r2H
-0a1e: ad 62 13  -         lda value
-0a21: 85 12     -         sta address
-0a23: a9 05     -         lda value
-0a25: 85 13     -         sta address
-0a27: 20 06 24  -         jsr ButtonWithSound
-0a2a: 20 19 24  -         jsr ButtonHold
-0a2d: e6 15     -         inc r8H
-0a2f: 4c 13 0a  -         jmp !-
-0a32: 20 ed 23  -         jsr GenerateRandom                      // Generate a new note and tack it onto the end of the pattern
-0a35: 9d 63 13  -         sta GamePattern, x
-0a38: 85 03     -         sta r2H
-0a3a: ad 62 13  -         lda value
-0a3d: 85 12     -         sta address
-0a3f: a9 05     -         lda value
-0a41: 85 13     -         sta address
-0a43: 20 06 24  -         jsr ButtonWithSound
-0a46: 20 19 24  -         jsr ButtonHold
-0a49: a9 02     -         lda value
-0a4b: 8d 5c 13  -         sta address
-0a4e: 4c cb 09  -         jmp GameLoop
-0a51: c9 02     - CheckHuman:cmp #GAME_MODE_HUMAN                    // Is it the human's turn?
-0a53: f0 03     -         beq !+
-0a55: 4c e0 0a  -         jmp CheckFail
-0a58: 20 1a 0c  -         jsr ClearLine
+09f2: 20 03 0c  -         jsr WriteString
+09f5: a9 40     -         lda value
+09f7: 85 12     -         sta address
+09f9: 20 cc 20  -         jsr PauseJiffies
+09fc: a2 00     -         ldx #$00
+09fe: 86 15     -         stx r8H
+0a00: a6 15     -         ldx r8H
+0a02: bd 63 13  -         lda GamePattern, x                      // Get the current note
+0a05: c9 00     -         cmp #$00                                // Have we reached the end of the pattern?
+0a07: f0 16     -         beq !+
+0a09: 85 03     -         sta r2H
+0a0b: ad 62 13  -         lda value
+0a0e: 85 12     -         sta address
+0a10: a9 05     -         lda value
+0a12: 85 13     -         sta address
+0a14: 20 06 24  -         jsr ButtonWithSound
+0a17: 20 19 24  -         jsr ButtonHold
+0a1a: e6 15     -         inc r8H
+0a1c: 4c 00 0a  -         jmp !-
+0a1f: 20 ed 23  -         jsr GenerateRandom                      // Generate a new note and tack it onto the end of the pattern
+0a22: 9d 63 13  -         sta GamePattern, x
+0a25: 85 03     -         sta r2H
+0a27: ad 62 13  -         lda value
+0a2a: 85 12     -         sta address
+0a2c: a9 05     -         lda value
+0a2e: 85 13     -         sta address
+0a30: 20 06 24  -         jsr ButtonWithSound
+0a33: 20 19 24  -         jsr ButtonHold
+0a36: a9 02     -         lda value
+0a38: 8d 5c 13  -         sta address
+0a3b: 4c b8 09  -         jmp GameLoop
+0a3e: c9 02     - CheckHuman:cmp #GAME_MODE_HUMAN                    // Is it the human's turn?
+0a40: f0 03     -         beq !+
+0a42: 4c cd 0a  -         jmp CheckFail
+0a45: 20 16 0c  -         jsr ClearLine
+0a48: a9 22     -         lda value
+0a4a: 85 08     -         sta address
+0a4c: a9 07     -         lda value
+0a4e: 85 09     -         sta address
+0a50: a9 67     -         lda value
+0a52: 85 10     -         sta address
+0a54: a9 0f     -         lda value
+0a56: 85 11     -         sta address
+0a58: 20 03 0c  -         jsr WriteString
 0a5b: a9 22     -         lda value
 0a5d: 85 08     -         sta address
-0a5f: a9 07     -         lda value
+0a5f: a9 db     -         lda value
 0a61: 85 09     -         sta address
-0a63: a9 67     -         lda value
+0a63: a9 8c     -         lda value
 0a65: 85 10     -         sta address
 0a67: a9 0f     -         lda value
 0a69: 85 11     -         sta address
-0a6b: 20 07 0c  -         jsr WriteString
-0a6e: a9 22     -         lda value
-0a70: 85 08     -         sta address
-0a72: a9 db     -         lda value
-0a74: 85 09     -         sta address
-0a76: a9 8c     -         lda value
-0a78: 85 10     -         sta address
-0a7a: a9 0f     -         lda value
-0a7c: 85 11     -         sta address
-0a7e: 20 07 0c  -         jsr WriteString
-0a81: a2 00     -         ldx #$00
-0a83: 86 15     -         stx r8H
-0a85: a6 15     -         ldx r8H
-0a87: bd 63 13  -         lda GamePattern, x                      // Grab the move in the pattern so that we can make sure the human plays the same note
-0a8a: 85 22     -         sta r12L
-0a8c: c9 00     -         cmp #$00                                // End of the pattern?
-0a8e: d0 08     -         bne !+
-0a90: a9 01     -         lda value
-0a92: 8d 5c 13  -         sta address
-0a95: 4c cb 09  -         jmp GameLoop
-0a98: 20 e6 21  -         jsr Keyboard
-0a9b: b0 fb     -         bcs !-
-0a9d: 38        -         sec
-0a9e: e9 31     -         sbc #$31
-0aa0: c9 04     -         cmp #$04
-0aa2: b0 29     -         bcs !++
-0aa4: 18        -         clc
-0aa5: 69 01     -         adc #$01
-0aa7: c5 22     -         cmp r12L                                // Is this the right note?
-0aa9: f0 08     -         beq !+
-0aab: a9 03     -         lda value
-0aad: 8d 5c 13  -         sta address
-0ab0: 4c cb 09  -         jmp GameLoop
-0ab3: 85 03     -         sta r2H
-0ab5: 20 06 24  -         jsr ButtonWithSound
-0ab8: f8        -         sed
-0ab9: ad 61 13  -         lda Score + $01
-0abc: 18        -         clc
-0abd: 69 10     -         adc #$10                                // Add 10 points
-0abf: 8d 61 13  -         sta Score + $01
-0ac2: 90 09     -         bcc !+
-0ac4: ad 60 13  -         lda Score
-0ac7: 18        -         clc
-0ac8: 69 01     -         adc #$01
-0aca: 8d 60 13  -         sta Score
-0acd: d8        -         cld
-0ace: 20 e6 21  -         jsr Keyboard                            // Wait for button to be released
-0ad1: c9 ff     -         cmp #$ff
-0ad3: f0 f8     -         beq !-
-0ad5: 20 2a 24  -         jsr AllOff
-0ad8: 20 bf 21  -         jsr StopSound
-0adb: e6 15     -         inc r8H
-0add: 4c 85 0a  -         jmp !----
-0ae0: c9 03     - CheckFail:cmp #GAME_MODE_FAIL
-0ae2: d0 29     -         bne CheckGameOver
-0ae4: a9 00     -         lda #$00
-0ae6: 8d 60 13  -         sta Score
-0ae9: 8d 61 13  -         sta Score + $01
-0aec: a5 22     -         lda r12L
-0aee: 85 03     -         sta r2H
-0af0: 20 60 24  -         jsr TurnButtonOn
-0af3: a9 00     -         lda #$00
-0af5: 20 9c 21  -         jsr PlaySound
-0af8: a9 40     -         lda value
-0afa: 85 12     -         sta address
-0afc: 20 cc 20  -         jsr PauseJiffies
-0aff: 20 bf 21  -         jsr StopSound
-0b02: 20 2a 24  -         jsr AllOff
-0b05: a9 04     -         lda value
-0b07: 8d 5c 13  -         sta address
-0b0a: 4c cb 09  -         jmp GameLoop
-0b0d: c9 04     - CheckGameOver:cmp #GAME_MODE_GAME_OVER
-0b0f: d0 71     -         bne !++++
-0b11: 20 1a 0c  -         jsr ClearLine
+0a6b: 20 03 0c  -         jsr WriteString
+0a6e: a2 00     -         ldx #$00
+0a70: 86 15     -         stx r8H
+0a72: a6 15     -         ldx r8H
+0a74: bd 63 13  -         lda GamePattern, x                      // Grab the move in the pattern so that we can make sure the human plays the same note
+0a77: 85 22     -         sta r12L
+0a79: c9 00     -         cmp #$00                                // End of the pattern?
+0a7b: d0 08     -         bne !+
+0a7d: a9 01     -         lda value
+0a7f: 8d 5c 13  -         sta address
+0a82: 4c b8 09  -         jmp GameLoop
+0a85: 20 e6 21  -         jsr Keyboard
+0a88: b0 fb     -         bcs !-
+0a8a: 38        -         sec
+0a8b: e9 31     -         sbc #$31
+0a8d: c9 04     -         cmp #$04
+0a8f: b0 29     -         bcs !++
+0a91: 18        -         clc
+0a92: 69 01     -         adc #$01
+0a94: c5 22     -         cmp r12L                                // Is this the right note?
+0a96: f0 08     -         beq !+
+0a98: a9 03     -         lda value
+0a9a: 8d 5c 13  -         sta address
+0a9d: 4c b8 09  -         jmp GameLoop
+0aa0: 85 03     -         sta r2H
+0aa2: 20 06 24  -         jsr ButtonWithSound
+0aa5: f8        -         sed
+0aa6: ad 61 13  -         lda Score + $01
+0aa9: 18        -         clc
+0aaa: 69 10     -         adc #$10                                // Add 10 points
+0aac: 8d 61 13  -         sta Score + $01
+0aaf: 90 09     -         bcc !+
+0ab1: ad 60 13  -         lda Score
+0ab4: 18        -         clc
+0ab5: 69 01     -         adc #$01
+0ab7: 8d 60 13  -         sta Score
+0aba: d8        -         cld
+0abb: 20 e6 21  -         jsr Keyboard                            // Wait for button to be released
+0abe: c9 ff     -         cmp #$ff
+0ac0: f0 f8     -         beq !-
+0ac2: 20 2a 24  -         jsr AllOff
+0ac5: 20 bf 21  -         jsr StopSound
+0ac8: e6 15     -         inc r8H
+0aca: 4c 72 0a  -         jmp !----
+0acd: c9 03     - CheckFail:cmp #GAME_MODE_FAIL
+0acf: d0 29     -         bne CheckGameOver
+0ad1: a9 00     -         lda #$00
+0ad3: 8d 60 13  -         sta Score
+0ad6: 8d 61 13  -         sta Score + $01
+0ad9: a5 22     -         lda r12L
+0adb: 85 03     -         sta r2H
+0add: 20 60 24  -         jsr TurnButtonOn
+0ae0: a9 00     -         lda #$00
+0ae2: 20 9c 21  -         jsr PlaySound
+0ae5: a9 40     -         lda value
+0ae7: 85 12     -         sta address
+0ae9: 20 cc 20  -         jsr PauseJiffies
+0aec: 20 bf 21  -         jsr StopSound
+0aef: 20 2a 24  -         jsr AllOff
+0af2: a9 04     -         lda value
+0af4: 8d 5c 13  -         sta address
+0af7: 4c b8 09  -         jmp GameLoop
+0afa: c9 04     - CheckGameOver:cmp #GAME_MODE_GAME_OVER
+0afc: d0 71     -         bne !++++
+0afe: 20 16 0c  -         jsr ClearLine
+0b01: a9 29     -         lda value
+0b03: 85 08     -         sta address
+0b05: a9 07     -         lda value
+0b07: 85 09     -         sta address
+0b09: a9 b1     -         lda value
+0b0b: 85 10     -         sta address
+0b0d: a9 0f     -         lda value
+0b0f: 85 11     -         sta address
+0b11: 20 03 0c  -         jsr WriteString
 0b14: a9 29     -         lda value
 0b16: 85 08     -         sta address
-0b18: a9 07     -         lda value
+0b18: a9 db     -         lda value
 0b1a: 85 09     -         sta address
-0b1c: a9 b1     -         lda value
+0b1c: a9 c8     -         lda value
 0b1e: 85 10     -         sta address
 0b20: a9 0f     -         lda value
 0b22: 85 11     -         sta address
-0b24: 20 07 0c  -         jsr WriteString
-0b27: a9 29     -         lda value
-0b29: 85 08     -         sta address
-0b2b: a9 db     -         lda value
-0b2d: 85 09     -         sta address
-0b2f: a9 c8     -         lda value
-0b31: 85 10     -         sta address
-0b33: a9 0f     -         lda value
-0b35: 85 11     -         sta address
-0b37: 20 07 0c  -         jsr WriteString
-0b3a: 20 e6 21  -         jsr Keyboard
-0b3d: b0 fb     -         bcs !-
-0b3f: c9 19     -         cmp #$19
-0b41: f0 30     -         beq !+
-0b43: 20 1a 0c  -         jsr ClearLine
+0b24: 20 03 0c  -         jsr WriteString
+0b27: 20 e6 21  -         jsr Keyboard
+0b2a: b0 fb     -         bcs !-
+0b2c: c9 19     -         cmp #$19
+0b2e: f0 30     -         beq !+
+0b30: 20 16 0c  -         jsr ClearLine
+0b33: a9 26     -         lda value
+0b35: 85 08     -         sta address
+0b37: a9 07     -         lda value
+0b39: 85 09     -         sta address
+0b3b: a9 df     -         lda value
+0b3d: 85 10     -         sta address
+0b3f: a9 0f     -         lda value
+0b41: 85 11     -         sta address
+0b43: 20 03 0c  -         jsr WriteString
 0b46: a9 26     -         lda value
 0b48: 85 08     -         sta address
-0b4a: a9 07     -         lda value
+0b4a: a9 db     -         lda value
 0b4c: 85 09     -         sta address
-0b4e: a9 df     -         lda value
+0b4e: a9 fb     -         lda value
 0b50: 85 10     -         sta address
 0b52: a9 0f     -         lda value
 0b54: 85 11     -         sta address
-0b56: 20 07 0c  -         jsr WriteString
-0b59: a9 26     -         lda value
-0b5b: 85 08     -         sta address
-0b5d: a9 db     -         lda value
-0b5f: 85 09     -         sta address
-0b61: a9 fb     -         lda value
-0b63: 85 10     -         sta address
-0b65: a9 0f     -         lda value
-0b67: 85 11     -         sta address
-0b69: 20 07 0c  -         jsr WriteString
-0b6c: a9 37     -         lda value
-0b6e: 85 01     -         sta address
-0b70: 20 e2 fc  -         jsr $fce2
-0b73: a9 01     -         lda value
-0b75: 8d 5c 13  -         sta address
-0b78: a2 64     -         ldx #$64
-0b7a: a9 00     -         lda #$00
-0b7c: 9d 63 13  -         sta GamePattern, x
-0b7f: ca        -         dex
-0b80: 10 fa     -         bpl !-
-0b82: 4c cb 09  -         jmp GameLoop
-0b85: 20 e6 21  - Attract:jsr Keyboard
-0b88: b0 34     -         bcs !++
-0b8a: 38        -         sec
-0b8b: e9 31     -         sbc #$31
-0b8d: c9 05     -         cmp #$05
-0b8f: b0 2d     -         bcs !++
-0b91: 18        -         clc
-0b92: 69 01     -         adc #$01
-0b94: 0a        -         asl
-0b95: 0a        -         asl
-0b96: 8d 62 13  -         sta GameSpeed
-0b99: a9 01     -         lda value
-0b9b: 8d 5c 13  -         sta address
-0b9e: a9 ff     -         lda value
-0ba0: 8d 15 d0  -         sta address
-0ba3: 20 2a 24  -         jsr AllOff
-0ba6: a9 03     -         lda value
-0ba8: 85 03     -         sta address
-0baa: a9 00     -         lda value
-0bac: 85 04     -         sta address
-0bae: 20 c0 20  -         jsr EnDisTimer
-0bb1: a2 22     -         ldx #TitleScreen - StartMessage
-0bb3: a9 20     -         lda #$20
-0bb5: 9d 20 07  -         sta MESSAGE_LOCATION, x
-0bb8: ca        -         dex
-0bb9: d0 fa     -         bne !-
-0bbb: 4c d1 0b  -         jmp !++
-0bbe: 60        -         rts
-0bbf: ad 5c 13  - FlashButtons:lda GameMode
-0bc2: c9 00     -         cmp #GAME_MODE_ATTRACT
-0bc4: d0 0b     -         bne !+
-0bc6: 20 2a 24  -         jsr AllOff
-0bc9: 20 ed 23  -         jsr GenerateRandom
-0bcc: 85 03     -         sta r2H
-0bce: 20 60 24  -         jsr TurnButtonOn
-0bd1: 60        -         rts
-0bd2: ad 61 13  - UpdateScore:lda Score + $01
-0bd5: 29 0f     -         and #$0f
-0bd7: 18        -         clc
-0bd8: 69 32     -         adc #SPRITES
-0bda: 8d ff 07  -         sta SCORE_ONES
-0bdd: ad 61 13  -         lda Score + $01
-0be0: 29 f0     -         and #$f0
-0be2: 4a        -         lsr
-0be3: 4a        -         lsr
-0be4: 4a        -         lsr
-0be5: 4a        -         lsr
-0be6: 18        -         clc
-0be7: 69 32     -         adc #SPRITES
-0be9: 8d fe 07  -         sta SCORE_TENS
-0bec: ad 60 13  -         lda Score
-0bef: 29 0f     -         and #$0f
-0bf1: 18        -         clc
-0bf2: 69 32     -         adc #SPRITES
-0bf4: 8d fd 07  -         sta SCORE_HUNDREDS
-0bf7: ad 60 13  -         lda Score
-0bfa: 29 f0     -         and #$f0
-0bfc: 4a        -         lsr
-0bfd: 4a        -         lsr
-0bfe: 4a        -         lsr
-0bff: 4a        -         lsr
-0c00: 18        -         clc
-0c01: 69 32     -         adc #SPRITES
-0c03: 8d fc 07  -         sta SCORE_THOUSANDS
-0c06: 60        -         rts
-0c07: a0 00     - WriteString:ldy #$00
-0c09: b1 10     -         lda (r6), y
-0c0b: f0 0c     -         beq !++
-0c0d: 91 08     -         sta (r5), y
-0c0f: c8        -         iny
-0c10: d0 04     -         bne !+
-0c12: e6 11     -         inc r6H
-0c14: e6 09     -         inc r5H
-0c16: 4c 09 0c  -         jmp !--
-0c19: 60        -         rts
-0c1a: a0 00     - ClearLine:ldy #$00
-0c1c: a9 20     -         lda #$20
-0c1e: 99 20 07  -         sta MESSAGE_LOCATION, y
-0c21: c8        -         iny
-0c22: c0 28     -         cpy #$28
-0c24: d0 f8     -         bne !-
-0c26: 60        -         rts
-0c27: a2 00     - AnimateTitle:ldx #$00
-0c29: ac 5b 13  -         ldy CurrentTitleColor
-0c2c: b9 17 10  -         lda TitleScreenColor, y
-0c2f: 9d 36 d8  -         sta TITLE_LOCATION + $d400, x
-0c32: e8        -         inx
-0c33: c8        -         iny
-0c34: e0 0c     -         cpx #$0c
-0c36: d0 f4     -         bne !-
-0c38: ee 5b 13  -         inc CurrentTitleColor
-0c3b: ad 5b 13  -         lda CurrentTitleColor
-0c3e: c9 0c     -         cmp #$0c
-0c40: d0 05     -         bne !+
-0c42: a9 00     -         lda #$00
-0c44: 8d 5b 13  -         sta CurrentTitleColor
-0c47: 60        -         rts
-0c48: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  -         .align $40
-0c58: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-0c68: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-0c78: 00 00 00 00 00 00 00 00                         
+0b56: 20 03 0c  -         jsr WriteString
+0b59: a9 37     -         lda value
+0b5b: 85 01     -         sta address
+0b5d: 6c fc ff  -         jmp (kernal.VEC_RESET)
+0b60: a9 00     -         lda value
+0b62: 8d 5c 13  -         sta address
+0b65: a2 63     -         ldx #$63
+0b67: a9 00     -         lda #$00
+0b69: 9d 63 13  -         sta GamePattern, x
+0b6c: ca        -         dex
+0b6d: 10 fa     -         bpl !-
+0b6f: 4c b8 09  -         jmp GameLoop
+0b72: 20 16 0c  - Attract:jsr ClearLine
+0b75: a9 23     -         lda value
+0b77: 85 08     -         sta address
+0b79: a9 07     -         lda value
+0b7b: 85 09     -         sta address
+0b7d: a9 00     -         lda value
+0b7f: 85 10     -         sta address
+0b81: a9 0f     -         lda value
+0b83: 85 11     -         sta address
+0b85: 20 03 0c  -         jsr WriteString
+0b88: 20 e6 21  -         jsr Keyboard
+0b8b: b0 fb     -         bcs !-
+0b8d: 38        -         sec
+0b8e: e9 31     -         sbc #$31
+0b90: c9 05     -         cmp #$05
+0b92: b0 2d     -         bcs !++
+0b94: 18        -         clc
+0b95: 69 03     -         adc #$03                                // Calculate game speed from level
+0b97: 0a        -         asl
+0b98: 0a        -         asl
+0b99: 8d 62 13  -         sta GameSpeed
+0b9c: a9 01     -         lda value
+0b9e: 8d 5c 13  -         sta address
+0ba1: a9 ff     -         lda value
+0ba3: 8d 15 d0  -         sta address
+0ba6: 20 2a 24  -         jsr AllOff
+0ba9: a9 03     -         lda value
+0bab: 85 03     -         sta address
+0bad: a9 00     -         lda value
+0baf: 85 04     -         sta address
+0bb1: 20 c0 20  -         jsr EnDisTimer
+0bb4: a2 22     -         ldx #TitleScreen - StartMessage
+0bb6: a9 20     -         lda #$20
+0bb8: 9d 20 07  -         sta MESSAGE_LOCATION, x
+0bbb: ca        -         dex
+0bbc: d0 fa     -         bne !-
+0bbe: 4c cd 0b  -         jmp !++
+0bc1: 60        -         rts
+0bc2: 20 2a 24  - FlashButtons:jsr AllOff
+0bc5: 20 ed 23  -         jsr GenerateRandom
+0bc8: 85 03     -         sta r2H
+0bca: 20 60 24  -         jsr TurnButtonOn
+0bcd: 60        -         rts
+0bce: ad 61 13  - UpdateScore:lda Score + $01
+0bd1: 29 0f     -         and #$0f
+0bd3: 18        -         clc
+0bd4: 69 32     -         adc #SPRITES
+0bd6: 8d ff 07  -         sta SCORE_ONES
+0bd9: ad 61 13  -         lda Score + $01
+0bdc: 29 f0     -         and #$f0
+0bde: 4a        -         lsr
+0bdf: 4a        -         lsr
+0be0: 4a        -         lsr
+0be1: 4a        -         lsr
+0be2: 18        -         clc
+0be3: 69 32     -         adc #SPRITES
+0be5: 8d fe 07  -         sta SCORE_TENS
+0be8: ad 60 13  -         lda Score
+0beb: 29 0f     -         and #$0f
+0bed: 18        -         clc
+0bee: 69 32     -         adc #SPRITES
+0bf0: 8d fd 07  -         sta SCORE_HUNDREDS
+0bf3: ad 60 13  -         lda Score
+0bf6: 29 f0     -         and #$f0
+0bf8: 4a        -         lsr
+0bf9: 4a        -         lsr
+0bfa: 4a        -         lsr
+0bfb: 4a        -         lsr
+0bfc: 18        -         clc
+0bfd: 69 32     -         adc #SPRITES
+0bff: 8d fc 07  -         sta SCORE_THOUSANDS
+0c02: 60        -         rts
+0c03: a0 00     - WriteString:ldy #$00
+0c05: b1 10     -         lda (r6), y
+0c07: f0 0c     -         beq !++
+0c09: 91 08     -         sta (r5), y
+0c0b: c8        -         iny
+0c0c: d0 04     -         bne !+
+0c0e: e6 11     -         inc r6H
+0c10: e6 09     -         inc r5H
+0c12: 4c 05 0c  -         jmp !--
+0c15: 60        -         rts
+0c16: a0 00     - ClearLine:ldy #$00
+0c18: a9 20     -         lda #$20
+0c1a: 99 20 07  -         sta MESSAGE_LOCATION, y
+0c1d: c8        -         iny
+0c1e: c0 28     -         cpy #$28
+0c20: d0 f8     -         bne !-
+0c22: 60        -         rts
+0c23: a2 00     - AnimateTitle:ldx #$00
+0c25: ac 5b 13  -         ldy CurrentTitleColor
+0c28: b9 17 10  -         lda TitleScreenColor, y
+0c2b: 9d 36 d8  -         sta TITLE_LOCATION + $d400, x
+0c2e: e8        -         inx
+0c2f: c8        -         iny
+0c30: e0 0c     -         cpx #$0c
+0c32: d0 f4     -         bne !-
+0c34: ee 5b 13  -         inc CurrentTitleColor
+0c37: ad 5b 13  -         lda CurrentTitleColor
+0c3a: c9 0c     -         cmp #$0c
+0c3c: d0 05     -         bne !+
+0c3e: a9 00     -         lda #$00
+0c40: 8d 5b 13  -         sta CurrentTitleColor
+0c43: 60        -         rts
+0c44: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  -         .align $40
+0c54: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+0c64: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+0c74: 00 00 00 00 00 00 00 00 00 00 00 00             
 0c80: 00 00 00 00 00 00 00 00                          - Sprites:.byte $00,$00,$00,$00,$00,$00,$00,$00
 0c88: 00 00 00 00 00 00 00 00                          -         .byte $00,$00,$00,$00,$00,$00,$00,$00
 0c90: 29 00 00 aa 40 02 82 90                          -         .byte $29,$00,$00,$aa,$40,$02,$82,$90
@@ -1205,7 +1203,7 @@
 2434: 85 10     -         sta address
 2436: a9 10     -         lda value
 2438: 85 11     -         sta address
-243a: 20 07 0c  -         jsr WriteString
+243a: 20 03 0c  -         jsr WriteString
 243d: a9 18     -         lda value
 243f: 85 08     -         sta address
 2441: a9 d9     -         lda value
@@ -1214,7 +1212,7 @@
 2447: 85 10     -         sta address
 2449: a9 11     -         lda value
 244b: 85 11     -         sta address
-244d: 20 07 0c  -         jsr WriteString
+244d: 20 03 0c  -         jsr WriteString
 2450: a2 04     -         ldx #$04
 2452: a9 0b     -         lda #vic.DK_GRAY
 2454: 9d 26 d0  -         sta vic.SPMC1, x

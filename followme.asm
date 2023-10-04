@@ -160,8 +160,6 @@ SetupScreen:
     WriteString(TITLE_LOCATION, TitleScreen)
     WriteString(TITLE_LOCATION + $d400, TitleScreenColor)
 
-    WriteString(MESSAGE_LOCATION + $03, StartMessage)
-
     jsr AllOff
 
     rts
@@ -322,11 +320,11 @@ CheckGameOver:
     WriteString(MESSAGE_LOCATION + $d400 + $06, SeeYaColor)
 
     stb #$37:$01                                // Turn the kernal back on and reset the machine
-    jsr $fce2
+    jmp (kernal.VEC_RESET)
 
 !:
-    stb #GAME_MODE_COMPUTER:GameMode
-    ldx #$64
+    stb #GAME_MODE_ATTRACT:GameMode
+    ldx #$63
     lda #$00
 !:
     sta GamePattern, x
@@ -337,8 +335,11 @@ CheckGameOver:
     jmp GameLoop
 
 Attract:
+    jsr ClearLine
+    WriteString(MESSAGE_LOCATION + $03, StartMessage)
+!:
     jsr Keyboard
-    bcs !++
+    bcs !-
 
     sec
     sbc #$31
@@ -346,7 +347,7 @@ Attract:
     bcs !++
 
     clc
-    adc #$01
+    adc #$03                                // Calculate game speed from level
 
     asl
     asl
@@ -354,11 +355,9 @@ Attract:
     sta GameSpeed
 
     stb #GAME_MODE_COMPUTER:GameMode        // Key was pressed. Make it the computer's turn
-    stb #%11111111:vic.SPENA  // Enable sprites 0 - 3
+    stb #%11111111:vic.SPENA                // Enable sprites 0 - 7
     jsr AllOff
-    stb #$03:r2H
-    stb #DISABLE:r3L
-    jsr EnDisTimer
+    DisableTimer($03)
     ldx #TitleScreen - StartMessage
     lda #$20
 
@@ -371,10 +370,10 @@ Attract:
 !:
     rts
 
+/*
+    Flash the buttons randomly in attract mode
+*/
 FlashButtons:
-    lda GameMode
-    cmp #GAME_MODE_ATTRACT
-    bne !+
     jsr AllOff
     jsr GenerateRandom
     sta r2H

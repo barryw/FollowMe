@@ -12,7 +12,7 @@
 .label r9=$16
 .label SCORE_HUNDREDS=$7fd
 .label r0H=$fc
-.label CheckFail=$ae0
+.label CheckFail=$acd
 .label Clock=$135d
 .label r0L=$fb
 .label r10=$18
@@ -100,7 +100,7 @@
 .label TIMER_FOUR_SECONDS=$f0
 .label MESSAGE_LOCATION=$720
 .label ButtonHold=$2419
-.label Attract=$b85
+.label Attract=$b72
 .label SPR_BG=$80
 .label r9H=$17
 .label AllOff=$242a {
@@ -108,10 +108,10 @@
 .label BANK=$0
 .label r9L=$16
 .label SPR_PRIORITY=$1b
-.label FlashButtons=$bbf
+.label FlashButtons=$bc2
 .label SPR_SHOW=$80
 .label SetupScreen=$960
-.label WriteString=$c07
+.label WriteString=$c03
 .label GameSpeed=$1362
 .label r1H=$fe
 .label CurrentStartMessageColor=$135a
@@ -141,7 +141,7 @@
 .label r10H=$19
 .label GameOver=$fb1
 .label r3H=$5
-.label AnimateTitle=$c27
+.label AnimateTitle=$c23
 .label Waveforms=$21df
 .label SCORE_ONES=$7ff
 .label LightButton=$24b6
@@ -149,7 +149,7 @@
 .label InitRandom=$23f6 {
 }
 .label r10L=$18
-.label ClearLine=$c1a
+.label ClearLine=$c16
 .label VIC_START=$0
 .label TIMER_STRUCT_BYTES=$40
 .label GAME_MODE_HUMAN=$2
@@ -159,7 +159,7 @@
 .label r4L=$6
 .label TIMER_ONE_SECOND=$3c
 .label r13L=$24
-.label CheckHuman=$a51
+.label CheckHuman=$a3e
 .label GAME_MODE_GAME_OVER=$4
 .label SPR_NORMAL=$0
 .label SPR_MULTICOLOR=$80
@@ -254,7 +254,7 @@
 }
 .label JOY_RIGHT=$8
 .label r12H=$23
-.label UpdateScore=$bd2
+.label UpdateScore=$bce
 .label r5H=$9
 .label TITLE_LOCATION=$436
 .label r5L=$8
@@ -265,7 +265,7 @@
 .label ButtonColors=$11c9
 .label GameMode=$135c
 .label Score=$1360
-.label GameLoop=$9cb
+.label GameLoop=$9b8
 .label SCORE_TENS=$7fe
 .label SCREEN_START=$400
 .label LastKeyboardKey=$135f
@@ -348,8 +348,8 @@
 .label FillMemory=$20dc
 .label SPR_HMC=$1c
 .label CurrentTitleColor=$135b
-.label CheckComputer=$9db
-.label CheckGameOver=$b0d
+.label CheckComputer=$9c8
+.label CheckGameOver=$afa
 .label SPR_EXPAND=$80
 .label Buttons=$1038
 .label TitleScreenColor=$1017

@@ -27,7 +27,7 @@ al C:720 .MESSAGE_LOCATION
 al C:0 .BLACK
 al C:11 .WAVE_TRIANGLE
 al C:dd0d .CI2ICR
-al C:b85 .Attract
+al C:b72 .Attract
 al C:0 .BANK
 al C:80 .SPR_SHOW
 al C:d00d .SP6Y
@@ -72,7 +72,7 @@ al C:c5 .LSTX
 al C:4 .r3L
 al C:e1be .OPEN
 al C:18 .r10L
-al C:c1a .ClearLine
+al C:c16 .ClearLine
 al C:2 .RED
 al C:224b .ControlPort
 al C:0 .VIC_START
@@ -157,7 +157,7 @@ al C:4 .PURPLE
 al C:5 .GREEN
 al C:e544 .CLRSCR
 al C:ffc9 .VEC_CHKOUT
-al C:b0d .CheckGameOver
+al C:afa .CheckGameOver
 al C:1038 .Buttons
 al C:d412 .VCREG3
 al C:d417 .RESON
@@ -174,7 +174,7 @@ al C:23ed .GenerateRandom
 al C:14 .r8L
 al C:21e9 .KeyInRow
 al C:7fd .SCORE_HUNDREDS
-al C:ae0 .CheckFail
+al C:acd .CheckFail
 al C:2 .JOY_DOWN
 al C:85e .SetupSprites
 al C:fffc .VEC_RESET
@@ -190,10 +190,10 @@ al C:324 .IBASIN
 al C:ffea .VEC_UDTIM
 al C:16 .r9L
 al C:1b .SPR_PRIORITY
-al C:bbf .FlashButtons
+al C:bc2 .FlashButtons
 al C:d01a .IRQMSK
 al C:960 .SetupScreen
-al C:c07 .WriteString
+al C:c03 .WriteString
 al C:1362 .GameSpeed
 al C:23ec .SimultaneousAlphanumericKeysFlag
 al C:135a .CurrentStartMessageColor
@@ -241,7 +241,7 @@ al C:b .DK_GRAY
 al C:d411 .PWHI3
 al C:d40a .PWHI2
 al C:d403 .PWHI1
-al C:c27 .AnimateTitle
+al C:c23 .AnimateTitle
 al C:21df .Waveforms
 al C:7ff .SCORE_ONES
 al C:e043 .POLY1
@@ -265,7 +265,7 @@ al C:f4b .MyTurnColor
 al C:e097 .RND
 al C:3c .TIMER_ONE_SECOND
 al C:d015 .SPENA
-al C:a51 .CheckHuman
+al C:a3e .CheckHuman
 al C:4 .GAME_MODE_GAME_OVER
 al C:80 .SPR_MULTICOLOR
 al C:f22 .TitleScreen
@@ -280,7 +280,7 @@ al C:d401 .FREHI1
 al C:d016 .SCROLX
 al C:d005 .SP2Y
 al C:d011 .SCROLY
-al C:bd2 .UpdateScore
+al C:bce .UpdateScore
 al C:fff3 .VEC_IOBASE
 al C:d004 .SP2X
 al C:32c .ICLALL
@@ -292,7 +292,7 @@ al C:ffc3 .VEC_CLOSE
 al C:11c9 .ButtonColors
 al C:d40f .FREHI3
 al C:d408 .FREHI2
-al C:9cb .GameLoop
+al C:9b8 .GameLoop
 al C:f .LT_GRAY
 al C:ffd5 .VEC_LOAD
 al C:400 .SCREEN_START
@@ -334,7 +334,7 @@ al C:fffa .VEC_NMI
 al C:ff81 .VEC_CINT
 al C:135b .CurrentTitleColor
 al C:ffb7 .VEC_READST
-al C:9db .CheckComputer
+al C:9c8 .CheckComputer
 al C:d010 .MSIGX
 al C:80 .SPR_EXPAND
 al C:1017 .TitleScreenColor
