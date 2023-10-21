@@ -9,7 +9,7 @@
 
 ### Introduction
 
-This is a C64 rendition of the 70s game Simon. The object is to mimick the notes that he computer plays which gets harder and harder the more notes that are played. It was inspired by a tutorial I found on Youtube here: https://www.youtube.com/watch?v=A7vYSsLS00Y
+This is a C64 rendition of the 70s game Simon. The object is to mimick the notes that the computer plays which gets harder and harder the more notes that are played. It was inspired by a tutorial I found on Youtube here: https://www.youtube.com/watch?v=A7vYSsLS00Y
 
 ### Building
 
