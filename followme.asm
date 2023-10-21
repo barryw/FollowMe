@@ -344,7 +344,7 @@ Attract:
     sec
     sbc #$31
     cmp #$05
-    bcs !++
+    bcs !-
 
     clc
     adc #$03                                // Calculate game speed from level

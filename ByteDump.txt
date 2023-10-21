@@ -404,7 +404,7 @@
 0b8d: 38        -         sec
 0b8e: e9 31     -         sbc #$31
 0b90: c9 05     -         cmp #$05
-0b92: b0 2d     -         bcs !++
+0b92: b0 f4     -         bcs !-
 0b94: 18        -         clc
 0b95: 69 03     -         adc #$03                                // Calculate game speed from level
 0b97: 0a        -         asl
